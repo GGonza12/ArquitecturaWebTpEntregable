@@ -22,7 +22,7 @@ public class HelperMySQL {
 
     public HelperMySQL() {
         String driver = "com.mysql.cj.jdbc.Driver";
-        String uri = "jdbc:mysql://localhost:3306/msqlTP";
+        String uri = "jdbc:mysql://localhost:3306/Entregable1";
 
         try {
             Class.forName(driver).getDeclaredConstructor().newInstance();
@@ -33,7 +33,7 @@ public class HelperMySQL {
         }
 
         try {
-            conn = DriverManager.getConnection(uri, "root", "1234");
+            conn = DriverManager.getConnection(uri, "root", "");
             conn.setAutoCommit(false);
         } catch (Exception e) {
             e.printStackTrace();
@@ -113,6 +113,7 @@ public class HelperMySQL {
                 "FOREIGN KEY (idProducto) REFERENCES Producto(idProducto))";
         conn.createStatement().execute(tableFacturaProducto);
         conn.commit();
+        System.out.println("Tablas Creadas");
     }
 
     //Obtengo los datos de un archivo CSV

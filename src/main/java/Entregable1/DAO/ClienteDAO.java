@@ -10,62 +10,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClienteDAO {
+public abstract class ClienteDAO {
     private Connection conn;
 
-    public ClienteDAO(Connection conn) {
-        this.conn = conn;
-    }
+    public abstract void insertCliente(Cliente cliente);
 
-    public void insertCliente(Cliente cliente) {
-        String query = "INSERT INTO Cliente (idCliente, nombre, email) VALUES (?, ?, ?)";
+    public abstract List<ClienteFacturacionDTO> getClientesOrdenadosPorFacturacion();
 
-        try (PreparedStatement ps = conn.prepareStatement(query)) {
-            ps.setInt(1, cliente.getIdCliente()); // idPersona
-            ps.setString(2, cliente.getNombre()); // nombre
-            ps.setString(3, cliente.getEmail()); // edad
-            ps.executeUpdate();
-            System.out.println("Cliente insertado exitosamente.");
-        } catch (SQLException e) {
-            try {
-                if (conn != null) {
-                    conn.rollback();
-                    System.out.println("Se hizo rollback por error en Producto.");
-                }
-            } catch (SQLException rollbackEx) {
-                rollbackEx.printStackTrace();
-            }
-            e.printStackTrace();
+    public abstract List<Cliente> getClientes();
 
-        }
-    }
+    public abstract Cliente getCliente(int id);
 
-    public List<ClienteFacturacionDTO> getClientesOrdenadosPorFacturacion() {
-        String query = "SELECT c.idCliente, c.nombre, SUM(fp.cantidad * p.valor) AS total_facturado " +
-                "FROM Cliente c " +
-                "JOIN Factura f ON c.idCliente = f.idCliente " +
-                "JOIN Factura_Producto fp ON f.idFactura = fp.idFactura " +
-                "JOIN Producto p ON fp.idProducto = p.idProducto " +
-                "GROUP BY c.idCliente, c.nombre " +
-                "ORDER BY total_facturado DESC";
+    public abstract void updateCliente(Cliente cliente);
 
-        List<ClienteFacturacionDTO> lista = new ArrayList<>();
-
-        try (PreparedStatement ps = conn.prepareStatement(query);
-             ResultSet rs = ps.executeQuery()) {
-
-            while (rs.next()) {
-                int id = rs.getInt("idCliente");
-                String nombre = rs.getString("nombre");
-                float total = rs.getFloat("total_facturado");
-
-                lista.add(new ClienteFacturacionDTO(id, nombre, total));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return lista;
-    }
-
+    public abstract void deleteCliente(int id);
 }

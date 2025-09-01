@@ -1,9 +1,6 @@
 package Entregable1.Factory;
 
-import Entregable1.DAO.ClienteDAO;
-import Entregable1.DAO.FacturaDAO;
-import Entregable1.DAO.Factura_ProductoDAO;
-import Entregable1.DAO.ProductoDAO;
+import Entregable1.DAO.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
@@ -14,7 +11,7 @@ public class MySQLDAOFactory extends AbstractFactory {
     private static MySQLDAOFactory instance = null;
 
     public static final String DRIVER = "com.mysql.cj.jdbc.Driver";
-    public static final String uri = "jdbc:mysql://localhost:3306/msqlTP";
+    public static final String uri = "jdbc:mysql://localhost:3306/Entregable1";
     public static Connection conn;
 
     private MySQLDAOFactory() {
@@ -41,7 +38,7 @@ public class MySQLDAOFactory extends AbstractFactory {
         }
 
         try {
-            conn = DriverManager.getConnection(uri, "root", "1234");
+            conn = DriverManager.getConnection(uri, "root", "");
             conn.setAutoCommit(false);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -59,21 +56,21 @@ public class MySQLDAOFactory extends AbstractFactory {
 
     @Override
     public ClienteDAO getClienteDAO() {
-        return new ClienteDAO(createConnection());
+        return new ClienteDAOMysql(createConnection());
     }
 
     @Override
     public FacturaDAO getFacturaDAO() {
-        return new  FacturaDAO(createConnection());
+        return new  FacturaDAOMysql(createConnection());
     }
 
     @Override
     public ProductoDAO getProductoDAO() {
-        return new ProductoDAO(createConnection());
+        return new ProductoDAOMysql(createConnection());
     }
 
     @Override
     public Factura_ProductoDAO getFactura_ProductoDAO() {
-        return new Factura_ProductoDAO(createConnection());
+        return new Factura_ProductoDAOMysql(createConnection());
     }
 }
