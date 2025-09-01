@@ -2,6 +2,8 @@ package Entregable1.Factory;
 
 import Entregable1.DAO.ClienteDAO;
 import Entregable1.DAO.FacturaDAO;
+import Entregable1.DAO.Factura_ProductoDAO;
+import Entregable1.DAO.ProductoDAO;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
@@ -57,11 +59,21 @@ public class MySQLDAOFactory extends AbstractFactory {
 
     @Override
     public ClienteDAO getClienteDAO() {
-        return new ClienteDAO(conn);
+        return new ClienteDAO(createConnection());
     }
 
     @Override
     public FacturaDAO getFacturaDAO() {
-        return new  FacturaDAO(conn);
+        return new  FacturaDAO(createConnection());
+    }
+
+    @Override
+    public ProductoDAO getProductoDAO() {
+        return new ProductoDAO(createConnection());
+    }
+
+    @Override
+    public Factura_ProductoDAO getFactura_ProductoDAO() {
+        return new Factura_ProductoDAO(createConnection());
     }
 }

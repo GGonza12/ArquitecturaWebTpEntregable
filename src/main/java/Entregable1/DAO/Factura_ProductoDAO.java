@@ -17,26 +17,27 @@ public class Factura_ProductoDAO {
 
     public void insertFacturaProducto(Factura_Producto facturaProducto) {
         String query = "INSERT INTO Factura_Producto (idFactura, idProducto,cantidad) VALUES (?,?, ?)";
-        PreparedStatement ps = null;
 
-        try {
-            ps = conn.prepareStatement(query);
+
+        try (PreparedStatement ps = conn.prepareStatement(query)) {
+
             ps.setInt(1, facturaProducto.getIdFactura()); // idFactura
             ps.setInt(2, facturaProducto.getIdProducto()); // idProducto
-            ps.setInt(2, facturaProducto.getCantidad()); // cantidad
+            ps.setInt(3, facturaProducto.getCantidad()); // cantidad
             ps.executeUpdate();
+            conn.commit();
+
             System.out.println("Factura_Producto insertada exitosamente.");
         } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
             try {
-                if (ps != null) {
-                    ps.close();
+                if (conn != null) {
+                    conn.rollback();
+                    System.out.println("Se hizo rollback por error en Factura_Producto.");
                 }
-                conn.commit();
-            } catch (SQLException e) {
-                e.printStackTrace();
+            } catch (SQLException rollbackEx) {
+                rollbackEx.printStackTrace();
             }
+            e.printStackTrace();
 
         }
     }

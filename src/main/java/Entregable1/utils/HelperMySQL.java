@@ -115,7 +115,7 @@ public class HelperMySQL {
         conn.commit();
     }
 
-
+    //Obtengo los datos de un archivo CSV
     private Iterable<CSVRecord> getData(String archivo) throws IOException {
         String path = "src\\main\\java\\Entregable1\\resources\\" + archivo;
         Reader in = new FileReader(path);
@@ -242,7 +242,6 @@ public class HelperMySQL {
         conn.commit();
         return 0;
     }
-
 
     private void closePsAndCommit(Connection conn, PreparedStatement ps) {
         if (conn != null) {
