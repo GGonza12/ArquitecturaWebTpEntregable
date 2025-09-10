@@ -130,51 +130,19 @@ public class HelperMySQL {
         try {
             System.out.println("Populating DB...");
             //Clientes
-            for (CSVRecord row : getData("clientes.csv")) {
-
-                int idCliente = Integer.parseInt(row.get("idCliente"));
-                String nombre = row.get("nombre");
-                String email = row.get("email");
-                Cliente cliente = new Cliente(idCliente, nombre, email);
-                insertCliente(cliente, conn);
-
-            }
-
+            insertAllClientes(getData("clientes.csv"), conn);
             System.out.println("Clientes insertados");
 
             //Facturas
-            for (CSVRecord row : getData("facturas.csv")) {
-                int idFactura = Integer.parseInt(row.get("idFactura"));
-                int idClientef = Integer.parseInt(row.get("idCliente"));
-                Factura factura = new Factura(idFactura, idClientef);
-                insertFactura(factura, conn);
-
-            }
-
+            insertAllFacturas(getData("facturas.csv"), conn);
             System.out.println("Facturas insertadas");
 
             //Productos
-            for (CSVRecord row : getData("productos.csv")) {
-                int idProducto = Integer.parseInt(row.get("idProducto"));
-                String nombre = row.get("nombre");
-                Float valor = Float.parseFloat(row.get("valor"));
-                Producto producto = new Producto(idProducto, nombre, valor);
-                insertProducto(producto, conn);
-
-            }
-
+            insertAllProductos(getData("productos.csv"), conn);
             System.out.println("Productos insertados");
 
             //Facturas_Productos
-            for (CSVRecord row : getData("facturas-productos.csv")) {
-                int idFactura = Integer.parseInt(row.get("idFactura"));
-                int idProducto = Integer.parseInt(row.get("idProducto"));
-                int cantidad = Integer.parseInt(row.get("cantidad"));
-                Factura_Producto factura_Producto = new Factura_Producto(idFactura, idProducto, cantidad);
-                insertFactura_Producto(factura_Producto, conn);
-
-            }
-
+            insertAllFacturaProductos(getData("facturas-productos.csv"), conn);
             System.out.println("Facturas-Productos insertados");
 
         } catch (SQLException e) {
@@ -182,6 +150,7 @@ public class HelperMySQL {
         }
     }
 
+    //Insertar cliente
     private int insertCliente(Cliente cliente, Connection conn) throws Exception {
         String insert = "INSERT INTO Cliente (idCliente, nombre, email) VALUES (?, ?, ?)";
         try (PreparedStatement ps = conn.prepareStatement(insert)) {
@@ -197,7 +166,66 @@ public class HelperMySQL {
         }
     }
 
+    //Insertar todos los clientes.
+    private void insertAllClientes(Iterable<CSVRecord> records, Connection conn) throws Exception {
+        String insert = "INSERT INTO Cliente (idCliente, nombre, email) VALUES (?, ?, ?)";
+        try (PreparedStatement ps = conn.prepareStatement(insert)) {
+            for (CSVRecord row : records) {
+                ps.setInt(1, Integer.parseInt(row.get("idCliente")));
+                ps.setString(2, row.get("nombre"));
+                ps.setString(3, row.get("email"));
+                ps.addBatch();
+            }
+            ps.executeBatch();
+            conn.commit();
+        }
+    }
 
+    //Insertar todas las facturas.
+    private void insertAllFacturas(Iterable<CSVRecord> records, Connection conn) throws Exception {
+        String insert = "INSERT INTO Factura (idFactura, idCliente) VALUES (?, ?)";
+        try (PreparedStatement ps = conn.prepareStatement(insert)) {
+            for (CSVRecord row : records) {
+                ps.setInt(1, Integer.parseInt(row.get("idFactura")));
+                ps.setInt(2, Integer.parseInt(row.get("idCliente")));
+                ps.addBatch();
+            }
+            ps.executeBatch();
+            conn.commit();
+        }
+    }
+
+    //Insertar todos los productos.
+    private void insertAllProductos(Iterable<CSVRecord> records, Connection conn) throws Exception {
+        String insert = "INSERT INTO Producto (idProducto, nombre, valor) VALUES (?, ?, ?)";
+        try (PreparedStatement ps = conn.prepareStatement(insert)) {
+            for (CSVRecord row : records) {
+                ps.setInt(1, Integer.parseInt(row.get("idProducto")));
+                ps.setString(2, row.get("nombre"));
+                ps.setFloat(3, Float.parseFloat(row.get("valor")));
+                ps.addBatch();
+            }
+            ps.executeBatch();
+            conn.commit();
+        }
+    }
+
+    //Insertar todas las facturasProductos.
+    private void insertAllFacturaProductos(Iterable<CSVRecord> records, Connection conn) throws Exception {
+        String insert = "INSERT INTO Factura_Producto (idFactura, idProducto, cantidad) VALUES (?, ?, ?)";
+        try (PreparedStatement ps = conn.prepareStatement(insert)) {
+            for (CSVRecord row : records) {
+                ps.setInt(1, Integer.parseInt(row.get("idFactura")));
+                ps.setInt(2, Integer.parseInt(row.get("idProducto")));
+                ps.setInt(3, Integer.parseInt(row.get("cantidad")));
+                ps.addBatch();
+            }
+            ps.executeBatch();
+            conn.commit();
+        }
+    }
+
+    //Insertar Factura
     public int insertFactura(Factura factura, Connection conn) throws Exception {
         String query = "INSERT INTO Factura (idFactura, idCliente) VALUES (?, ?)";
 
@@ -213,6 +241,7 @@ public class HelperMySQL {
         return 0;
     }
 
+    //Insertar Producto
     public int insertProducto(Producto producto, Connection conn) throws Exception {
         String query = "INSERT INTO Producto (idProducto,nombre,valor) VALUES (?,?, ?)";
 
@@ -228,6 +257,7 @@ public class HelperMySQL {
         return 0;
     }
 
+    //Insertar Factura_Producto
     public int insertFactura_Producto(Factura_Producto facturaProducto, Connection conn) throws Exception {
         String query = "INSERT INTO Factura_Producto (idFactura, idProducto,cantidad) VALUES (?,?, ?)";
 
