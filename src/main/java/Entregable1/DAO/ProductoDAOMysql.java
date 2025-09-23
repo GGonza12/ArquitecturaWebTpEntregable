@@ -10,11 +10,19 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductoDAOMysql extends ProductoDAO {
+public class ProductoDAOMysql implements ProductoDAO {
     private Connection conn;
+    private static ProductoDAOMysql instance;
 
     public ProductoDAOMysql(Connection conn) {
         this.conn = conn;
+    }
+
+    public static synchronized ProductoDAOMysql getInstance(Connection conn) {
+        if (instance == null) {
+            instance = new ProductoDAOMysql(conn);
+        }
+        return instance;
     }
 
     @Override

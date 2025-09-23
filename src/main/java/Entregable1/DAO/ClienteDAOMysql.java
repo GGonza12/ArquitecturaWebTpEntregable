@@ -10,13 +10,19 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClienteDAOMysql extends ClienteDAO {
+public class ClienteDAOMysql implements ClienteDAO {
     private Connection conn;
+    private static ClienteDAOMysql instance;
 
     public ClienteDAOMysql(Connection conn) {
         this.conn = conn;
     }
-
+    public static synchronized ClienteDAOMysql getInstance(Connection conn) {
+        if (instance == null) {
+            instance = new ClienteDAOMysql(conn);
+        }
+        return instance;
+    }
     @Override
     public void insertCliente(Cliente cliente) { //Se puede insertar
         String query = "INSERT INTO Cliente (idCliente, nombre, email) VALUES (?, ?, ?)";

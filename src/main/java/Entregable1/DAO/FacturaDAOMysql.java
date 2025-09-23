@@ -9,11 +9,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FacturaDAOMysql extends FacturaDAO {
+public class FacturaDAOMysql implements FacturaDAO {
     private Connection conn;
-
+    private static FacturaDAOMysql instance;
     public FacturaDAOMysql(Connection conn) {
         this.conn = conn;
+    }
+
+    public static synchronized FacturaDAOMysql getInstance(Connection conn) {
+        if (instance == null) {
+            instance = new FacturaDAOMysql(conn);
+        }
+        return instance;
     }
 
     @Override

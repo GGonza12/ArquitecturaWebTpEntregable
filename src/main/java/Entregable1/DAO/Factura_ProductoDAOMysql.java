@@ -9,11 +9,20 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Factura_ProductoDAOMysql extends Factura_ProductoDAO {
+public class Factura_ProductoDAOMysql implements Factura_ProductoDAO {
     private Connection conn;
+    private static Factura_ProductoDAOMysql instance;
 
     public Factura_ProductoDAOMysql(Connection conn) {
         this.conn = conn;
+    }
+
+
+    public static synchronized Factura_ProductoDAOMysql getInstance(Connection conn) {
+        if (instance == null) {
+            instance = new Factura_ProductoDAOMysql(conn);
+        }
+        return instance;
     }
 
     @Override

@@ -1,17 +1,13 @@
 package Entregable1.DAO;
 
 import Entregable1.entities.Factura;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.List;
 
-public abstract class FacturaDAO {
+public interface FacturaDAO {
 
-    public abstract void insertFactura(Factura factura);
-    public abstract void updateFactura(Factura factura);
-    public abstract void deleteFactura(int id);
-    public abstract List<Factura> getAllFacturas();
-    public abstract Factura getFactura(int id);
+    public void insertFactura(Factura factura);
+    public void updateFactura(Factura factura);
+    public void deleteFactura(int id);
+    public List<Factura> getAllFacturas();
+    public Factura getFactura(int id);
 }
