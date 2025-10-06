@@ -3,11 +3,7 @@ package Entregable2.Repository;
 import Entregable2.DTO.EstudianteDTO;
 import Entregable2.Factory.JPAUtil;
 import Entregable2.Model.Estudiante;
-import com.opencsv.CSVReader;
 import jakarta.persistence.EntityManager;
-
-import java.io.FileReader;
-import java.util.ArrayList;
 import java.util.List;
 
 public class EstudianteRepositoryImpl implements EstudianteRepository {

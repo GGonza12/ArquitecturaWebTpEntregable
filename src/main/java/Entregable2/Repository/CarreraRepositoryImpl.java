@@ -1,18 +1,11 @@
 package Entregable2.Repository;
 
-import Entregable2.DTO.CarreraDTO;
+
 import Entregable2.DTO.CarreraInscriptosDTO;
-import Entregable2.DTO.EstudianteDTO;
 import Entregable2.Factory.JPAUtil;
 import Entregable2.Model.Carrera;
-import com.opencsv.CSVReader;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
-
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class CarreraRepositoryImpl implements CarreraRepository {

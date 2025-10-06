@@ -1,6 +1,5 @@
 package Entregable2.Repository;
 
-import Entregable2.DTO.CarreraDTO;
 import Entregable2.DTO.CarreraInscriptosDTO;
 import Entregable2.Model.Carrera;
 
