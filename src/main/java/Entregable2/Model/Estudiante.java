@@ -1,28 +1,49 @@
-package Entregable2.DTO;
+package Entregable2.Model;
 
-public class EstudianteDTO {
-    private int dni;
+
+import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(name = "Estudiante")
+public class Estudiante {
+    @Id
+    private Integer dni;
+    @Column(length = 50, nullable = false)
     private String nombre;
+    @Column(length = 50, nullable = false)
     private String apellido;
+    @Column()
     private int edad;
+    @Column(length = 50, nullable = false)
     private String genero;
+    @Column(length = 50, nullable = false)
     private String ciudad;
-    private int nroLibreta;
+    @Column(name = "lu",unique = true)
+    private int lu;
+    @OneToMany(mappedBy = "estudiante")
+    private List<EstudianteCarrera> estudianteCarreras;
 
-    public EstudianteDTO() {}
-
-    public EstudianteDTO(int dni, String nombre, String apellido, int edad, String genero, String ciudad, int nroLibreta) {
+    public Estudiante() {
+        this.estudianteCarreras = new ArrayList<>();
+    }
+    public Estudiante(int dni,String nombre,String apellido,int edad,String genero,String ciudad,int lu) {
         this.dni = dni;
         this.nombre = nombre;
         this.apellido = apellido;
         this.edad = edad;
         this.genero = genero;
         this.ciudad = ciudad;
-        this.nroLibreta = nroLibreta;
-    }
+        this.lu = lu;
+        this.estudianteCarreras = new ArrayList<>();
 
+    }
     public int getDni() {
         return dni;
+    }
+    public void setDni(int dni) {
+        this.dni = dni;
     }
     public String getNombre() {
         return nombre;
@@ -54,20 +75,27 @@ public class EstudianteDTO {
     public void setCiudad(String ciudad) {
         this.ciudad = ciudad;
     }
-    public int getNroLibreta() {
-        return nroLibreta;
+    public int getLu() {
+        return lu;
+    }
+    public void setLu(int lu) {
+        this.lu = lu;
+    }
+
+    public  List<EstudianteCarrera> getEstudianteCarreras() {
+        return estudianteCarreras;
     }
 
     @Override
     public String toString() {
-        return "EstudianteDTO{" +
+        return "Estudiante{" +
                 "dni=" + dni +
                 ", nombre='" + nombre + '\'' +
                 ", apellido='" + apellido + '\'' +
                 ", edad=" + edad +
                 ", genero='" + genero + '\'' +
                 ", ciudad='" + ciudad + '\'' +
-                ", lu=" + nroLibreta +
+                ", lu=" + lu +
                 '}';
     }
 }

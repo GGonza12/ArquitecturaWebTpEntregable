@@ -8,7 +8,7 @@ public class JPAUtil {
     private static final EntityManagerFactory emf;
 
     static {
-        emf = Persistence.createEntityManagerFactory("jpaentregable2");
+        emf = Persistence.createEntityManagerFactory("entregable2");
     }
 
     public static EntityManager getEntityManager() {
