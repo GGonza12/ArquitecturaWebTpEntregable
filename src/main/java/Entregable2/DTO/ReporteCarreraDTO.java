@@ -1,14 +1,14 @@
 package Entregable2.DTO;
 
-public class ReporteDTO {
+public class ReporteCarreraDTO {
     private String nombreCarrera;
-    private int inscriptos;
-    private int egresados;
-    private int anio;
+    private long inscriptos;
+    private long egresados;
+    private long anio;
 
-    public ReporteDTO() {}
+    public ReporteCarreraDTO() {}
 
-    public ReporteDTO(String nombreCarrera, int inscriptos, int egresados, int anio) {
+    public ReporteCarreraDTO(String nombreCarrera, long anio, long inscriptos, long egresados) {
         this.nombreCarrera = nombreCarrera;
         this.inscriptos = inscriptos;
         this.egresados = egresados;
@@ -18,15 +18,15 @@ public class ReporteDTO {
         return nombreCarrera;
     }
 
-    public int getInscriptos() {
+    public long getInscriptos() {
         return inscriptos;
     }
 
-    public int getEgresados() {
+    public long getEgresados() {
         return egresados;
     }
 
-    public int getAnio() {
+    public long getAnio() {
         return anio;
     }
 

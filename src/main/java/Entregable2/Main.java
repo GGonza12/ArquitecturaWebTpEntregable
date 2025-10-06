@@ -38,7 +38,10 @@ public class Main {
         System.out.println(cr.obtenerCarrerasConEstudiantesInscriptos());
         //g) recuperar los estudiantes de una determinada carrera, filtrado por ciudad de residencia.
         System.out.println("G:");
-        System.out.println(edc.getEstudiantesCarreraCiudad(tudai,"Yinla"));
+        System.out.println(edc.getEstudiantesCarreraCiudad(tudai,"Rauch"));
+        System.out.println("3: ");
+        System.out.println(edc.getReporteCarreras());
+        System.out.println(edc.getReporteCarreras().size());
 
 
     }

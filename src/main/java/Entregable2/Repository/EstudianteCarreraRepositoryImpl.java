@@ -1,16 +1,12 @@
 package Entregable2.Repository;
 
-import Entregable2.DTO.EstudianteDTO;
-import Entregable2.DTO.ReporteDTO;
+import Entregable2.DTO.ReporteCarreraDTO;
 import Entregable2.Factory.JPAUtil;
 import Entregable2.Model.Carrera;
 import Entregable2.Model.Estudiante;
 import Entregable2.Model.EstudianteCarrera;
-import com.opencsv.CSVReader;
 import jakarta.persistence.EntityManager;
 
-import java.io.FileReader;
-import java.util.ArrayList;
 import java.util.List;
 
 public class EstudianteCarreraRepositoryImpl implements EstudianteCarreraRepository {
@@ -40,7 +36,17 @@ public class EstudianteCarreraRepositoryImpl implements EstudianteCarreraReposit
     }
 
     @Override
-    public ArrayList<ReporteDTO> getReportes() {
-        return null;
+    public List<ReporteCarreraDTO> getReporteCarreras() {
+        EntityManager em = JPAUtil.getEntityManager();
+        em.getTransaction().begin();
+        List<ReporteCarreraDTO> resultado = em.createQuery(
+                "SELECT new Entregable2.DTO.ReporteCarreraDTO(c.carrera,ec.inscripcion,COUNT(ec)," +
+                        " SUM(CASE WHEN ec.graduacion <> 0 THEN 1 ELSE 0 END)) " +
+                        "FROM EstudianteCarrera ec JOIN ec.carrera c  GROUP BY c.carrera, ec.inscripcion " +
+                        " ORDER BY c.carrera ASC, ec.inscripcion ASC", ReporteCarreraDTO.class).getResultList();
+        em.getTransaction().commit();
+        em.close();
+        return resultado;
+
     }
 }

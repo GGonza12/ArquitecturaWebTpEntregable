@@ -103,9 +103,10 @@ public class HelperMySQL {
                 int antiguedad = Integer.parseInt(linea[5]);
                 Estudiante e = em.find(Estudiante.class, id_estudiante);
                 Carrera c = em.find(Carrera.class, id_carrera);
-
-                EstudianteCarrera estCarr = new EstudianteCarrera(inscripcion,graduacion,antiguedad,e,c);
-                em.persist(estCarr);
+                if(e!=null && c!=null){
+                    EstudianteCarrera estCarr = new EstudianteCarrera(inscripcion,graduacion,antiguedad,e,c);
+                    em.persist(estCarr);
+                }
             }
             System.out.println("estudiantesCarreras  insertados exitosamente!");
 

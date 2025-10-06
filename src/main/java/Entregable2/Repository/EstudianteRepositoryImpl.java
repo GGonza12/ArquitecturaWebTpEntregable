@@ -26,7 +26,8 @@ public class EstudianteRepositoryImpl implements EstudianteRepository {
     public List<EstudianteDTO> obtenerEstudiantesPorApellido() {
         EntityManager em = JPAUtil.getEntityManager();
         em.getTransaction().begin();
-        String jpql ="SELECT new Entregable2.DTO.EstudianteDTO(e.dni,e.nombre,e.apellido,e.edad,e.genero,e.ciudad,e.lu) FROM Estudiante e ORDER BY e.apellido ASC";
+        String jpql ="SELECT new Entregable2.DTO.EstudianteDTO(e.dni,e.nombre,e.apellido,e.edad,e.genero,e.ciudad,e.lu)" +
+                " FROM Estudiante e ORDER BY e.apellido ASC";
         List<EstudianteDTO> res = em.createQuery(jpql, EstudianteDTO.class).getResultList();
         em.getTransaction().commit();
         em.close();
@@ -35,7 +36,8 @@ public class EstudianteRepositoryImpl implements EstudianteRepository {
 
     @Override
     public EstudianteDTO obtenerEstudiantePorNumeroLibreta(int lu) {
-        String jpql = "SELECT new Entregable2.DTO.EstudianteDTO(e.dni,e.nombre,e.apellido,e.edad,e.genero,e.ciudad,e.lu) FROM Estudiante e WHERE e.lu = :eLu";
+        String jpql = "SELECT new Entregable2.DTO.EstudianteDTO(e.dni,e.nombre,e.apellido,e.edad,e.genero,e.ciudad,e.lu) " +
+                "FROM Estudiante e WHERE e.lu = :eLu";
         EntityManager em = JPAUtil.getEntityManager();
         em.getTransaction().begin();
         EstudianteDTO dto = em.createQuery(jpql,EstudianteDTO.class).setParameter("eLu",lu).getSingleResult();
@@ -47,7 +49,8 @@ public class EstudianteRepositoryImpl implements EstudianteRepository {
     @Override
     public List<EstudianteDTO> FindByGender(String genero) {
         EntityManager em = JPAUtil.getEntityManager();
-        String jpql ="SELECT new Entregable2.DTO.EstudianteDTO(e.dni,e.nombre,e.apellido,e.edad,e.genero,e.ciudad,e.lu) FROM Estudiante e WHERE e.genero LIKE :genero";
+        String jpql ="SELECT new Entregable2.DTO.EstudianteDTO(e.dni,e.nombre,e.apellido,e.edad,e.genero,e.ciudad,e.lu)" +
+                " FROM Estudiante e WHERE e.genero LIKE :genero";
         em.getTransaction().begin();
         List<EstudianteDTO> res = em.createQuery(jpql, EstudianteDTO.class).setParameter("genero",genero).getResultList();
         em.getTransaction().commit();

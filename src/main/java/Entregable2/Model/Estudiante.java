@@ -9,7 +9,7 @@ import java.util.List;
 @Table(name = "Estudiante")
 public class Estudiante {
     @Id
-    private Integer dni;
+    private int dni;
     @Column(length = 50, nullable = false)
     private String nombre;
     @Column(length = 50, nullable = false)
