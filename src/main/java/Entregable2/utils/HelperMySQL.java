@@ -4,10 +4,12 @@ import Entregable2.Factory.JPAUtil;
 import Entregable2.Model.Carrera;
 import Entregable2.Model.Estudiante;
 import Entregable2.Model.EstudianteCarrera;
+import Entregable2.Model.InscriptionId;
 import com.opencsv.CSVReader;
 import jakarta.persistence.EntityManager;
 
 import java.io.FileReader;
+import java.time.LocalDate;
 
 public class HelperMySQL {
 
@@ -50,12 +52,13 @@ public class HelperMySQL {
                 String ciudad = linea[5];
                 int lu = Integer.parseInt(linea[6]);
                 Estudiante est = new Estudiante(dni,nombre,apellido, edad,genero,ciudad,lu);
-                em.persist(est);
+                        em.persist(est);
             }
             System.out.println("Estudiantes insertados exitosamente!");
 
             em.getTransaction().commit();
         } catch (Exception e) {
+            em.getTransaction().rollback();
             e.printStackTrace();
         } finally {
             em.close();
@@ -65,19 +68,18 @@ public class HelperMySQL {
 
     private void insertAllCarreras(String rutaArchivo){
         EntityManager em = JPAUtil.getEntityManager();
-        try(CSVReader reader = new CSVReader(new FileReader(rutaArchivo))){
+        try (CSVReader reader = new CSVReader(new FileReader(rutaArchivo))) {
             String[] linea;
             reader.readNext();
             em.getTransaction().begin();
-
             while ((linea = reader.readNext()) != null) {
-                //Integer id_carrera = Integer.parseInt(linea[0]);
+                int id_carrera = Integer.parseInt(linea[0]);
                 String nombre = linea[1];
                 int duracion = Integer.parseInt(linea[2]);
-                Carrera carr = new Carrera(nombre, duracion);
-                em.persist(carr);
+                Carrera carrera = new Carrera(id_carrera, nombre, duracion);
+                em.persist(carrera);
             }
-            System.out.println("Carreras insertados exitosamente!");
+            System.out.println("Carreras insertadas exitosamente!");
             em.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
@@ -89,33 +91,37 @@ public class HelperMySQL {
 
     private void insertAllEstudiantesCarreras(String rutaArchivo){
         EntityManager em = JPAUtil.getEntityManager();
-        try(CSVReader reader = new CSVReader(new FileReader(rutaArchivo))){
+        try (CSVReader reader = new CSVReader(new FileReader(rutaArchivo))) {
             String[] linea;
             reader.readNext();
             em.getTransaction().begin();
-
             while ((linea = reader.readNext()) != null) {
-                //Integer id = Integer.parseInt(linea[0]);
                 int id_estudiante = Integer.parseInt(linea[1]);
                 int id_carrera = Integer.parseInt(linea[2]);
-                int inscripcion = Integer.parseInt(linea[3]);
-                int graduacion = Integer.parseInt(linea[4]);
+                LocalDate inscripcion = LocalDate.of(Integer.parseInt(linea[3]), 1, 1);
+                LocalDate graduacion = (linea[4].equals("0") || linea[4].isEmpty()) ? null : LocalDate.of(Integer.parseInt(linea[4]), 1, 1);
                 int antiguedad = Integer.parseInt(linea[5]);
-                Estudiante e = em.find(Estudiante.class, id_estudiante);
-                Carrera c = em.find(Carrera.class, id_carrera);
-                if(e!=null && c!=null){
-                    EstudianteCarrera estCarr = new EstudianteCarrera(inscripcion,graduacion,antiguedad,e,c);
+
+                Estudiante estudiante = em.find(Estudiante.class, id_estudiante);
+                Carrera carrera = em.find(Carrera.class, id_carrera);
+
+                if (estudiante == null || carrera == null) {
+                    System.out.println("No se encontró estudiante o carrera para la inscripción: " + id_estudiante + ", " + id_carrera);
+                    continue;
+                }
+
+                InscriptionId id = new InscriptionId(id_estudiante, id_carrera);
+                if (em.find(EstudianteCarrera.class, id) == null) {
+                    EstudianteCarrera estCarr = new EstudianteCarrera(id, inscripcion, graduacion, antiguedad, estudiante, carrera);
                     em.persist(estCarr);
                 }
             }
-            System.out.println("estudiantesCarreras  insertados exitosamente!");
-
+            System.out.println("EstudianteCarreras insertadas exitosamente!");
             em.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             em.close();
         }
-
     }
 }

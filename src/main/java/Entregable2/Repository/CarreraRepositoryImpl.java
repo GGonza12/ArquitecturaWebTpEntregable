@@ -26,12 +26,14 @@ public class CarreraRepositoryImpl implements CarreraRepository {
     @Override
     public Carrera buscarPorNombre(String nombreCarrera) {
         EntityManager em = JPAUtil.getEntityManager();
+        em.getTransaction().begin();
         Carrera carrera = null;
         try {
             carrera = em.createQuery(
                             "SELECT c FROM Carrera c WHERE c.carrera = :nombre", Carrera.class)
                     .setParameter("nombre", nombreCarrera)
                     .getSingleResult();
+            em.getTransaction().commit();
         } catch (NoResultException e) {
             System.out.println("No se encontró la carrera con nombre: " + nombreCarrera);
         } finally {

@@ -10,7 +10,6 @@ import java.util.List;
 public class Carrera {
     @Id
     @Column(name = "id_carrera")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id_carrera;
     @Column(name = "carrera", length = 50, nullable = false)
     private String carrera;
