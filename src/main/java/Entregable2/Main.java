@@ -18,19 +18,19 @@ public class Main {
 
         HelperMySQL helper = new HelperMySQL();
         //helper.dropTables();
-        helper.populateDB();
+        //helper.populateDB();
 
         // a) Dar de alta un estudiante
         System.out.println("a) Dar de alta un estudiante:");
         Estudiante juan = new Estudiante(431312312,"Juan","XDDDDDDD",23,"Masculino","Guaralaja",323213);
-        ed.darDeAltaEstudiante(juan);
+        //ed.darDeAltaEstudiante(juan);
         System.out.println("Estudiante creado: " + juan);
 
         // b) Matricular un estudiante en una carrera
         System.out.println("\nb) Matricular un estudiante en una carrera:");
         Carrera tudai = cr.buscarPorNombre("TUDAI");
         LocalDate hoy = LocalDate.now();
-        edc.matricularEstudiante(juan, tudai, hoy);
+        //edc.matricularEstudiante(juan, tudai, hoy);
         System.out.println("Estudiante " + juan.getNombre() + " matriculado en " + tudai.getCarrera() + " el " + hoy);
 
         // c) Recuperar todos los estudiantes, ordenados por apellido
