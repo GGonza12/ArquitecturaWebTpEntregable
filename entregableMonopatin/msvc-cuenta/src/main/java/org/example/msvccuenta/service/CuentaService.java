@@ -1,0 +1,55 @@
+package org.example.msvccuenta.service;
+
+import org.example.msvccuenta.dto.CuentaDTO;
+import org.example.msvccuenta.model.Cuenta;
+import org.example.msvccuenta.repository.CuentaRepository;
+import org.example.msvccuenta.utils.CuentaMapper;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+@Component
+public class CuentaService {
+    private final CuentaRepository cuentaRepository;
+    private final CuentaMapper cuentaMapper;
+
+    public CuentaService(CuentaRepository cuentaRepository, CuentaMapper cuentaMapper) {
+        this.cuentaRepository = cuentaRepository;
+        this.cuentaMapper = cuentaMapper;
+    }
+
+    public void create(CuentaDTO dto){
+        Cuenta c = cuentaMapper.toEntity(dto);
+        cuentaRepository.save(c);
+    }
+
+    public List<CuentaDTO> findAll(){
+        return this.cuentaRepository.findAll().stream().map(this.cuentaMapper::toDTO).toList();
+    }
+
+    public CuentaDTO findById(long id){
+        Cuenta cuenta = this.cuentaRepository.findById(id).orElseThrow();
+        return this.cuentaMapper.toDTO(cuenta);
+    }
+
+    public void update(CuentaDTO dto,long id){
+        Cuenta cuenta = this.cuentaRepository.findById(id).orElseThrow();
+        this.cuentaMapper.update(dto, cuenta);
+        this.cuentaRepository.save(cuenta);
+    }
+
+    public void delete(long id){
+        this.cuentaRepository.deleteById(id);
+    }
+
+    public void desactivarCuenta(long id){
+        Cuenta cuenta = this.cuentaRepository.findById(id).orElseThrow();
+        cuenta.setDeshabilitada(true);
+        this.cuentaRepository.save(cuenta);
+    }
+
+
+
+}
