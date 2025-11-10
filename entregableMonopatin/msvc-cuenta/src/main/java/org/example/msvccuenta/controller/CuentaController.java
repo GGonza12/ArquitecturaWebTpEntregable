@@ -31,10 +31,16 @@ class CuentaController {
         return ResponseEntity.ok(dto);
     }
 
-    @PostMapping()
-    public ResponseEntity<String> save(@RequestBody CuentaDTO dto) {
-        this.cuentaService.create(dto);
+    @PostMapping("/{id}")
+    public ResponseEntity<String> save(@PathVariable long id) {
+        this.cuentaService.crearCuenta(id);
         return ResponseEntity.ok("Cuenta creada");
+    }
+
+    @PostMapping("/crearCuentaDTO")
+    public ResponseEntity<String> saveDTO(@RequestBody CuentaDTO dto) {
+        this.cuentaService.createConDTO(dto);
+        return ResponseEntity.ok("Cuenta creada con DTO");
     }
 
     @PutMapping("/{id}")

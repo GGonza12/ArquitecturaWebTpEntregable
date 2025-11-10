@@ -7,17 +7,16 @@ import org.example.msvcviaje.repository.ViajeRepository;
 import org.example.msvcviaje.utils.ViajeMapper;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.Duration;
-import java.time.LocalDateTime;
-import java.time.temporal.Temporal;
 import java.util.List;
 
 @Service
 public class ViajeService {
     private final ViajeRepository viajeRepository;
     private final ViajeMapper viajeMapper;
-
 
     public ViajeService(ViajeRepository viajeRepository, ViajeMapper viajeMapper) {
         this.viajeRepository = viajeRepository;
@@ -61,10 +60,14 @@ public class ViajeService {
         Viaje viaje = viajeRepository.findById(idViaje)
                 .orElseThrow(() -> new RuntimeException("Viaje no encontrado"));
 
-        // Calcular total de minutos acumulados
         long minutosTotales = viaje.getPausas().stream()
                 .filter(p -> p.getFechaInicio() != null && p.getFechaFin() != null)
-                .mapToLong(p -> Duration.between((Temporal) p.getFechaInicio(), (Temporal) p.getFechaFin()).toMinutes())
+                .mapToLong(p -> {
+                    return Duration.between(
+                            p.getFechaInicio().toInstant(),
+                            p.getFechaFin().toInstant()
+                    ).toMinutes();
+                })
                 .sum();
 
         return minutosTotales > 15;
@@ -89,12 +92,5 @@ public class ViajeService {
                 viaje.getFechaFin().toInstant()
         ).toMinutes();
     }
-
-
-
-
-
-
-
 
 }

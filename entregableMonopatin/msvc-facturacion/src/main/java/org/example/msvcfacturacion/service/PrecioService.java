@@ -9,9 +9,11 @@ import org.example.msvcfacturacion.utils.ViajeClient;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
-import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.YearMonth;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PrecioService {
@@ -41,24 +43,60 @@ public class PrecioService {
         }
 
         public double calcularTotalFacturado(int year, int mesInicio, int mesFin) {
-            LocalDateTime start = LocalDateTime.of(year, mesInicio, 1, 0, 0);
-            LocalDateTime end = LocalDateTime.of(year, mesFin, 31, 23, 59);
-            Timestamp desde = Timestamp.valueOf(start);
-            Timestamp hasta = Timestamp.valueOf(end);
+            // validar meses
+            if (mesInicio < 1 || mesInicio > 12 || mesFin < 1 || mesFin > 12) {
+                throw new IllegalArgumentException("mesInicio/mesFin deben estar entre 1 y 12");
+            }
+
+            // construir rango usando YearMonth para evitar días inválidos
+            YearMonth ymStart = YearMonth.of(year, mesInicio);
+            YearMonth ymEnd = YearMonth.of(year, mesFin);
+            // inicio al primer segundo del día 1
+            var startLdt = ymStart.atDay(1).atStartOfDay();
+            // fin al último instante del mes (23:59:59.999)
+            var endLdt = ymEnd.atEndOfMonth().atTime(23, 59, 59, 999_000_000);
+
+            Timestamp desde = Timestamp.valueOf(startLdt);
+            Timestamp hasta = Timestamp.valueOf(endLdt);
 
             List<ViajeDTO> viajes = viajeClient.obtenerViajesEntreFechas(desde, hasta);
 
-            double total = 0;
+            double total = 0.0;
             for (ViajeDTO v : viajes) {
-                Precio price = precioRepository.findBySinceBefore(v.getFechaInicio());
-                total += price.getPrecio() * calcularDuracion(v.getFechaInicio(), v.getFechaFin());
+                Date fechaInicioDate = v.getFechaInicio();
+                if (fechaInicioDate == null) continue; // no podemos calcular sin inicio
+
+                Timestamp inicioTs = new Timestamp(fechaInicioDate.getTime());
+
+                // si fechaFin es null, usar ahora (o decidir otra política)
+                Timestamp finTs;
+                if (v.getFechaFin() != null) {
+                    finTs = new Timestamp(v.getFechaFin().getTime());
+                } else {
+                    finTs = new Timestamp(System.currentTimeMillis());
+                }
+
+                // obtener precio aplicable en la fecha de inicio
+                Optional<Precio> precioOpt = precioRepository.findLatestPrecio(inicioTs);
+                if (precioOpt.isEmpty()) {
+                    // no hay precio definido para esa fecha: decidir política (skip, fallback, excepción). Aquí se saltea.
+                    continue;
+                }
+                Precio price = precioOpt.get();
+
+                long minutos = calcularDuracion(inicioTs, finTs);
+                if (minutos <= 0) continue;
+
+                total += price.getPrecio() * minutos;
             }
 
             return total;
         }
 
         private long calcularDuracion(Timestamp inicio, Timestamp fin) {
-            return Duration.between(inicio.toInstant(), fin.toInstant()).toMinutes();
+            if (inicio == null || fin == null) return 0;
+            if (fin.before(inicio)) return 0;
+            return java.time.Duration.between(inicio.toInstant(), fin.toInstant()).toMinutes();
         }
 
 }

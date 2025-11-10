@@ -32,8 +32,8 @@ class FacturacionController {
     }
 
     @GetMapping("/totalFacturado")
-    public ResponseEntity<Double> obtenerTotalFacturado(@RequestParam int anio, @RequestParam int mes, @RequestParam int dia){
-        Double total = precioService.calcularTotalFacturado(anio, mes, dia);
+    public ResponseEntity<Double> obtenerTotalFacturado(@RequestParam int anio, @RequestParam int mesInicio, @RequestParam int mesFin){
+        Double total = precioService.calcularTotalFacturado(anio, mesInicio, mesFin);
         return ResponseEntity.ok(total);
     }
 

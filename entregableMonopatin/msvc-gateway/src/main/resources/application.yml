@@ -4,7 +4,6 @@ server:
 spring:
   application:
     name: msvc-gateway
-
   cloud:
     gateway:
       routes:
@@ -32,7 +31,7 @@ spring:
           predicates:
             - Path=/api/parada/**
 
-        # Ruta hacia el microservicio Facturación
+        # Ruta hacia el microservicio Facturaciï¿½n
         - id: msvc-facturacion
           uri: http://localhost:8085
           predicates:
@@ -44,7 +43,7 @@ spring:
           predicates:
             - Path=/api/viaje/**
 
-        # Ruta hacia el microservicio Administración
+        # Ruta hacia el microservicio Administraciï¿½n
         - id: msvc-administracion
           uri: http://localhost:8087
           predicates:
@@ -58,7 +57,3 @@ spring:
 
       default-filters:
         - AddResponseHeader=X-Gateway, "Spring Cloud Gateway"
-
-logging:
-  level:
-    org.springframework.cloud.gateway: DEBUG

@@ -20,8 +20,13 @@ public class CuentaService {
         this.cuentaMapper = cuentaMapper;
     }
 
-    public void create(CuentaDTO dto){
+    public void createConDTO(CuentaDTO dto){
         Cuenta c = cuentaMapper.toEntity(dto);
+        cuentaRepository.save(c);
+    }
+
+    public void crearCuenta(Long idUsuario){
+        Cuenta c = new Cuenta(idUsuario);
         cuentaRepository.save(c);
     }
 

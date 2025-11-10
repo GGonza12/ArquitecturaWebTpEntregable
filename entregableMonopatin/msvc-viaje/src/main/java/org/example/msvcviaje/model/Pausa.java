@@ -1,25 +1,22 @@
 package org.example.msvcviaje.model;
 
-import lombok.AllArgsConstructor;
+
 import lombok.Data;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 public class Pausa {
-    private Timestamp fechaInicio;
-    private Timestamp fechaFin;
+    private Date fechaInicio;
+    private Date fechaFin;
 
-
-    public Pausa(Timestamp fechaInicio, Timestamp fechaFin) {
+    public Pausa(Date fechaInicio, Date fechaFin) {
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
     }
 
     public Pausa() {
-        this.fechaInicio = Timestamp.valueOf(LocalDateTime.now());
+        this.fechaInicio = new Date();
     }
-
 
 }
