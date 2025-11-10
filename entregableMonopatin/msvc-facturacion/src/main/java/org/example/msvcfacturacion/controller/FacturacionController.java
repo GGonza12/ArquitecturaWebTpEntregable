@@ -1,17 +1,16 @@
 package org.example.msvcfacturacion.controller;
 
 import org.example.msvcfacturacion.dto.PrecioDTO;
-import org.example.msvcfacturacion.model.Precio;
 import org.example.msvcfacturacion.service.PrecioService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/facturacion")
-class PrecioController {
+class FacturacionController {
     private final PrecioService precioService;
 
-    public PrecioController(PrecioService precioService) {
+    public FacturacionController(PrecioService precioService) {
         this.precioService = precioService;
     }
 
@@ -31,4 +30,12 @@ class PrecioController {
         this.precioService.actualizarPrecioPenalizacion(id, precioNuevo);
         return ResponseEntity.ok("Precio actualizado");
     }
+
+    @GetMapping("/totalFacturado")
+    public ResponseEntity<Double> obtenerTotalFacturado(@RequestParam int anio, @RequestParam int mes, @RequestParam int dia){
+        Double total = precioService.calcularTotalFacturado(anio, mes, dia);
+        return ResponseEntity.ok(total);
+    }
+
+
 }

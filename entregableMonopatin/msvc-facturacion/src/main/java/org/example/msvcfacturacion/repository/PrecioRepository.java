@@ -8,8 +8,10 @@ import java.sql.Timestamp;
 
 public interface PrecioRepository extends JpaRepository<Precio, Long> {
 
-    @Query("select p from precio p where p.fechaVigencia < ?1 order by p.fechaVigencia desc limit 1")
+    @Query("select p from Precio p where p.fechaVigencia < ?1 order by p.fechaVigencia desc limit 1")
     Precio findActualPrice(Timestamp since);
+
+    Precio findBySinceBefore(Timestamp inicio);
 
 
 }

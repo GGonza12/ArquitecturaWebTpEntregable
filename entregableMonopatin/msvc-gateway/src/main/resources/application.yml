@@ -15,40 +15,50 @@ spring:
             - Path=/api/monopatin/**
 
         # Ruta hacia el microservicio Usuario
-      #  - id: msvc-usuario
-       #   uri: http://localhost:8082
-        #  predicates:
-         #   - Path=/api/usuario/**
+        - id: msvc-usuario
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/usuario/**
 
         # Ruta hacia el microservicio Cuenta
-      #  - id: msvc-cuenta
-       #   uri: http://localhost:8083
-        #  predicates:
-         #   - Path=/api/cuenta/**
-        # Ruta hacia el microservicio viaje
-      #  - id: msvc-viaje
-       #   uri: http://localhost:8084
-        #  predicates:
-         #   - Path=/api/viaje/**
-        # Ruta hacia el microservicio facturacion
-      #  - id: msvc-facturacion
-       #   uri: http://localhost:8085
-        #  predicates:
-         #   - Path=/api/facturacion/**
-        # Ruta hacia el microservicio reporte
-     #   - id: msvc-reporte
-      #    uri: http://localhost:8086
-       #   predicates:
-        #    - Path=/api/reporte/**
-        # Ruta hacia el microservicio administracion
-      #  - id: msvc-administracion
-       #   uri: http://localhost:8087
-        #  predicates:
-         #   - Path=/api/administracion/**
-        # Ruta hacia el microservicio parada
-       # - id: msvc-parada
-        #  uri: http://localhost:8088
-         # predicates:
-          #  - Path=/api/parada/**
+        - id: msvc-cuenta
+          uri: http://localhost:8083
+          predicates:
+            - Path=/api/cuenta/**
+
+        # Ruta hacia el microservicio Parada
+        - id: msvc-parada
+          uri: http://localhost:8084
+          predicates:
+            - Path=/api/parada/**
+
+        # Ruta hacia el microservicio Facturación
+        - id: msvc-facturacion
+          uri: http://localhost:8085
+          predicates:
+            - Path=/api/facturacion/**
+
+        # Ruta hacia el microservicio Viaje
+        - id: msvc-viaje
+          uri: http://localhost:8086
+          predicates:
+            - Path=/api/viaje/**
+
+        # Ruta hacia el microservicio Administración
+        - id: msvc-administracion
+          uri: http://localhost:8087
+          predicates:
+            - Path=/api/administracion/**
+
+        # Ruta hacia el microservicio Reporte
+        - id: msvc-reporte
+          uri: http://localhost:8088
+          predicates:
+            - Path=/api/reporte/**
+
       default-filters:
         - AddResponseHeader=X-Gateway, "Spring Cloud Gateway"
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG

@@ -17,6 +17,7 @@
         <option value="$PROJECT_DIR$/entregableMonopatin/msvc-viaje/pom.xml" />
         <option value="$PROJECT_DIR$/entregableMonopatin/msvc-facturacion/pom.xml" />
         <option value="$PROJECT_DIR$/entregableMonopatin/msvc-reporte/pom.xml" />
+        <option value="$PROJECT_DIR$/entregableMonopatin/gateway-msvc/pom.xml" />
       </list>
     </option>
   </component>
