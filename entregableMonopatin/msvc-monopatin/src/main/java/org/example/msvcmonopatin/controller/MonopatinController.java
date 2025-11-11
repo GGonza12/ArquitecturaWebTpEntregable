@@ -64,6 +64,12 @@ class MonopatinController {
         return ResponseEntity.ok("Monopatin en uso");
     }
 
+    @PutMapping("/ubicar/{id}")
+    public ResponseEntity<String> ubicarMonopatin(@PathVariable long id,@RequestParam Double latitud,@RequestParam Double longitud){
+        this.monopatinService.ubicarMonopatin(id,latitud,longitud);
+        return ResponseEntity.ok("Monopatin ubicado");
+    }
+
     @GetMapping("/cerca")
     public ResponseEntity<List<MonopatinDTO>> getCerca(@RequestParam double lat,@RequestParam long lon,@RequestParam double radio,@RequestParam int cant){
         return ResponseEntity.ok(this.monopatinService.getMonopatinesCerca(lat,lon,radio,cant));

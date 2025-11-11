@@ -65,6 +65,13 @@ public class MonopatinService {
         return this.monopatinRepository.findMonopatinesCercanos(lat,lon,radio,cant).stream().map(this.monopatinMapper::toDTO).toList();
     }
 
+    public void ubicarMonopatin(Long id,Double latitud,Double longitud){
+        Monopatin m =  monopatinRepository.findById(id).orElseThrow();
+        m.setLatitud(latitud);
+        m.setLongitud(longitud);
+        monopatinRepository.save(m);
+    }
+
 
 
 

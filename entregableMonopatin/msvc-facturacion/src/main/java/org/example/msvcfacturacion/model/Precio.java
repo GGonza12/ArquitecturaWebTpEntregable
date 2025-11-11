@@ -21,7 +21,7 @@ public class Precio {
     @Column
     private Double precioPenalizacion;
     @Column
-    Timestamp fechaVigencia;
+    private Timestamp fechaVigencia;
 
 
     public Precio(double precio, double precioPenalizacion, Timestamp fechaVigencia) {
