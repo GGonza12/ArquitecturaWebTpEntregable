@@ -1,5 +1,6 @@
 package org.example.msvcviaje.repository;
 
+import org.example.msvcviaje.dto.UsoMonopatinDTO;
 import org.example.msvcviaje.dto.UsuarioViajeDTO;
 import org.example.msvcviaje.model.Pausa;
 import org.example.msvcviaje.model.Viaje;
@@ -29,4 +30,11 @@ public interface ViajeRepository  extends MongoRepository<Viaje,String> {
             "{ $project: { _id: 0, idUsuario: '$_id', cantidadViajes: 1 } }"
     })
     List<UsuarioViajeDTO> obtenerRankingUsuariosPorPeriodo(Date fechaInicio, Date fechaFin);
+
+    @Aggregation(pipeline = {
+            "{ $match: { idUsuario: { $in: ?0 }, fechaInicio: { $gte: ?1, $lte: ?2 } } }",
+            "{ $group: { _id: null, totalKm: { $sum: '$kmRecorridos' }, totalTiempoMs: { $sum: { $subtract: ['$fechaFin', '$fechaInicio'] } } } }"
+    })
+    UsoMonopatinDTO calcularUsoPorUsuariosYFechas(List<Long> idsUsuarios, Date fechaInicio, Date fechaFin);
+
 }

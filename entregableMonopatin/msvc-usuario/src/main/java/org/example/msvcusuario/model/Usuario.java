@@ -31,9 +31,13 @@ public class Usuario {
     private double latitud;
     @Column
     private double longitud;
-    @Column
+    @ElementCollection
+    @CollectionTable(name = "usuario_cuentas", joinColumns = @JoinColumn(name = "usuario_id"))
+    @Column(name = "cuenta_id")
     private List<Long> cuentas;
-    @Column
+    @ElementCollection
+    @CollectionTable(name = "usuario_monopatines", joinColumns = @JoinColumn(name = "usuario_id"))
+    @Column(name = "monopatin_id")
     private List<Long> monopatinesUsados;
 
 

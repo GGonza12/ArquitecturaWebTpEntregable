@@ -2,6 +2,7 @@ package org.example.msvcusuario.controller;
 
 import org.example.msvcusuario.dto.UsuarioDTO;
 import org.example.msvcusuario.dto.UsuarioSimpleDTO;
+import org.example.msvcusuario.model.Rol;
 import org.example.msvcusuario.model.Usuario;
 import org.example.msvcusuario.service.UsuarioService;
 import org.springframework.http.ResponseEntity;
@@ -51,6 +52,28 @@ class UsuarioController {
     @PostMapping("/buscar-por-ids")
     public List<UsuarioSimpleDTO> obtenerUsuariosPorIds(@RequestBody List<Long> ids) {
         return usuarioService.obtenerUsuariosPorIds(ids);
+    }
+
+    @PutMapping("/cambiar-rol/{id}")
+    public ResponseEntity<String> cambiarRol(@PathVariable long id,@RequestBody Rol rol){
+        this.usuarioService.cambiarRol(id, rol);
+        return ResponseEntity.ok("Rol modificado");
+    }
+    //4.H
+    @GetMapping("/relacionados/{idUsuario}")
+    public ResponseEntity<List<Long>> obtenerUsuariosRelacionados(@PathVariable Long idUsuario) {
+        Usuario usuario = usuarioService.findByIdUsuario(idUsuario);
+
+        // Buscar todas las cuentas asociadas
+        List<Long> idsCuentas = usuario.getCuentas();
+
+        // Buscar todos los usuarios que estén en esas cuentas
+        List<Long> idsUsuariosRelacionados = usuarioService.findAllUsuario().stream()
+                .filter(u -> u.getCuentas().stream().anyMatch(idsCuentas::contains))
+                .map(Usuario::getId)
+                .toList();
+
+        return ResponseEntity.ok(idsUsuariosRelacionados);
     }
 
 

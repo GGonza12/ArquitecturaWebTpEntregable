@@ -1,6 +1,6 @@
 package org.example.msvcreporte.sercice;
 
-import lombok.RequiredArgsConstructor;
+
 import org.example.msvcreporte.client.FacturacionClient;
 import org.example.msvcreporte.client.MonopatinClient;
 import org.example.msvcreporte.client.UsuarioClient;
@@ -9,6 +9,7 @@ import org.example.msvcreporte.dto.*;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
+
 import java.util.List;
 
 @Service
@@ -70,9 +71,50 @@ public class ReporteService {
                             u != null ? u.getRol() : null,
                             r.getCantidadViajes()
                     );
-                }).sorted(Comparator.comparingLong(UsuarioRankingDTO::getCantidadViajes).reversed())
-                .toList();
+                }).sorted(
+                Comparator
+                        .comparing((UsuarioRankingDTO u) -> String.valueOf(u.getRol()), Comparator.nullsLast(String::compareTo))
+                        .thenComparing(Comparator.comparingLong(UsuarioRankingDTO::getCantidadViajes).reversed())
+        ).toList();
     }
+    // 4.H
+    public ReporteUsoMonopatinTiempo obtenerUsoUsuarios(Long idUsuarioPrincipal, String fechaInicio, String fechaFin, boolean incluirRelacionados) {
+        // Traer usuarios relacionados
+        List<Long> idsUsuarios = incluirRelacionados
+                ? usuarioClient.obtenerUsuariosRelacionados(idUsuarioPrincipal)
+                : List.of(idUsuarioPrincipal);
+
+        // Para cada usuario, obtener su uso individual del microservicio viaje
+        List<UsoUsuarioDTO> usos = idsUsuarios.stream()
+                .map(id -> {
+                    ReporteUsoMonopatinDTO uso = viajeClient.calcularUso(List.of(id), fechaInicio, fechaFin);
+                    UsuarioDTO user = usuarioClient.obtenerUsuarioPorId(id);
+                    return new UsoUsuarioDTO(
+                            user.getId(),
+                            user.getNombre(),
+                            user.getApellido(),
+                            user.getRol(),
+                            uso.getTotalKm(),
+                            uso.getTotalTiempoMinutos()
+                    );
+                }).toList();
+
+        // Calcular el total combinado
+        double totalKm = usos.stream().mapToDouble(UsoUsuarioDTO::getKmRecorridos).sum();
+        long totalMin = usos.stream().mapToLong(UsoUsuarioDTO::getTiempoMinutos).sum();
+
+        return new ReporteUsoMonopatinTiempo(
+                idUsuarioPrincipal,
+                fechaInicio,
+                fechaFin,
+                totalKm,
+                totalMin,
+                usos
+        );
+    }
+
+
+
 
 
 }

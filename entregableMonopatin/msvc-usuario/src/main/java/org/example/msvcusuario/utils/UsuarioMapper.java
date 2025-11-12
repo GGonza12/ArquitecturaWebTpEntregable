@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 public class UsuarioMapper {
 
     public UsuarioDTO toDTO(Usuario s) {
-        return new UsuarioDTO(s.getNombre(),s.getApellido(),s.getEmail(),s.getNroCelular(),s.getLatitud(),s.getLongitud());
+        return new UsuarioDTO(s.getNombre(),s.getApellido(),s.getEmail(),s.getNroCelular(),s.getLatitud(),s.getLongitud(),s.getRol(),s.getCuentas(),s.getMonopatinesUsados());
     }
 
     public UsuarioSimpleDTO toDTOSimple(Usuario s) {

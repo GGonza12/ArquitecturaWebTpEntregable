@@ -1,14 +1,11 @@
 package org.example.msvcreporte.client;
 
 
-import org.example.msvcreporte.dto.ReporteCantidadViajesMonopatinDTO;
-import org.example.msvcreporte.dto.ReporteKmMonopatinDTO;
-import org.example.msvcreporte.dto.ReporteKmMonopatinPausaDTO;
-import org.example.msvcreporte.dto.UsuarioViajeDTO;
+import org.example.msvcreporte.dto.*;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
 
 import java.util.List;
 
@@ -32,4 +29,12 @@ public interface ViajeClient {
     List<UsuarioViajeDTO> obtenerRankingUsuariosPorPeriodo(
             @RequestParam("fechaInicio") String fechaInicio,
             @RequestParam("fechaFin") String fechaFin);
+
+    @GetMapping("/uso")
+    ReporteUsoMonopatinDTO calcularUso(
+            @RequestParam List<Long> idsUsuarios,
+            @RequestParam String fechaInicio,
+            @RequestParam String fechaFin);
+
+
 }

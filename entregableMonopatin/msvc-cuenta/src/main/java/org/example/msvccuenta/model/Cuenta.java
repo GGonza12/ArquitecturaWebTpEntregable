@@ -27,7 +27,9 @@ public class Cuenta {
     private Plan plan;
     @Column
     private Timestamp fechaRegistro;
-    @Column
+    @ElementCollection
+    @CollectionTable(name = "cuenta_usuarios", joinColumns = @JoinColumn(name = "cuenta_id"))
+    @Column(name = "usuario_id")
     private List<Long> usuarios;
 
     public Cuenta(Plan plan,long idUsuario) {
@@ -46,6 +48,14 @@ public class Cuenta {
         this.usuarios.add(idUsuario);
         this.deshabilitada=false;
         this.fondos=0;
+    }
+
+    public Cuenta(double fondos, Plan plan, List<Long> usuarios) {
+        this.fondos = fondos;
+        this.deshabilitada = false;
+        this.plan = plan;
+        this.fechaRegistro = new Timestamp(System.currentTimeMillis());
+        this.usuarios = new ArrayList<>(usuarios);
     }
 
     public Cuenta(double fondos, boolean deshabilitada, Plan plan, Timestamp fechaRegistro, List<Long> usuarios) {

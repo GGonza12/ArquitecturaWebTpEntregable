@@ -3,7 +3,6 @@ package org.example.msvcviaje.controller;
 import org.example.msvcviaje.dto.*;
 import org.example.msvcviaje.model.Pausa;
 import org.example.msvcviaje.service.ViajeService;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -96,6 +95,14 @@ class ViajeController {
 
         List<UsuarioViajeDTO> ranking = viajeService.obtenerRankingUsuariosPorPeriodo(fechaInicio, fechaFin);
         return ResponseEntity.ok(ranking);
+    }
+    //4.H
+    @GetMapping("/uso")
+    public ResponseEntity<UsoMonopatinDTO> obtenerUso(
+            @RequestParam List<Long> idsUsuarios,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date fechaInicio,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date fechaFin) {
+        return ResponseEntity.ok(viajeService.calcularUso(idsUsuarios, fechaInicio, fechaFin));
     }
 
 

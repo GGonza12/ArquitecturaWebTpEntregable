@@ -65,6 +65,17 @@ public class ReporteController {
         return ResponseEntity.ok(reporteService.obtenerUsuariosMasActivos(fechaInicio, fechaFin));
     }
 
+    @GetMapping("/uso-usuario")
+    public ResponseEntity<ReporteUsoMonopatinTiempo> obtenerUsoUsuario(
+            @RequestParam Long idUsuario,
+            @RequestParam String fechaInicio,
+            @RequestParam String fechaFin,
+            @RequestParam(defaultValue = "false") boolean incluirRelacionados) {
 
+        return ResponseEntity.ok(
+                reporteService.obtenerUsoUsuarios(idUsuario, fechaInicio, fechaFin, incluirRelacionados)
+        );
+
+    }
 
 }

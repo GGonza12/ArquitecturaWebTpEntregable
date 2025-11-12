@@ -21,7 +21,7 @@ public class CuentaService {
     }
 
     public void createConDTO(CuentaDTO dto){
-        Cuenta c = cuentaMapper.toEntity(dto);
+        Cuenta c = new Cuenta(dto.getFondos(), dto.getPlan(), dto.getUsuarios());
         cuentaRepository.save(c);
     }
 
@@ -53,6 +53,13 @@ public class CuentaService {
         Cuenta cuenta = this.cuentaRepository.findById(id).orElseThrow();
         cuenta.setDeshabilitada(true);
         this.cuentaRepository.save(cuenta);
+    }
+
+    public void agregarFondos(Long id,double fondos){
+        Cuenta c = this.cuentaRepository.findById(id).orElseThrow();
+        float total = (float) (c.getFondos() + fondos);
+        c.setFondos(total);
+        this.cuentaRepository.save(c);
     }
 
 

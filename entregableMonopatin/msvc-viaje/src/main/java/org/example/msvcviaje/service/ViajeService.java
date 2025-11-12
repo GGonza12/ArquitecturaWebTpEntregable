@@ -203,6 +203,10 @@ public class ViajeService {
     public List<UsuarioViajeDTO> obtenerRankingUsuariosPorPeriodo(Date fechaInicio, Date fechaFin) {
         return viajeRepository.obtenerRankingUsuariosPorPeriodo(fechaInicio, fechaFin);
     }
+    //4.H
+    public UsoMonopatinDTO calcularUso(List<Long> idsUsuarios, Date fechaInicio, Date fechaFin) {
+        return viajeRepository.calcularUsoPorUsuariosYFechas(idsUsuarios, fechaInicio, fechaFin);
+    }
 
 
 

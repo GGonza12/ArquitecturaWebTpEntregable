@@ -17,9 +17,9 @@ public class PrecioMapper {
     }
 
     public void update(PrecioDTO dto, Precio c) {
-        c.setPrecioPenalizacion(c.getPrecioPenalizacion());
-        c.setFechaVigencia(c.getFechaVigencia());
-        c.setPrecio(c.getPrecio());
+        c.setPrecioPenalizacion(dto.getPrecioPenalizacion());
+        c.setFechaVigencia(dto.getFechaVigencia());
+        c.setPrecio(dto.getPrecio());
     }
 
 

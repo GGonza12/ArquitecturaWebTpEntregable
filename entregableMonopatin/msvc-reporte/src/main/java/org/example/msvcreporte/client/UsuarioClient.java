@@ -1,9 +1,9 @@
 package org.example.msvcreporte.client;
 
+import org.example.msvcreporte.dto.ReporteUsoMonopatinDTO;
 import org.example.msvcreporte.dto.UsuarioDTO;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -11,4 +11,19 @@ import java.util.List;
 public interface UsuarioClient {
     @PostMapping("/buscar-por-ids")
     List<UsuarioDTO> obtenerUsuariosPorIds(@RequestBody List<Long> ids);
+
+    @GetMapping("/uso")
+    ReporteUsoMonopatinDTO calcularUso(
+            @RequestParam List<Long> idsUsuarios,
+            @RequestParam String fechaInicio,
+            @RequestParam String fechaFin);
+
+    @GetMapping("/relacionados/{idUsuario}")
+    List<Long> obtenerUsuariosRelacionados(@PathVariable Long idUsuario);
+
+    @GetMapping("/{id}")
+    UsuarioDTO obtenerUsuarioPorId(@PathVariable Long id);
+
 }
+
+

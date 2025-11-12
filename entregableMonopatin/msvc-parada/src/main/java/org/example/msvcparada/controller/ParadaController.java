@@ -2,7 +2,6 @@ package org.example.msvcparada.controller;
 
 import org.example.msvcparada.dto.ParadaDTO;
 import org.example.msvcparada.service.ParadaService;
-import org.example.msvcparada.utils.ParadaMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

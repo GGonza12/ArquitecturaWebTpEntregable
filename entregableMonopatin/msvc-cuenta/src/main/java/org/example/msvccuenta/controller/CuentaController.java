@@ -1,10 +1,8 @@
 package org.example.msvccuenta.controller;
 
 import org.example.msvccuenta.dto.CuentaDTO;
-import org.example.msvccuenta.model.Cuenta;
 import org.example.msvccuenta.service.CuentaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -59,6 +57,12 @@ class CuentaController {
     public ResponseEntity<String> desactivarCuenta(@PathVariable long id) {
         this.cuentaService.desactivarCuenta(id);
         return ResponseEntity.ok("Cuenta desactivada");
+    }
+
+    @PutMapping("/agregarFondos/{id}")
+    public ResponseEntity<String> agregarFondos(@PathVariable long id,@RequestBody float fondos) {
+        this.cuentaService.agregarFondos(id,fondos);
+        return ResponseEntity.ok("fondos agregados");
     }
 
 

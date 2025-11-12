@@ -2,12 +2,12 @@ package org.example.msvcusuario.service;
 
 import org.example.msvcusuario.dto.UsuarioDTO;
 import org.example.msvcusuario.dto.UsuarioSimpleDTO;
+import org.example.msvcusuario.model.Rol;
 import org.example.msvcusuario.model.Usuario;
 import org.example.msvcusuario.repository.UsuarioRepository;
 import org.example.msvcusuario.utils.UsuarioMapper;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -30,6 +30,10 @@ public class UsuarioService {
             return usuarioRepository.findAll().stream().map(this.usuarioMapper::toDTO).toList();
         }
 
+         public List<Usuario> findAllUsuario() {
+            return usuarioRepository.findAll().stream().toList();
+        }
+
         public void create(UsuarioDTO dto){
             Usuario u = this.usuarioMapper.toEntity(dto);
             this.usuarioRepository.save(u);
@@ -37,6 +41,10 @@ public class UsuarioService {
 
         public UsuarioDTO findById(long id){
             return this.usuarioMapper.toDTO(this.usuarioRepository.findById(id).orElseThrow());
+        }
+
+        public Usuario findByIdUsuario(long id){
+            return this.usuarioRepository.findById(id).orElseThrow();
         }
 
         public void update(UsuarioDTO dto,long id){
@@ -47,6 +55,12 @@ public class UsuarioService {
 
         public void delete(long id){
             this.usuarioRepository.deleteById(id);
+        }
+
+        public void cambiarRol(long id, Rol rol){
+            Usuario u = this.usuarioRepository.findById(id).orElseThrow();
+            u.setRol(rol);
+            this.usuarioRepository.save(u);
         }
 
 

@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.msvcmonopatin.model.EstadoMonopatin;
 
-import java.sql.Timestamp;
 
 @Data
 @AllArgsConstructor
