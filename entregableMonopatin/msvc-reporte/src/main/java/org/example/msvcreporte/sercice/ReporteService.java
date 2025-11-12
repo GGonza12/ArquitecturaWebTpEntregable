@@ -88,14 +88,17 @@ public class ReporteService {
         List<UsoUsuarioDTO> usos = idsUsuarios.stream()
                 .map(id -> {
                     ReporteUsoMonopatinDTO uso = viajeClient.calcularUso(List.of(id), fechaInicio, fechaFin);
-                    UsuarioDTO user = usuarioClient.obtenerUsuarioPorId(id);
+                    UsuarioDTO user = null;
+                    try { user = usuarioClient.obtenerUsuarioPorId(id); } catch (Exception e) { /* fallback a null */ }
+                    double totalKm = uso != null ? uso.getTotalKm() : 0.0;
+                    long totalMin = uso != null ? uso.getTotalTiempoMinutos() : 0L;
                     return new UsoUsuarioDTO(
-                            user.getId(),
-                            user.getNombre(),
-                            user.getApellido(),
-                            user.getRol(),
-                            uso.getTotalKm(),
-                            uso.getTotalTiempoMinutos()
+                            user != null ? user.getId() : id,
+                            user != null ? user.getNombre() : "Desconocido",
+                            user != null ? user.getApellido() : "",
+                            user != null ? user.getRol() : null,
+                            totalKm,
+                            totalMin
                     );
                 }).toList();
 

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-@FeignClient(name = "msvc-monopatin",url ="http://localhost:8081/api/monopatin")
+@FeignClient(name = "msvc-monopatin",url ="http://localhost:8080/api/monopatin")
 public interface MonopatinClient {
 
     @GetMapping("/cerca")

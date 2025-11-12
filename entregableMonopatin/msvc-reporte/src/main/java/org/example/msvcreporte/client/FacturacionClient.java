@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(name = "msvc-facturacion", url = "http://localhost:8085/api/facturacion")
+@FeignClient(name = "msvc-facturacion", url = "http://localhost:8080/api/facturacion")
 public interface FacturacionClient {
 
     @GetMapping("/totalFacturado")

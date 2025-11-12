@@ -21,7 +21,7 @@ public class UsuarioMapper {
     }
 
     public Usuario toEntity(UsuarioDTO dto) {
-        return new Usuario(dto.getNombre(),dto.getApellido(),dto.getEmail(),dto.getNroCelular(),dto.getRol(),dto.getLatitud(),dto.getLatitud(),dto.getCuentas(),dto.getMonopatinesUsados());
+        return new Usuario(dto.getNombre(),dto.getApellido(),dto.getEmail(),dto.getNroCelular(),dto.getRol(),dto.getLatitud(),dto.getLongitud(),dto.getCuentas(),dto.getMonopatinesUsados());
     }
 
     public void update(UsuarioDTO dto, Usuario s) {

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-@FeignClient(name = "msvc-viaje", url = "http://localhost:8086/api/viaje")
+@FeignClient(name = "msvc-viaje", url = "http://localhost:8080/api/viaje")
 public interface ViajeClient {
 
     @GetMapping("/reporte/km")

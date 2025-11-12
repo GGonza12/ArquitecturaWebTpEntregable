@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name = "msvc-usuario", url = "http://localhost:8082/api/usuario")
+@FeignClient(name = "msvc-usuario", url = "http://localhost:8080/api/usuario")
 public interface UsuarioClient {
     @PostMapping("/buscar-por-ids")
     List<UsuarioDTO> obtenerUsuariosPorIds(@RequestBody List<Long> ids);
