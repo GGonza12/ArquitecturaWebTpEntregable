@@ -1,0 +1,14 @@
+package org.example.msvcreporte.client;
+
+import org.example.msvcreporte.dto.UsuarioDTO;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.List;
+
+@FeignClient(name = "msvc-usuario", url = "http://localhost:8082/api/usuario")
+public interface UsuarioClient {
+    @PostMapping("/buscar-por-ids")
+    List<UsuarioDTO> obtenerUsuariosPorIds(@RequestBody List<Long> ids);
+}

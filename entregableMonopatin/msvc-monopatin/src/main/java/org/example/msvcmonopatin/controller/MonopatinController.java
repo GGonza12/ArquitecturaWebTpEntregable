@@ -71,8 +71,8 @@ class MonopatinController {
     }
 
     @GetMapping("/cerca")
-    public ResponseEntity<List<MonopatinDTO>> getCerca(@RequestParam double lat,@RequestParam long lon,@RequestParam double radio,@RequestParam int cant){
-        return ResponseEntity.ok(this.monopatinService.getMonopatinesCerca(lat,lon,radio,cant));
+    public ResponseEntity<List<MonopatinDTO>> getCerca(@RequestParam double lat,@RequestParam double lon,@RequestParam double radioKm,@RequestParam int cant){
+        return ResponseEntity.ok(this.monopatinService.getMonopatinesCerca(lat,lon,radioKm,cant));
     }
 
 

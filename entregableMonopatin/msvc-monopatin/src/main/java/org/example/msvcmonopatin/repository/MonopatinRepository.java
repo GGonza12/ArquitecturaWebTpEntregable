@@ -12,32 +12,34 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface MonopatinRepository extends JpaRepository<Monopatin,Long> {
-   /* @Modifying
-    @Transactional
-    @Query("UPDATE Monopatin m SET m.estado = :nuevoEstado WHERE m.id = :id")
-    int actualizarEstado(@Param("id") Long id, @Param("nuevoEstado") EstadoMonopatin nuevoEstado);
-    */
+    /* @Modifying
+     @Transactional
+     @Query("UPDATE Monopatin m SET m.estado = :nuevoEstado WHERE m.id = :id")
+     int actualizarEstado(@Param("id") Long id, @Param("nuevoEstado") EstadoMonopatin nuevoEstado);
+     */
     //Calculo para sacar una lista de los monopatines mas cercanos
+    //estado 2 seria monopatin libre
     @Query(value = """
-
-            SELECT *, ST_Distance_Sphere(
-        POINT(:lon, :lat),
-        POINT(longitud, latitud)
-    ) / 1000 AS distancia
+    SELECT *
     FROM monopatin
-    WHERE estado = 'ESTADO_LIBRE'
-    HAVING distancia <= :radio
-    ORDER BY distancia ASC
+    WHERE estado = 2
+      AND ST_Distance_Sphere(
+            POINT(:lon, :lat),
+            POINT(longitud, latitud)
+        ) <= :radioKm * 1000
+    ORDER BY ST_Distance_Sphere(
+            POINT(:lon, :lat),
+            POINT(longitud, latitud)
+        )
     LIMIT :cantidad
-    """, nativeQuery = true)
+""", nativeQuery = true)
     List<Monopatin> findMonopatinesCercanos(
             @Param("lat") double latitud,
             @Param("lon") double longitud,
-            @Param("radio") double radioKm,
+            @Param("radioKm") double radioKm,
             @Param("cantidad") int cantidad);
 
 
 
 
-    }
-
+}

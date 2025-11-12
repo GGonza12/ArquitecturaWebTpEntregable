@@ -2,7 +2,9 @@ package org.example.msvcusuario.utils;
 
 import lombok.NoArgsConstructor;
 import org.example.msvcusuario.dto.UsuarioDTO;
+import org.example.msvcusuario.dto.UsuarioSimpleDTO;
 import org.example.msvcusuario.model.Usuario;
+import org.example.msvcusuario.model.Rol;
 import org.springframework.stereotype.Component;
 
 @NoArgsConstructor
@@ -11,6 +13,11 @@ public class UsuarioMapper {
 
     public UsuarioDTO toDTO(Usuario s) {
         return new UsuarioDTO(s.getNombre(),s.getApellido(),s.getEmail(),s.getNroCelular(),s.getLatitud(),s.getLongitud());
+    }
+
+    public UsuarioSimpleDTO toDTOSimple(Usuario s) {
+        Rol rol = s.getRol();
+        return new UsuarioSimpleDTO(s.getId(),s.getNombre(),s.getApellido(),s.getEmail(),rol);
     }
 
     public Usuario toEntity(UsuarioDTO dto) {

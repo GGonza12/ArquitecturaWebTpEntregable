@@ -1,11 +1,14 @@
 package org.example.msvcviaje.controller;
 
-import org.example.msvcviaje.dto.ViajeDTO;
+import org.example.msvcviaje.dto.*;
 import org.example.msvcviaje.model.Pausa;
 import org.example.msvcviaje.service.ViajeService;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -61,6 +64,38 @@ class ViajeController {
     public ResponseEntity<String> agregarPausaViaje(@PathVariable String id,@RequestBody Pausa pausa){
         this.viajeService.agregarPausa(id,pausa);
         return ResponseEntity.ok("pausa agregada");
+    }
+
+    @GetMapping("/reporte/km")
+    public ResponseEntity<List<ReporteKmMonopatinDTO>> obtenerKmPorMonopatin() {
+        List<ReporteKmMonopatinDTO> resultado = viajeService.obtenerKmRecorridosPorMonopatin();
+        return ResponseEntity.ok(resultado);
+    }
+
+    @GetMapping("/reporte/km-pausa")
+    public ResponseEntity<List<ReporteKmMonopatinPausaDTO>> obtenerKmYTiempoPausaPorMonopatin() {
+        List<ReporteKmMonopatinPausaDTO> resultado = viajeService.obtenerKmYTiempoPausasPorMonopatin();
+        return ResponseEntity.ok(resultado);
+    }
+
+    @GetMapping("/monopatin-cantidad-viajes")
+    public ResponseEntity<List<CantidadViajesMonopatinDTO>> obtenerMonopatinesFrecuentes(
+            @RequestParam int year,
+            @RequestParam long cantidadMinima
+    ) {
+        List<CantidadViajesMonopatinDTO> resultado =
+                viajeService.obtenerMonopatinesConMasDeXViajes(year, cantidadMinima);
+        return ResponseEntity.ok(resultado);
+    }
+
+    //4.e
+    @GetMapping("/ranking-usuarios")
+    public ResponseEntity<List<UsuarioViajeDTO>> obtenerRankingUsuariosPorPeriodo(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date fechaInicio,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date fechaFin) {
+
+        List<UsuarioViajeDTO> ranking = viajeService.obtenerRankingUsuariosPorPeriodo(fechaInicio, fechaFin);
+        return ResponseEntity.ok(ranking);
     }
 
 

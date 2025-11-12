@@ -61,8 +61,8 @@ public class MonopatinService {
         monopatinRepository.save(m);
     }
 
-    public List<MonopatinDTO> getMonopatinesCerca(double lat, double lon,double radio,int cant) {
-        return this.monopatinRepository.findMonopatinesCercanos(lat,lon,radio,cant).stream().map(this.monopatinMapper::toDTO).toList();
+    public List<MonopatinDTO> getMonopatinesCerca(double lat, double lon,double radioKm,int cant) {
+        return this.monopatinRepository.findMonopatinesCercanos(lat,lon,radioKm,cant).stream().map(this.monopatinMapper::toDTO).toList();
     }
 
     public void ubicarMonopatin(Long id,Double latitud,Double longitud){

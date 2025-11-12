@@ -1,6 +1,7 @@
 package org.example.msvcusuario.controller;
 
 import org.example.msvcusuario.dto.UsuarioDTO;
+import org.example.msvcusuario.dto.UsuarioSimpleDTO;
 import org.example.msvcusuario.model.Usuario;
 import org.example.msvcusuario.service.UsuarioService;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ class UsuarioController {
     public ResponseEntity<List<UsuarioDTO>> findAll(){
         return ResponseEntity.ok(this.usuarioService.findAll());
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<UsuarioDTO> findById(@PathVariable long id){
@@ -44,6 +46,11 @@ class UsuarioController {
     public ResponseEntity<String> delete(@PathVariable long id){
         this.usuarioService.delete(id);
         return ResponseEntity.ok("Usuario eliminado");
+    }
+    //No soporta enviar un body el GetMapping
+    @PostMapping("/buscar-por-ids")
+    public List<UsuarioSimpleDTO> obtenerUsuariosPorIds(@RequestBody List<Long> ids) {
+        return usuarioService.obtenerUsuariosPorIds(ids);
     }
 
 
