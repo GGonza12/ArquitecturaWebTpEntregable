@@ -49,16 +49,16 @@ public class ReporteService {
     }
 
     public List<UsuarioRankingDTO> obtenerUsuariosMasActivos(String fechaInicio, String fechaFin) {
-        // 1. Obtener ranking básico de msvc-viaje
+        // Obtener ranking de msvc-viaje
         List<UsuarioViajeDTO> ranking = viajeClient.obtenerRankingUsuariosPorPeriodo(fechaInicio, fechaFin);
 
-        // 2. Extraer IDs
+        // Extraer IDs
         List<Long> ids = ranking.stream().map(UsuarioViajeDTO::getIdUsuario).toList();
 
-        // 3. Obtener datos de usuarios
+        // Obtener datos de usuarios
         List<UsuarioDTO> usuarios = usuarioClient.obtenerUsuariosPorIds(ids);
 
-        // 4. Combinar resultados
+        //  Combinar resultados
         return ranking.stream().map(r -> {
                     UsuarioDTO u = usuarios.stream()
                             .filter(x -> x.getId().equals(r.getIdUsuario()))

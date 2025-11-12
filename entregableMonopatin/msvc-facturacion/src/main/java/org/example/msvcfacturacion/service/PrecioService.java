@@ -48,12 +48,12 @@ public class PrecioService {
                 throw new IllegalArgumentException("mesInicio/mesFin deben estar entre 1 y 12");
             }
 
-            // construir rango usando YearMonth para evitar días inválidos
+            // construir rango usando YearMonth
             YearMonth ymStart = YearMonth.of(year, mesInicio);
             YearMonth ymEnd = YearMonth.of(year, mesFin);
-            // inicio al primer segundo del día 1
+            // inicio
             var startLdt = ymStart.atDay(1).atStartOfDay();
-            // fin al último instante del mes (23:59:59.999)
+            // fin
             var endLdt = ymEnd.atEndOfMonth().atTime(23, 59, 59, 999_000_000);
 
             Timestamp desde = Timestamp.valueOf(startLdt);
@@ -64,11 +64,11 @@ public class PrecioService {
             double total = 0.0;
             for (ViajeDTO v : viajes) {
                 Date fechaInicioDate = v.getFechaInicio();
-                if (fechaInicioDate == null) continue; // no podemos calcular sin inicio
+                if (fechaInicioDate == null) continue;
 
                 Timestamp inicioTs = new Timestamp(fechaInicioDate.getTime());
 
-                // si fechaFin es null, usar ahora (o decidir otra política)
+
                 Timestamp finTs;
                 if (v.getFechaFin() != null) {
                     finTs = new Timestamp(v.getFechaFin().getTime());
@@ -78,10 +78,7 @@ public class PrecioService {
 
                 // obtener precio aplicable en la fecha de inicio
                 Optional<Precio> precioOpt = precioRepository.findLatestPrecio(inicioTs);
-                if (precioOpt.isEmpty()) {
-                    // no hay precio definido para esa fecha: decidir política (skip, fallback, excepción). Aquí se saltea.
-                    continue;
-                }
+
                 Precio price = precioOpt.get();
 
                 long minutos = calcularDuracion(inicioTs, finTs);

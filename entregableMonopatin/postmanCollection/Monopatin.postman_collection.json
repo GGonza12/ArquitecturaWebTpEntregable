@@ -1,0 +1,1253 @@
+{
+	"info": {
+		"_postman_id": "e3432dd2-3a1d-489c-b15c-5345ce39c9e1",
+		"name": "Monopatin",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17975225"
+	},
+	"item": [
+		{
+			"name": "msvc-monopatin",
+			"item": [
+				{
+					"name": "getAllMonopatin",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/monopatin",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"monopatin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CrearMonopatin",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"latitud\": 50.422,\r\n  \"longitud\": 73.43,\r\n  \"estado\": \"ESTADO_LIBRE\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/monopatin",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"monopatin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "monopatinMantenimiento",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/monopatin/mantenimiento/2",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"monopatin",
+								"mantenimiento",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "monopatinLibre",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/monopatin/libre/2",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"monopatin",
+								"libre",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "monopatinEnUso",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/monopatin/uso/2",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"monopatin",
+								"uso",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ubicarMonopatin",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/monopatin/ubicar/1?latitud=1.43&longitud=7.32&",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"monopatin",
+								"ubicar",
+								"1"
+							],
+							"query": [
+								{
+									"key": "latitud",
+									"value": "1.43"
+								},
+								{
+									"key": "longitud",
+									"value": "7.32"
+								},
+								{
+									"key": "",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteMonopatin",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"latitud\": 1.422,\r\n  \"longitud\": 3.43,\r\n  \"estado\":2\r\n\r\n}"
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/monopatin/2",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"monopatin",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "msvc-viaje",
+			"item": [
+				{
+					"name": "getAllViajes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/viaje",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"viaje"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getViajeID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/viaje/6914e289dddd29165663decd",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"viaje",
+								"6914e289dddd29165663decd"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "agregarVIaje",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idUsuario\": 1,\r\n  \"idMonopatin\": 1,\r\n  \"kmRecorridos\": 3.5,\r\n  \"fechaInicio\": \"2025-11-09T10:00:00.000Z\",\r\n  \"fechaFin\": \"2025-11-10T10:20:00.000Z\",\r\n  \"pausas\": []\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/viaje",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"viaje"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editarViaje",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idUsuario\": 3,\r\n  \"idMonopatin\": 1,\r\n  \"kmRecorridos\": 9.5,\r\n  \"fechaInicio\": \"2024-11-10T15:00:00.000Z\",\r\n  \"fechaFin\": \"2025-11-10T15:30:00.000Z\",\r\n  \"pausas\": []\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/viaje/6914e289dddd29165663decd",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"viaje",
+								"6914e289dddd29165663decd"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "agregarPausa",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"fechaInicio\": \"2025-11-10T15:10:00.000Z\",\r\n  \"fechaFin\": \"2025-11-10T15:20:00.000Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/viaje/pausa/6914e289dddd29165663decd",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"viaje",
+								"pausa",
+								"6914e289dddd29165663decd"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteViaje",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"idUsuario\": 100,\r\n  \"idMonopatin\": 25,\r\n  \"kmRecorridos\": 3.5,\r\n  \"fechaInicio\": \"2025-11-10T15:00:00.000Z\",\r\n  \"fechaFin\": \"2025-11-10T15:30:00.000Z\",\r\n  \"pausas\": []\r\n}"
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/viaje/6914e2e4dddd29165663decf",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"viaje",
+								"6914e2e4dddd29165663decf"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ranking-usuarios",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/viaje/ranking-usuarios?fechaInicio=2025-01-01&fechaFin=2025-12-31",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"viaje",
+								"ranking-usuarios"
+							],
+							"query": [
+								{
+									"key": "fechaInicio",
+									"value": "2025-01-01"
+								},
+								{
+									"key": "fechaFin",
+									"value": "2025-12-31"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "uso",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/viaje/uso?idsUsuarios=3&fechaInicio=2025-01-01&fechaFin=2025-12-31",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"viaje",
+								"uso"
+							],
+							"query": [
+								{
+									"key": "idsUsuarios",
+									"value": "3"
+								},
+								{
+									"key": "fechaInicio",
+									"value": "2025-01-01"
+								},
+								{
+									"key": "fechaFin",
+									"value": "2025-12-31"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "msvc-usuario",
+			"item": [
+				{
+					"name": "getUsuarios",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/usuario",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"usuario"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "agregarUsuario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"test5\",\r\n    \"apellido\": \"ramirez\",\r\n    \"email\": \"pabloRamirez@gmail.com\",\r\n    \"nroCelular\": 42871289030,\r\n    \"latitud\": 43.323,\r\n    \"longitud\": 57.1992,\r\n    \"rol\": \"ROL_USUARIO\",\r\n    \"monopatinesUsados\": [1, 2,3,4,5],\r\n    \"cuentas\": [1,2, 3,4]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/usuario",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"usuario"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getUsuarioID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/usuario/1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"usuario",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateUsuario",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"Ignacio\",\r\n  \"apellido\": \"CALVO\",\r\n  \"email\": \"igna23@gmail.com\",\r\n  \"nroCelular\": 3232134,\r\n  \"rol\": \"ROL_USUARIO\",\r\n  \"monopatinesUsados\": [4,5,6,7],\r\n   \"cuentas\": [4,6,9]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/usuario/1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"usuario",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteUsuario",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"juan\",\r\n  \"apellido\": \"perez\",\r\n  \"email\": \"janPerez@gmail.com\",\r\n  \"nroCelular\": 33232221,\r\n  \"Rol\": 0,\r\n  \"monopatinesUsados\": [],\r\n   \"cuentas\": []\r\n}"
+						},
+						"url": {
+							"raw": "{{BASE_URL}}api/usuario/1",
+							"host": [
+								"{{BASE_URL}}api"
+							],
+							"path": [
+								"usuario",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "buscarPorIDS",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[1,2,4,100,101]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/usuario/buscar-por-ids",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"usuario",
+								"buscar-por-ids"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "modificarRol",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\"ROL_USUARIO\"",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/usuario/cambiar-rol/2",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"usuario",
+								"cambiar-rol",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "msvc-cuenta",
+			"item": [
+				{
+					"name": "agregarCuenta",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/cuenta/05",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"cuenta",
+								"05"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getCuentas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/cuenta",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"cuenta"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getCuentaID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/cuenta/2",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"cuenta",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ActualizarCuenta",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"fondos\": 1001,\r\n  \"deshabilitada\": false,\r\n  \"plan\": 1,\r\n  \"fechaRegistro\": \"2024-11-09T10:00:00.000Z\",\r\n  \"usuarios\": [\r\n    2,3\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/cuenta/2",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"cuenta",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "eliminarCuenta",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/cuenta/1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"cuenta",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deshabilitarCuenta",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/cuenta/desactivarCuenta/4",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"cuenta",
+								"desactivarCuenta",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "crearCuentaConDatos",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fondos\": 100,\r\n    \"plan\": \"PLAN_PREMIUM\",\r\n    \"usuarios\" :[3,4,5]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/cuenta/crearCuentaDTO",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"cuenta",
+								"crearCuentaDTO"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "agregarFondos",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "500",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/cuenta/agregarFondos/4",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"cuenta",
+								"agregarFondos",
+								"4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "msvc-parada",
+			"item": [
+				{
+					"name": "agregarParada",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombreParada\": \"Parada-Test\",\r\n  \"latitud\": -23.234,\r\n  \"longitud\": 67.14\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/parada",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"parada"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getParadas",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"juan\",\r\n  \"latitud\": 32.11,\r\n  \"longitud\": 11.43\r\n}"
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/parada",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"parada"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getParadaID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/parada/2",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"parada",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editarParada",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombreParada\": \"paradaTEsteo\",\r\n  \"latitud\":0.1,\r\n  \"email\": 2.3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/parada/1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"parada",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "eliminarParada",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"juan\",\r\n  \"latitud\": 32.11,\r\n  \"longitud\": 11.43\r\n}"
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/parada/1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"parada",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "msvc-facturacion",
+			"item": [
+				{
+					"name": "getFacturacion",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/facturacion",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"facturacion"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addPrecio",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"precio\": 400.0,\r\n  \"precioPenalizacion\": 415.0,\r\n  \"fechaVigencia\": \"2025-11-11T10:00:00.000Z\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/facturacion",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"facturacion"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "totalFacturado",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/facturacion/totalFacturado?anio=2025&mesInicio=01&mesFin=12",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"facturacion",
+								"totalFacturado"
+							],
+							"query": [
+								{
+									"key": "anio",
+									"value": "2025"
+								},
+								{
+									"key": "mesInicio",
+									"value": "01"
+								},
+								{
+									"key": "mesFin",
+									"value": "12"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "actualizarPenalizacion",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "123.2",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/facturacion/3",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"facturacion",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "msvc-administracion",
+			"item": [
+				{
+					"name": "deshabilitar cuenta",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8087/api/administracion/deshabilitar-cuenta/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8087",
+							"path": [
+								"api",
+								"administracion",
+								"deshabilitar-cuenta",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "agregarPrecio",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"precio\": 513,\r\n    \"precioPenalizacion\": 567,\r\n    \"fechaVigencia\":  \"2025-11-11T10:25:00.000Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8087/api/administracion/agregar-precio",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8087",
+							"path": [
+								"api",
+								"administracion",
+								"agregar-precio"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "msvc-reporte",
+			"item": [
+				{
+					"name": "kmPausa",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/reporte/km-pausa",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"reporte",
+								"km-pausa"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "kmSinPausa",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/reporte/km",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"reporte",
+								"km"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "totalFacturado",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/reporte/facturacion?anio=2025&mesInicio=01&mesFin=12",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"reporte",
+								"facturacion"
+							],
+							"query": [
+								{
+									"key": "anio",
+									"value": "2025"
+								},
+								{
+									"key": "mesInicio",
+									"value": "01"
+								},
+								{
+									"key": "mesFin",
+									"value": "12"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getMonopatinesCerca",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/reporte/monopatin-cerca?lat=10&lon=10&radioKm=10000.5&cant=100",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"reporte",
+								"monopatin-cerca"
+							],
+							"query": [
+								{
+									"key": "lat",
+									"value": "10"
+								},
+								{
+									"key": "lon",
+									"value": "10"
+								},
+								{
+									"key": "radioKm",
+									"value": "10000.5"
+								},
+								{
+									"key": "cant",
+									"value": "100"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "usuariosMasViajes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/reporte/usuarios-mas-activos?fechaInicio=2025-01-01&fechaFin=2025-12-31\n",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"reporte",
+								"usuarios-mas-activos"
+							],
+							"query": [
+								{
+									"key": "fechaInicio",
+									"value": "2025-01-01"
+								},
+								{
+									"key": "fechaFin",
+									"value": "2025-12-31\n"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "4-H_opcional",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/reporte/uso-usuario?idUsuario=4&fechaInicio=2025-01-01&fechaFin=2025-12-31&incluirRelacionados=true",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"reporte",
+								"uso-usuario"
+							],
+							"query": [
+								{
+									"key": "idUsuario",
+									"value": "4"
+								},
+								{
+									"key": "fechaInicio",
+									"value": "2025-01-01"
+								},
+								{
+									"key": "fechaFin",
+									"value": "2025-12-31"
+								},
+								{
+									"key": "incluirRelacionados",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BASE_URL",
+			"value": ""
+		}
+	]
+}

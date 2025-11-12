@@ -8,11 +8,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface MonopatinRepository extends JpaRepository<Monopatin,Long> {
-    /* @Modifying
-     @Transactional
-     @Query("UPDATE Monopatin m SET m.estado = :nuevoEstado WHERE m.id = :id")
-     int actualizarEstado(@Param("id") Long id, @Param("nuevoEstado") EstadoMonopatin nuevoEstado);
-     */
     //Calculo para sacar una lista de los monopatines mas cercanos
     //estado 2 seria monopatin libre
     @Query(value = """
