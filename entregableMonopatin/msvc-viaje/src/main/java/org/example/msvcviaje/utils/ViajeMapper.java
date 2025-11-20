@@ -10,11 +10,11 @@ import org.springframework.stereotype.Component;
 public class ViajeMapper {
 
     public ViajeDTO toDTO(Viaje v) {
-        return new ViajeDTO(v.getIdUsuario(),v.getIdMonopatin(),v.getKmRecorridos(),v.getFechaInicio(),v.getFechaFin(),v.getPausas());
+        return new ViajeDTO(v.getIdUsuario(),v.getIdMonopatin(),v.getKmRecorridos(),v.getFechaInicio(),v.getFechaFin(),v.getPausas(),v.getCostoViaje());
     }
 
     public Viaje toEntity(ViajeDTO dto) {
-        return new Viaje(dto.getIdUsuario(),dto.getIdMonopatin(),dto.getKmRecorridos(),dto.getFechaInicio(),dto.getFechaFin(),dto.getPausas());
+        return new Viaje(dto.getIdUsuario(),dto.getIdMonopatin(),dto.getKmRecorridos(),dto.getFechaInicio(),dto.getFechaFin(),dto.getPausas(),dto.getCostoViaje());
     }
 
     public void update(ViajeDTO dto, Viaje m) {

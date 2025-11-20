@@ -1,8 +1,8 @@
-package org.example.msvccuenta.utils;
+package org.example.msvcusuario.utils;
 
 import lombok.NoArgsConstructor;
-import org.example.msvccuenta.dto.CuentaDTO;
-import org.example.msvccuenta.model.Cuenta;
+import org.example.msvcusuario.dto.CuentaDTO;
+import org.example.msvcusuario.model.Cuenta;
 import org.springframework.stereotype.Component;
 
 @NoArgsConstructor

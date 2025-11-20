@@ -86,6 +86,7 @@ class ViajeController {
                 viajeService.obtenerMonopatinesConMasDeXViajes(year, cantidadMinima);
         return ResponseEntity.ok(resultado);
     }
+    //Finalizar Viaje de Monopatin pasando por parametro la ubicacion
 
     //4.e
     @GetMapping("/ranking-usuarios")

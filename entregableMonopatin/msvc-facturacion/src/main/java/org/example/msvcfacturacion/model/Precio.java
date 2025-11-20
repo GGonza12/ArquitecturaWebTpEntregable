@@ -16,11 +16,11 @@ public class Precio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column
+    @Column(nullable = false)
     private Double precio;
-    @Column
+    @Column(nullable = false)
     private Double precioPenalizacion;
-    @Column
+    @Column(nullable=false, unique=true)
     private Timestamp fechaVigencia;
 
 

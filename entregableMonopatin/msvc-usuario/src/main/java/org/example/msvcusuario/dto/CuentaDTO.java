@@ -1,9 +1,9 @@
-package org.example.msvccuenta.dto;
+package org.example.msvcusuario.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.msvccuenta.model.Plan;
+import org.example.msvcusuario.model.Plan;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -20,10 +20,4 @@ public class CuentaDTO {
     private List<Long> usuarios;
 
 
-    //ideal para crear una cuenta nueva
-    public CuentaDTO(Plan p,Long usuario){
-        this.plan=p;
-        this.usuarios=new ArrayList<>();
-        this.usuarios.add(usuario);
-    }
 }

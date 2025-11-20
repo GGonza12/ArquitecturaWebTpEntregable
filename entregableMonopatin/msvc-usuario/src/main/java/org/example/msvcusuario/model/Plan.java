@@ -1,4 +1,4 @@
-package org.example.msvccuenta.model;
+package org.example.msvcusuario.model;
 
 public enum Plan {
     PLAN_BASICO,

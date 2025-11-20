@@ -1,7 +1,7 @@
-package org.example.msvccuenta.controller;
+package org.example.msvcusuario.controller;
 
-import org.example.msvccuenta.dto.CuentaDTO;
-import org.example.msvccuenta.service.CuentaService;
+import org.example.msvcusuario.dto.CuentaDTO;
+import org.example.msvcusuario.service.CuentaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

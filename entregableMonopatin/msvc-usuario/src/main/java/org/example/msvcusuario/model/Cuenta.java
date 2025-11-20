@@ -1,5 +1,4 @@
-package org.example.msvccuenta.model;
-
+package org.example.msvcusuario.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

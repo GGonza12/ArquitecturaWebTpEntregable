@@ -28,6 +28,7 @@ public class ViajeDTO {
     private Date fechaFin;
 
     private List<Pausa> pausas = new ArrayList<>();
+    private Double  costoViaje;
 
     public ViajeDTO(Long idUsuario, Long idMonopatin){
         this.idUsuario = idUsuario;
@@ -35,5 +36,6 @@ public class ViajeDTO {
         this.kmRecorridos = 0;
         this.fechaInicio = new Date();
         this.pausas = new ArrayList<>();
+
     }
 }

@@ -1,9 +1,9 @@
-package org.example.msvccuenta.service;
+package org.example.msvcusuario.service;
 
-import org.example.msvccuenta.dto.CuentaDTO;
-import org.example.msvccuenta.model.Cuenta;
-import org.example.msvccuenta.repository.CuentaRepository;
-import org.example.msvccuenta.utils.CuentaMapper;
+import org.example.msvcusuario.dto.CuentaDTO;
+import org.example.msvcusuario.model.Cuenta;
+import org.example.msvcusuario.repository.CuentaRepository;
+import org.example.msvcusuario.utils.CuentaMapper;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 

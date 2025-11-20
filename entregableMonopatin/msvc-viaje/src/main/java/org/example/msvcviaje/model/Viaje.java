@@ -1,5 +1,6 @@
 package org.example.msvcviaje.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -11,6 +12,7 @@ import java.util.List;
 @Document(collection  = "viajes")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Viaje {
     @Id
     private String id;
@@ -20,15 +22,16 @@ public class Viaje {
     private Date fechaInicio;
     private Date fechaFin;
     private List<Pausa> pausas;
+    private Double costoViaje;
 
-
-    public Viaje(Long idUsuario,Long idMonopatin,float kmRecorridos,Date fechaInicio,Date fechaFin,List<Pausa> pausas) {
+    public Viaje(Long idUsuario,Long idMonopatin,float kmRecorridos,Date fechaInicio,Date fechaFin,List<Pausa> pausas, Double costoViaje) {
         this.idUsuario = idUsuario;
         this.idMonopatin = idMonopatin;
         this.kmRecorridos = kmRecorridos;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.pausas = new ArrayList<>(pausas);
+        this.costoViaje=costoViaje;
     }
 
     public Viaje(Long idUsuario,Long idMonopatin) {
@@ -37,5 +40,7 @@ public class Viaje {
         this.kmRecorridos = 0;
         this.fechaInicio = new Date();
         this.pausas = new ArrayList<>();
+        this.costoViaje = 0.0;
     }
+
 }
