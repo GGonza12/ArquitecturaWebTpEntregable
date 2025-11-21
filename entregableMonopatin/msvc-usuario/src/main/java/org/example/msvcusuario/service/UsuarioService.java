@@ -2,8 +2,10 @@ package org.example.msvcusuario.service;
 
 import org.example.msvcusuario.dto.UsuarioDTO;
 import org.example.msvcusuario.dto.UsuarioSimpleDTO;
+import org.example.msvcusuario.model.Cuenta;
 import org.example.msvcusuario.model.Rol;
 import org.example.msvcusuario.model.Usuario;
+import org.example.msvcusuario.repository.CuentaRepository;
 import org.example.msvcusuario.repository.UsuarioRepository;
 import org.example.msvcusuario.utils.UsuarioMapper;
 import org.springframework.stereotype.Component;
@@ -16,10 +18,12 @@ import java.util.List;
 public class UsuarioService {
         private final UsuarioRepository usuarioRepository;
         private final UsuarioMapper usuarioMapper;
+        private final CuentaRepository cuentaRepository;
 
-        public UsuarioService(UsuarioRepository user, UsuarioMapper usuarioMapper) {
+        public UsuarioService(UsuarioRepository user, UsuarioMapper usuarioMapper, CuentaRepository cuentaRepository) {
             this.usuarioRepository=user;
             this.usuarioMapper=usuarioMapper;
+            this.cuentaRepository=cuentaRepository;
         }
 
         public List<UsuarioSimpleDTO> obtenerUsuariosPorIds(List<Long> ids) {
@@ -37,6 +41,23 @@ public class UsuarioService {
         public void create(UsuarioDTO dto){
             Usuario u = this.usuarioMapper.toEntity(dto);
             this.usuarioRepository.save(u);
+        }
+
+        public void agregarCuentaAUsuario(Long idUsuario, Long idCuenta) {
+
+            Usuario usuario = usuarioRepository.findById(idUsuario)
+                    .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+            Cuenta cuenta = cuentaRepository.findById(idCuenta)
+                    .orElseThrow(() -> new RuntimeException("Cuenta no encontrada"));
+
+            // Evitar duplicados
+            if (!usuario.getCuentas().contains(cuenta)) {
+                usuario.getCuentas().add(cuenta);
+                cuenta.getUsuarios().add(usuario);
+            }
+
+            usuarioRepository.save(usuario);
         }
 
         public UsuarioDTO findById(long id){
@@ -62,6 +83,16 @@ public class UsuarioService {
             u.setRol(rol);
             this.usuarioRepository.save(u);
         }
+
+        public List<Long> obtenerUsuariosRelacionados(Long idUsuario) {
+            return usuarioRepository.obtenerUsuariosRelacionados(idUsuario);
+        }
+
+        public Usuario findByIdUsuario(Long id) {
+            return usuarioRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        }
+
 
 
 }

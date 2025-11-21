@@ -26,21 +26,12 @@ public class Cuenta {
     private Plan plan;
     @Column
     private Timestamp fechaRegistro;
-    @ElementCollection
-    @CollectionTable(name = "cuenta_usuarios", joinColumns = @JoinColumn(name = "cuenta_id"))
-    @Column(name = "usuario_id")
-    private List<Long> usuarios;
+    @ManyToMany(mappedBy = "cuentas")
+    private List<Usuario> usuarios;
 
-    public Cuenta(Plan plan,long idUsuario) {
-        this.plan = plan;
-        this.fechaRegistro = new Timestamp(System.currentTimeMillis());
-        this.usuarios=new ArrayList<>();
-        this.usuarios.add(idUsuario);
-        this.deshabilitada=false;
-        this.fondos=0;
-    }
 
-    public Cuenta(long idUsuario) {
+
+    public Cuenta(Usuario idUsuario) {
         this.plan = Plan.PLAN_BASICO;
         this.fechaRegistro = new Timestamp(System.currentTimeMillis());
         this.usuarios=new ArrayList<>();
@@ -49,7 +40,7 @@ public class Cuenta {
         this.fondos=0;
     }
 
-    public Cuenta(double fondos, Plan plan, List<Long> usuarios) {
+    public Cuenta(double fondos, Plan plan, List<Usuario> usuarios) {
         this.fondos = fondos;
         this.deshabilitada = false;
         this.plan = plan;
@@ -57,7 +48,7 @@ public class Cuenta {
         this.usuarios = new ArrayList<>(usuarios);
     }
 
-    public Cuenta(double fondos, boolean deshabilitada, Plan plan, Timestamp fechaRegistro, List<Long> usuarios) {
+    public Cuenta(double fondos, boolean deshabilitada, Plan plan, Timestamp fechaRegistro, List<Usuario> usuarios) {
         this.fondos = fondos;
         this.deshabilitada = deshabilitada;
         this.plan = plan;

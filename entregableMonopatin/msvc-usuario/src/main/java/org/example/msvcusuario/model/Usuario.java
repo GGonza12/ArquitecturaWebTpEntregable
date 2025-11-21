@@ -31,17 +31,20 @@ public class Usuario {
     private double latitud;
     @Column
     private double longitud;
-    @ElementCollection
-    @CollectionTable(name = "usuario_cuentas", joinColumns = @JoinColumn(name = "usuario_id"))
-    @Column(name = "cuenta_id")
-    private List<Long> cuentas;
+    @ManyToMany
+    @JoinTable(
+            name = "usuario_cuenta",
+            joinColumns = @JoinColumn(name = "usuario_id"),
+            inverseJoinColumns = @JoinColumn(name = "cuenta_id")
+    )
+    private List<Cuenta> cuentas;
     @ElementCollection
     @CollectionTable(name = "usuario_monopatines", joinColumns = @JoinColumn(name = "usuario_id"))
     @Column(name = "monopatin_id")
     private List<Long> monopatinesUsados;
 
 
-    public Usuario(String nombre, String apellido, String email, long nroCelular, Rol rol, double latitud, double longitud, List<Long> cuentas, List<Long> monopatinesUsados) {
+    public Usuario(String nombre, String apellido, String email, long nroCelular, Rol rol, double latitud, double longitud,List<Cuenta> cuentas, List<Long> monopatinesUsados) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.email = email;

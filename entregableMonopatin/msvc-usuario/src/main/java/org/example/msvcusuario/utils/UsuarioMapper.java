@@ -1,18 +1,44 @@
 package org.example.msvcusuario.utils;
 
 import lombok.NoArgsConstructor;
+import org.example.msvcusuario.dto.CuentaDTO;
 import org.example.msvcusuario.dto.UsuarioDTO;
 import org.example.msvcusuario.dto.UsuarioSimpleDTO;
+import org.example.msvcusuario.model.Cuenta;
 import org.example.msvcusuario.model.Usuario;
 import org.example.msvcusuario.model.Rol;
 import org.springframework.stereotype.Component;
 
-@NoArgsConstructor
+import java.util.ArrayList;
+import java.util.List;
+
+
 @Component
 public class UsuarioMapper {
 
+    private final CuentaMapper cuentaMapper;
+
+    public UsuarioMapper(CuentaMapper cuentaMapper) {
+        this.cuentaMapper = cuentaMapper;
+    }
+
     public UsuarioDTO toDTO(Usuario s) {
-        return new UsuarioDTO(s.getNombre(),s.getApellido(),s.getEmail(),s.getNroCelular(),s.getLatitud(),s.getLongitud(),s.getRol(),s.getCuentas(),s.getMonopatinesUsados());
+
+
+        List<CuentaDTO> cuentasDTO = s.getCuentas() != null
+                ? s.getCuentas().stream()
+            .map(c -> new CuentaDTO(
+                c.getId(),
+                c.getFondos(),
+                c.isDeshabilitada(),
+                c.getPlan(),
+                c.getFechaRegistro(),
+                c.getUsuarios() == null ? java.util.List.of() : c.getUsuarios().stream().map(this::toDTOSimple).toList()
+
+            ))
+                .toList()
+                : List.of();
+        return new UsuarioDTO(s.getId(), s.getNombre(), s.getApellido(), s.getEmail(), s.getNroCelular(), s.getLatitud(), s.getLongitud(), s.getRol(), cuentasDTO, s.getMonopatinesUsados());
     }
 
     public UsuarioSimpleDTO toDTOSimple(Usuario s) {
@@ -21,7 +47,11 @@ public class UsuarioMapper {
     }
 
     public Usuario toEntity(UsuarioDTO dto) {
-        return new Usuario(dto.getNombre(),dto.getApellido(),dto.getEmail(),dto.getNroCelular(),dto.getRol(),dto.getLatitud(),dto.getLongitud(),dto.getCuentas(),dto.getMonopatinesUsados());
+        Usuario u = new Usuario(dto.getNombre(), dto.getApellido(), dto.getEmail(), dto.getNroCelular(), dto.getRol(), dto.getLatitud(), dto.getLongitud(), dto.getCuentas() == null ? java.util.List.of() : dto.getCuentas().stream().map(cuentaMapper::toEntity).toList(), dto.getMonopatinesUsados());
+        if (dto.getId() != null) {
+            u.setId(dto.getId());
+        }
+        return u;
     }
 
     public void update(UsuarioDTO dto, Usuario s) {
@@ -33,6 +63,8 @@ public class UsuarioMapper {
         s.setEmail(dto.getEmail());
         s.setNroCelular(dto.getNroCelular());
         s.setMonopatinesUsados(dto.getMonopatinesUsados());
-        s.setCuentas(dto.getCuentas());
+        List<Cuenta> cuentasActualizadas = dto.getCuentas().stream()
+                .map(cuentaMapper::toEntity).toList();
+        s.setCuentas(cuentasActualizadas);
     }
 }

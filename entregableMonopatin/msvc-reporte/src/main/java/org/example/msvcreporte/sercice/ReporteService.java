@@ -78,31 +78,32 @@ public class ReporteService {
         ).toList();
     }
     // 4.H
-    public ReporteUsoMonopatinTiempo obtenerUsoUsuarios(Long idUsuarioPrincipal, String fechaInicio, String fechaFin, boolean incluirRelacionados) {
-        // Traer usuarios relacionados
+    public ReporteUsoMonopatinTiempo obtenerUsoUsuarios(
+            Long idUsuarioPrincipal, String fechaInicio, String fechaFin, boolean incluirRelacionados) {
+
+        // Obtener usuarios a considerar
         List<Long> idsUsuarios = incluirRelacionados
                 ? usuarioClient.obtenerUsuariosRelacionados(idUsuarioPrincipal)
                 : List.of(idUsuarioPrincipal);
 
-        // Para cada usuario, obtener su uso individual del microservicio viaje
+        // Para cada usuario obtener su uso en msvc-viaje
         List<UsoUsuarioDTO> usos = idsUsuarios.stream()
                 .map(id -> {
                     ReporteUsoMonopatinDTO uso = viajeClient.calcularUso(List.of(id), fechaInicio, fechaFin);
-                    UsuarioDTO user = null;
-                    try { user = usuarioClient.obtenerUsuarioPorId(id); } catch (Exception e) { /* fallback a null */ }
-                    double totalKm = uso != null ? uso.getTotalKm() : 0.0;
-                    long totalMin = uso != null ? uso.getTotalTiempoMinutos() : 0L;
-                    return new UsoUsuarioDTO(
-                            user != null ? user.getId() : id,
-                            user != null ? user.getNombre() : "Desconocido",
-                            user != null ? user.getApellido() : "",
-                            user != null ? user.getRol() : null,
-                            totalKm,
-                            totalMin
-                    );
-                }).toList();
+                    UsuarioDTO user = usuarioClient.obtenerUsuarioPorId(id);
 
-        // Calcular el total combinado
+                    return new UsoUsuarioDTO(
+                            user.getId(),
+                            user.getNombre(),
+                            user.getApellido(),
+                            user.getRol(),
+                            uso != null ? uso.getTotalKm() : 0.0,
+                            uso != null ? uso.getTotalTiempoMinutos() : 0L
+                    );
+                })
+                .toList();
+
+        // Totales globales
         double totalKm = usos.stream().mapToDouble(UsoUsuarioDTO::getKmRecorridos).sum();
         long totalMin = usos.stream().mapToLong(UsoUsuarioDTO::getTiempoMinutos).sum();
 
@@ -115,6 +116,7 @@ public class ReporteService {
                 usos
         );
     }
+
 
 
 

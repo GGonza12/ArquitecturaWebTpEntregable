@@ -2,6 +2,7 @@ package org.example.msvcusuario.controller;
 
 import org.example.msvcusuario.dto.UsuarioDTO;
 import org.example.msvcusuario.dto.UsuarioSimpleDTO;
+import org.example.msvcusuario.model.Cuenta;
 import org.example.msvcusuario.model.Rol;
 import org.example.msvcusuario.model.Usuario;
 import org.example.msvcusuario.service.UsuarioService;
@@ -62,20 +63,18 @@ class UsuarioController {
     //4.H
     @GetMapping("/relacionados/{idUsuario}")
     public ResponseEntity<List<Long>> obtenerUsuariosRelacionados(@PathVariable Long idUsuario) {
-        Usuario usuario = usuarioService.findByIdUsuario(idUsuario);
-
-        // Buscar todas las cuentas asociadas
-        List<Long> idsCuentas = usuario.getCuentas();
-
-        // Buscar todos los usuarios que estén en esas cuentas
-        List<Long> idsUsuariosRelacionados = usuarioService.findAllUsuario().stream()
-                .filter(u -> u.getCuentas().stream().anyMatch(idsCuentas::contains))
-                .map(Usuario::getId)
-                .toList();
-
-        return ResponseEntity.ok(idsUsuariosRelacionados);
+        return ResponseEntity.ok(usuarioService.obtenerUsuariosRelacionados(idUsuario));
     }
 
+    // Agregar cuenta existente a usuario
+    @PutMapping("/{idUsuario}/agregar-cuenta/{idCuenta}")
+    public ResponseEntity<String> agregarCuentaExistente(
+            @PathVariable Long idUsuario,
+            @PathVariable Long idCuenta) {
+
+        usuarioService.agregarCuentaAUsuario(idUsuario, idCuenta);
+        return ResponseEntity.ok("cuenta agregada a usuario");
+    }
 
 
 }
