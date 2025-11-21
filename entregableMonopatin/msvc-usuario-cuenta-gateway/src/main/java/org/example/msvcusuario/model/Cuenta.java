@@ -27,18 +27,13 @@ public class Cuenta {
     @Column
     private Timestamp fechaRegistro;
     @ManyToMany(mappedBy = "cuentas")
-    private List<Usuario> usuarios;
+    private List<Usuario> usuarios = new ArrayList<>();
 
-
-
-    public Cuenta(Usuario idUsuario) {
-        this.plan = Plan.PLAN_BASICO;
-        this.fechaRegistro = new Timestamp(System.currentTimeMillis());
-        this.usuarios=new ArrayList<>();
-        this.usuarios.add(idUsuario);
-        this.deshabilitada=false;
-        this.fondos=0;
+    public void addUsuario(Usuario u){
+        this.usuarios.add(u);
     }
+
+
 
     public Cuenta(double fondos, Plan plan, List<Usuario> usuarios) {
         this.fondos = fondos;

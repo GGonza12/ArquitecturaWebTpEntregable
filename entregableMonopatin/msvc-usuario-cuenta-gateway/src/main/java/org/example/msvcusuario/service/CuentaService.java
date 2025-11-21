@@ -2,6 +2,7 @@ package org.example.msvcusuario.service;
 
 import org.example.msvcusuario.dto.CuentaDTO;
 import org.example.msvcusuario.model.Cuenta;
+import org.example.msvcusuario.model.Plan;
 import org.example.msvcusuario.model.Usuario;
 import org.example.msvcusuario.repository.CuentaRepository;
 import org.example.msvcusuario.repository.UsuarioRepository;
@@ -10,6 +11,7 @@ import org.example.msvcusuario.utils.UsuarioMapper;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @Service
@@ -43,8 +45,15 @@ public class CuentaService {
 
     public void crearCuenta(Long idUsuario){
         Usuario u = usuarioRepository.getReferenceById(idUsuario);
-        Cuenta c = new Cuenta(u);
+
+        Cuenta c = new Cuenta();
+        c.setPlan(Plan.PLAN_BASICO);
+        c.setFechaRegistro(new Timestamp(System.currentTimeMillis()));
+        c.setFondos(0);
+        c.setDeshabilitada(false);
         cuentaRepository.save(c);
+        u.getCuentas().add(c);
+        usuarioRepository.save(u);
     }
 
     public List<CuentaDTO> findAll(){

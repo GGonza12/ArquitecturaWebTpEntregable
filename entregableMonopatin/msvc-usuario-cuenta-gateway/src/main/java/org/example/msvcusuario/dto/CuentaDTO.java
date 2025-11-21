@@ -19,7 +19,7 @@ public class CuentaDTO {
     private boolean deshabilitada;
     private Plan plan;
     private Timestamp fechaRegistro;
-    private List<UsuarioSimpleDTO> usuarios;
+    private List<UsuarioSimpleDTO> usuarios = new ArrayList<>();
 
 
 }

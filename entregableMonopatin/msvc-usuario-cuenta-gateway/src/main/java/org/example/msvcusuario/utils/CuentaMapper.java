@@ -38,8 +38,7 @@ public class CuentaMapper {
         c.setDeshabilitada(dto.isDeshabilitada());
         c.setPlan(dto.getPlan());
         c.setFechaRegistro(dto.getFechaRegistro());
-        // No actualizar la lista de usuarios desde el mapper para evitar recursión y dejar
-        // la gestión de relaciones al servicio (que puede resolver entidades por id).
+
     }
 
 }

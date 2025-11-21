@@ -47,7 +47,7 @@ public class UsuarioMapper {
     }
 
     public Usuario toEntity(UsuarioDTO dto) {
-        Usuario u = new Usuario(dto.getNombre(), dto.getApellido(), dto.getEmail(), dto.getNroCelular(), dto.getRol(), dto.getLatitud(), dto.getLongitud(), dto.getCuentas() == null ? java.util.List.of() : dto.getCuentas().stream().map(cuentaMapper::toEntity).toList(), dto.getMonopatinesUsados());
+        Usuario u = new Usuario(dto.getNombre(), dto.getApellido(), dto.getEmail(), dto.getNroCelular(), dto.getRol(), dto.getLatitud(), dto.getLongitud(), dto.getCuentas() == null ? new ArrayList<>() : dto.getCuentas().stream().map(cuentaMapper::toEntity).collect(java.util.stream.Collectors.toCollection(java.util.ArrayList::new)), dto.getMonopatinesUsados());
         if (dto.getId() != null) {
             u.setId(dto.getId());
         }
@@ -63,8 +63,15 @@ public class UsuarioMapper {
         s.setEmail(dto.getEmail());
         s.setNroCelular(dto.getNroCelular());
         s.setMonopatinesUsados(dto.getMonopatinesUsados());
-        List<Cuenta> cuentasActualizadas = dto.getCuentas().stream()
-                .map(cuentaMapper::toEntity).toList();
-        s.setCuentas(cuentasActualizadas);
+        // Actualizar cuentas solo si la lista viene presente (no nula).
+        if (dto.getCuentas() != null) {
+            List<Cuenta> cuentas = dto.getCuentas().stream()
+                .filter(java.util.Objects::nonNull)
+                .map(cuentaMapper::toEntity)
+                .collect(java.util.stream.Collectors.toCollection(java.util.ArrayList::new));
+            s.setCuentas(cuentas);
+        }
+
     }
+
 }

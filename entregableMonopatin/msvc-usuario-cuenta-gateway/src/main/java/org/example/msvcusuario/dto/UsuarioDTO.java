@@ -22,8 +22,8 @@ public class UsuarioDTO {
     private double latitud;
     private double longitud;
     private Rol rol;
-    private List<CuentaDTO> cuentas;
-    private List<Long> monopatinesUsados;
+    private List<CuentaDTO> cuentas = new ArrayList<>();
+    private List<Long> monopatinesUsados = new ArrayList<>();
 
 
     public UsuarioDTO(String nombre, String apellido, String email, long nroCelular, double latitud, double longitud) {
