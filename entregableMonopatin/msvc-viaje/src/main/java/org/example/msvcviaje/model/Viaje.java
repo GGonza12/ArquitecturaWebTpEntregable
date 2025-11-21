@@ -8,6 +8,7 @@ import org.springframework.data.annotation.Id;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Document(collection  = "viajes")
 @Data
@@ -42,5 +43,28 @@ public class Viaje {
         this.pausas = new ArrayList<>();
         this.costoViaje = 0.0;
     }
+
+    public long getTotalMinutosPausa() {
+        if (pausas == null || pausas.isEmpty()) {
+            return 0;
+        }
+
+        long totalMillis = 0;
+
+        for (Pausa p : pausas) {
+            if (p.getFechaInicio() != null && p.getFechaFin() != null) {
+                totalMillis += p.getFechaFin().getTime() - p.getFechaInicio().getTime();
+            }
+        }
+
+        return TimeUnit.MILLISECONDS.toMinutes(totalMillis);
+    }
+
+    public long getDuracionEnMinutos() {
+        if (fechaInicio == null || fechaFin == null) return 0;
+        long diff = fechaFin.getTime() - fechaInicio.getTime();
+        return TimeUnit.MILLISECONDS.toMinutes(diff);
+    }
+
 
 }

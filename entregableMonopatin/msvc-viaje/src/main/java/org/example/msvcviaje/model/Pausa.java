@@ -19,4 +19,5 @@ public class Pausa {
         this.fechaInicio = new Date();
     }
 
+
 }

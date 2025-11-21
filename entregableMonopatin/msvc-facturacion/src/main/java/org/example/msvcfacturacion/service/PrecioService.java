@@ -36,10 +36,23 @@ public class PrecioService {
             return p.getPrecio();
         }
 
+
         public void actualizarPrecioPenalizacion(Long id, double precioNuevo){
             Precio p = this.precioRepository.findById(id).orElseThrow();
             p.setPrecioPenalizacion(precioNuevo);
             this.precioRepository.save(p);
+        }
+
+        public void finalizarViaje(String id){
+            ViajeDTO dto = this.viajeClient.obtenerViaje(id);
+            long minutosViaje = dto.getMinutosPausa();
+            Precio p = this.precioRepository.findActualPrice(Timestamp.valueOf(LocalDateTime.now()));
+            if(minutosViaje>=15){
+                this.viajeClient.finalizarViaje(id,p.getPrecioPenalizacion());
+            }
+            else {
+                this.viajeClient.finalizarViaje(id,p.getPrecio());
+            }
         }
 
         public double calcularTotalFacturado(int year, int mesInicio, int mesFin) {

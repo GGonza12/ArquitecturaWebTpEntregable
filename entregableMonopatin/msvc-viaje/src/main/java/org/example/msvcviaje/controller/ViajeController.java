@@ -41,6 +41,12 @@ class ViajeController {
         return  ResponseEntity.ok(dto);
     }
 
+    @PutMapping("/{id}/finalizarViaje/{precio}/")
+    public ResponseEntity<String> finalizarViaje(@PathVariable String id,@PathVariable double precio){
+        this.viajeService.finalizarViaje(id,precio);
+        return ResponseEntity.ok("Viaje finalizado");
+    }
+
     @PostMapping
     public ResponseEntity<String> crearViaje(@RequestBody ViajeDTO dto){
         this.viajeService.crearViajeConDTO(dto);

@@ -29,6 +29,7 @@ public class ViajeDTO {
 
     private List<Pausa> pausas = new ArrayList<>();
     private Double  costoViaje;
+    private long minutosPausa;
 
     public ViajeDTO(Long idUsuario, Long idMonopatin){
         this.idUsuario = idUsuario;
@@ -36,6 +37,19 @@ public class ViajeDTO {
         this.kmRecorridos = 0;
         this.fechaInicio = new Date();
         this.pausas = new ArrayList<>();
+        this.minutosPausa = 0;
 
+    }
+
+
+    public ViajeDTO(Long idUsuario, Long idMonopatin, float kmRecorridos, Date fechaInicio, Date fechaFin, List<Pausa> pausas, Double costoViaje, int minutosPausa) {
+        this.idUsuario = idUsuario;
+        this.idMonopatin = idMonopatin;
+        this.kmRecorridos = kmRecorridos;
+        this.fechaInicio = fechaInicio;
+        this.fechaFin = fechaFin;
+        this.pausas = pausas;
+        this.costoViaje = costoViaje;
+        this.minutosPausa = minutosPausa;
     }
 }

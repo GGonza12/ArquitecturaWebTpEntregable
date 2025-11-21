@@ -40,6 +40,13 @@ public class ViajeService {
         viajeRepository.save(viaje);
     }
 
+    public void finalizarViaje(String idViaje,Double precio){
+        Viaje viaje = viajeRepository.findById(idViaje).orElseThrow();
+        viaje.setCostoViaje(precio*viaje.getKmRecorridos());
+        viajeRepository.save(viaje);
+
+    }
+
     public void iniciarViaje(Long idUsuario,Long idMonopatin){
         Viaje v = new Viaje(idUsuario,idMonopatin);
         viajeRepository.save(v);

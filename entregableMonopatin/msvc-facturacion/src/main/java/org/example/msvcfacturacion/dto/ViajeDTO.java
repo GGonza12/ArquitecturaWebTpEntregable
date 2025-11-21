@@ -16,4 +16,5 @@ public class ViajeDTO {
     private Timestamp fechaInicio;
     private Timestamp fechaFin;
     private float kmRecorridos;
+    private long minutosPausa;
 }

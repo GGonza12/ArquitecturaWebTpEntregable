@@ -57,7 +57,7 @@ public class ReporteController {
         return ResponseEntity.ok(this.reporteService.obtenerMonopatinesCerca(lat, lon, radioKm, cant));
     }
 
-
+    //4.E
     @GetMapping("/usuarios-mas-activos")
     public ResponseEntity<List<UsuarioRankingDTO>> obtenerUsuariosMasActivos(
             @RequestParam String fechaInicio,

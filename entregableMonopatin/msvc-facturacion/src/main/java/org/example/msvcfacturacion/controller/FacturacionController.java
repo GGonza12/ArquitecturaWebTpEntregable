@@ -37,5 +37,11 @@ class FacturacionController {
         return ResponseEntity.ok(total);
     }
 
+    @PutMapping("/finalizarViaje/{id}")
+    public ResponseEntity<String> finalizarViaje(@PathVariable String id){
+        this.precioService.finalizarViaje(id);
+        return ResponseEntity.ok("Viaje finalizado");
+    }
+
 
 }
