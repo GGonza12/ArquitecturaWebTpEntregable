@@ -10,6 +10,7 @@ import org.example.msvcusuario.repository.UsuarioRepository;
 import org.example.msvcusuario.utils.UsuarioMapper;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 
@@ -19,11 +20,13 @@ public class UsuarioService {
         private final UsuarioRepository usuarioRepository;
         private final UsuarioMapper usuarioMapper;
         private final CuentaRepository cuentaRepository;
+        private final PasswordEncoder passwordEncoder;
 
-        public UsuarioService(UsuarioRepository user, UsuarioMapper usuarioMapper, CuentaRepository cuentaRepository) {
-            this.usuarioRepository=user;
-            this.usuarioMapper=usuarioMapper;
-            this.cuentaRepository=cuentaRepository;
+        public UsuarioService(UsuarioRepository user, UsuarioMapper usuarioMapper, CuentaRepository cuentaRepository, PasswordEncoder passwordEncoder) {
+            this.usuarioRepository = user;
+            this.usuarioMapper = usuarioMapper;
+            this.cuentaRepository = cuentaRepository;
+            this.passwordEncoder = passwordEncoder;
         }
 
         public List<UsuarioSimpleDTO> obtenerUsuariosPorIds(List<Long> ids) {
@@ -40,6 +43,13 @@ public class UsuarioService {
 
         public void create(UsuarioDTO dto){
             Usuario u = this.usuarioMapper.toEntity(dto);
+            // Asegurar userName y password estén seteados y codificados
+            if (dto.getUserName() != null) {
+                u.setUserName(dto.getUserName());
+            }
+            if (dto.getPassword() != null) {
+                u.setPassword(passwordEncoder.encode(dto.getPassword()));
+            }
             this.usuarioRepository.save(u);
         }
 
@@ -71,6 +81,10 @@ public class UsuarioService {
         public void update(UsuarioDTO dto,long id){
             Usuario u = this.usuarioRepository.findById(id).orElseThrow();
             this.usuarioMapper.update(dto,u);
+            // Si se envió una nueva contraseña, codificarla antes de guardar
+            if (dto.getPassword() != null && !dto.getPassword().isEmpty()) {
+                u.setPassword(passwordEncoder.encode(dto.getPassword()));
+            }
             this.usuarioRepository.save(u);
         }
 

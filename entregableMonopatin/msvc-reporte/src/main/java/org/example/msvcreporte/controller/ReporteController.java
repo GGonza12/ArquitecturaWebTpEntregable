@@ -19,17 +19,17 @@ public class ReporteController {
     public ReporteController(ReporteService reporteService) {
         this.reporteService = reporteService;
     }
-
+    //4.A Admin
     @GetMapping("/km")
     public ResponseEntity<List<ReporteKmMonopatinDTO>> getKmPorMonopatin() {
         return ResponseEntity.ok(reporteService.obtenerKmPorMonopatin());
     }
-
+    //4.A Admin
     @GetMapping("/km-pausa")
     public ResponseEntity<List<ReporteKmMonopatinPausaDTO>> getKmYTiempoPausasPorMonopatin() {
         return ResponseEntity.ok(reporteService.obtenerKmYTiempoPausasPorMonopatin());
     }
-
+    //4.D Admin
     @GetMapping("/facturacion")
     public ResponseEntity<Double> obtenerTotalFacturado(
             @RequestParam int anio,
@@ -41,7 +41,7 @@ public class ReporteController {
     }
 
 
-
+    //4.C Admin
     @GetMapping("/monopatin-cantidad-viajes")
     public ResponseEntity<List<ReporteCantidadViajesMonopatinDTO>> obtenerMonopatinesFrecuentes(
             @RequestParam int year,
@@ -49,7 +49,7 @@ public class ReporteController {
     ){
         return ResponseEntity.ok(this.reporteService.obtenerCantidadViajesPorMonopatin(year, cantidadMinima));
     }
-
+    //4.G Usuario
     @GetMapping("/monopatin-cerca")
     public ResponseEntity<List<ReporteMonopatinDTO>> obtenerMonopatinesCerca(
             @RequestParam double lat, @RequestParam double lon,@RequestParam double radioKm, @RequestParam int cant
@@ -57,14 +57,14 @@ public class ReporteController {
         return ResponseEntity.ok(this.reporteService.obtenerMonopatinesCerca(lat, lon, radioKm, cant));
     }
 
-    //4.E
+    //4.E Admin
     @GetMapping("/usuarios-mas-activos")
     public ResponseEntity<List<UsuarioRankingDTO>> obtenerUsuariosMasActivos(
             @RequestParam String fechaInicio,
             @RequestParam String fechaFin) {
         return ResponseEntity.ok(reporteService.obtenerUsuariosMasActivos(fechaInicio, fechaFin));
     }
-
+    //4.H Usuario (todos)
     @GetMapping("/uso-usuario")
     public ResponseEntity<ReporteUsoMonopatinTiempo> obtenerUsoUsuario(
             @RequestParam Long idUsuario,

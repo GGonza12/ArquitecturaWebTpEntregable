@@ -20,8 +20,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
 
     @Query("""
-        FROM Usuario u JOIN FETCH u.rol
-        WHERE lower(u.nombre) =  ?1
+        FROM Usuario u
+        WHERE lower(u.userName) =  ?1
     """)
     Optional<Usuario> findOneWithAuthoritiesByUsernameIgnoreCase(String username );
 }

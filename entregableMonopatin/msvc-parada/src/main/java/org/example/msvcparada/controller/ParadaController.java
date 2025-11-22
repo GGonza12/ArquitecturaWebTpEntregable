@@ -15,30 +15,30 @@ class ParadaController {
     public ParadaController(ParadaService paradaService) {
         this.paradaService = paradaService;
     }
-
+    //Admin
     @GetMapping
     public ResponseEntity<List<ParadaDTO>> getParadas(){
         return ResponseEntity.ok(this.paradaService.getParadas());
     }
-
+    //Todos
     @GetMapping("/{id}")
     public ResponseEntity<ParadaDTO> getParadaById(@PathVariable("id") Long id){
         ParadaDTO paradaDTO = this.paradaService.getParadaById(id);
         return ResponseEntity.ok(paradaDTO);
     }
-
+    //Admin
     @PostMapping
     public ResponseEntity<String> createParada(@RequestBody ParadaDTO paradaDTO){
         this.paradaService.createParada(paradaDTO);
         return ResponseEntity.ok("Parada agregada");
     }
-
+    //Admin
     @PutMapping("/{id}")
     public ResponseEntity<String> updateParada(@PathVariable("id") Long id, @RequestBody ParadaDTO paradaDTO){
         this.paradaService.updateParada(paradaDTO,id);
         return ResponseEntity.ok("Parada actualizada");
     }
-
+    //Admin
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteParada(@PathVariable("id") Long id){
         this.paradaService.deleteParada(id);

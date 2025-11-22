@@ -20,6 +20,7 @@ class ViajeController {
         this.viajeService = viajeService;
     }
 
+    //todos
     @GetMapping("/entre-fechas")
     public ResponseEntity<List<ViajeDTO>> obtenerViajesEntreFechas(
             @RequestParam Timestamp desde,
@@ -28,13 +29,13 @@ class ViajeController {
         List<ViajeDTO> viajes = viajeService.obtenerViajesEntreFechas(desde, hasta);
         return ResponseEntity.ok(viajes);
     }
-
+    //Todos
     @GetMapping
     public ResponseEntity<List<ViajeDTO>> obtenerViajes(){
         List<ViajeDTO> viajes = viajeService.findAll();
         return ResponseEntity.ok(viajes);
     }
-
+    //Todos
     @GetMapping("/{id}")
     public ResponseEntity<ViajeDTO> obtenerViaje(@PathVariable String id){
         ViajeDTO dto = this.viajeService.findByID(id);
@@ -42,43 +43,43 @@ class ViajeController {
     }
 
 
-
+    //Todos
     @PostMapping
     public ResponseEntity<String> crearViaje(@RequestBody ViajeDTO dto){
         this.viajeService.crearViajeConDTO(dto);
         return ResponseEntity.ok("Viaje creado");
     }
-
+    // Todos
     @PutMapping("/{id}")
     public ResponseEntity<String> actualizarViaje(@RequestBody ViajeDTO dto, @PathVariable String id){
         this.viajeService.update(dto, id);
         return ResponseEntity.ok("Viaje actualizado");
     }
-
+    // Todos
     @DeleteMapping("/{id}")
     public ResponseEntity<String> eliminarViaje(@PathVariable String id){
         this.viajeService.delete(id);
         return ResponseEntity.ok("Viaje eliminado");
     }
-
+    // Todos
     @PutMapping("/pausa/{id}")
     public ResponseEntity<String> agregarPausaViaje(@PathVariable String id,@RequestBody Pausa pausa){
         this.viajeService.agregarPausa(id,pausa);
         return ResponseEntity.ok("pausa agregada");
     }
-
+    //4.A Admin
     @GetMapping("/reporte/km")
     public ResponseEntity<List<ReporteKmMonopatinDTO>> obtenerKmPorMonopatin() {
         List<ReporteKmMonopatinDTO> resultado = viajeService.obtenerKmRecorridosPorMonopatin();
         return ResponseEntity.ok(resultado);
     }
-
+    //4.A Admin
     @GetMapping("/reporte/km-pausa")
     public ResponseEntity<List<ReporteKmMonopatinPausaDTO>> obtenerKmYTiempoPausaPorMonopatin() {
         List<ReporteKmMonopatinPausaDTO> resultado = viajeService.obtenerKmYTiempoPausasPorMonopatin();
         return ResponseEntity.ok(resultado);
     }
-
+    //4.C Admin
     @GetMapping("/monopatin-cantidad-viajes")
     public ResponseEntity<List<CantidadViajesMonopatinDTO>> obtenerMonopatinesFrecuentes(
             @RequestParam int year,
@@ -88,7 +89,7 @@ class ViajeController {
                 viajeService.obtenerMonopatinesConMasDeXViajes(year, cantidadMinima);
         return ResponseEntity.ok(resultado);
     }
-
+    //4.D Admin
     //remplazado de msvc-facturacion
     @GetMapping("/total-facturado")
     public ResponseEntity<Double> obtenerTotalFacturado(
@@ -96,14 +97,14 @@ class ViajeController {
 
         return ResponseEntity.ok(viajeService.calcularTotalFacturado(anio, mesInicio, mesFin));
     }
-
+    //Todos
     //Finalizar Viaje de Monopatin pasando por parametro el precio
     @PutMapping("/{id}/finalizarViaje/{precio}/")
     public ResponseEntity<String> finalizarViaje(@PathVariable String id,@PathVariable double precio){
         this.viajeService.finalizarViaje(id,precio);
         return ResponseEntity.ok("Viaje finalizado");
     }
-
+    //Todos
     //Finalizar Viaje de Monopatin pasando por parametro la ubicacion y precio
     @PutMapping("/{id}/finalizarViaje/{precio}/{latitud}/{longitud}")
     public ResponseEntity<String> finalizarViajeCompleto(@PathVariable String id,@PathVariable double precio,@PathVariable double latitud, @PathVariable double longitud){
@@ -111,7 +112,7 @@ class ViajeController {
         return ResponseEntity.ok("Viaje finalizado");
     }
 
-    //4.e
+    //4.E Admin
     @GetMapping("/ranking-usuarios")
     public ResponseEntity<List<UsuarioViajeDTO>> obtenerRankingUsuariosPorPeriodo(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date fechaInicio,
@@ -120,7 +121,7 @@ class ViajeController {
         List<UsuarioViajeDTO> ranking = viajeService.obtenerRankingUsuariosPorPeriodo(fechaInicio, fechaFin);
         return ResponseEntity.ok(ranking);
     }
-    //4.H
+    //4.H Admin
     @GetMapping("/uso")
     public ResponseEntity<UsoMonopatinDTO> obtenerUso(
             @RequestParam List<Long> idsUsuarios,
