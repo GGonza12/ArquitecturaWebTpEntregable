@@ -23,4 +23,7 @@ public interface ViajeClient {
     @PutMapping("/{id}/finalizarViaje/{precio}/")
     String finalizarViaje(@PathVariable String id,@PathVariable double precio);
 
+    @PutMapping("/{id}/finalizarViaje/{precio}/{latitud}/{longitud}")
+    String finalizarViajeCompleto(@PathVariable String id, @PathVariable double precio, @PathVariable double latitud,@PathVariable double longitud);
+
 }

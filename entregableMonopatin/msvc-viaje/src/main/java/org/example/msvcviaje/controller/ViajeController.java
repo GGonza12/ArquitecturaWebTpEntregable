@@ -41,11 +41,7 @@ class ViajeController {
         return  ResponseEntity.ok(dto);
     }
 
-    @PutMapping("/{id}/finalizarViaje/{precio}/")
-    public ResponseEntity<String> finalizarViaje(@PathVariable String id,@PathVariable double precio){
-        this.viajeService.finalizarViaje(id,precio);
-        return ResponseEntity.ok("Viaje finalizado");
-    }
+
 
     @PostMapping
     public ResponseEntity<String> crearViaje(@RequestBody ViajeDTO dto){
@@ -92,7 +88,28 @@ class ViajeController {
                 viajeService.obtenerMonopatinesConMasDeXViajes(year, cantidadMinima);
         return ResponseEntity.ok(resultado);
     }
-    //Finalizar Viaje de Monopatin pasando por parametro la ubicacion
+
+    //remplazado de msvc-facturacion
+    @GetMapping("/total-facturado")
+    public ResponseEntity<Double> obtenerTotalFacturado(
+            @RequestParam int anio, @RequestParam int mesInicio, @RequestParam int mesFin) {
+
+        return ResponseEntity.ok(viajeService.calcularTotalFacturado(anio, mesInicio, mesFin));
+    }
+
+    //Finalizar Viaje de Monopatin pasando por parametro el precio
+    @PutMapping("/{id}/finalizarViaje/{precio}/")
+    public ResponseEntity<String> finalizarViaje(@PathVariable String id,@PathVariable double precio){
+        this.viajeService.finalizarViaje(id,precio);
+        return ResponseEntity.ok("Viaje finalizado");
+    }
+
+    //Finalizar Viaje de Monopatin pasando por parametro la ubicacion y precio
+    @PutMapping("/{id}/finalizarViaje/{precio}/{latitud}/{longitud}")
+    public ResponseEntity<String> finalizarViajeCompleto(@PathVariable String id,@PathVariable double precio,@PathVariable double latitud, @PathVariable double longitud){
+        this.viajeService.finalizarViajeCompleto(id,precio,latitud,longitud);
+        return ResponseEntity.ok("Viaje finalizado");
+    }
 
     //4.e
     @GetMapping("/ranking-usuarios")

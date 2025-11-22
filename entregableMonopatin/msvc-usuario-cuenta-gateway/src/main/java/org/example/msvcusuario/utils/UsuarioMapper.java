@@ -38,7 +38,7 @@ public class UsuarioMapper {
             ))
                 .toList()
                 : List.of();
-        return new UsuarioDTO(s.getId(), s.getNombre(), s.getApellido(), s.getEmail(), s.getNroCelular(), s.getLatitud(), s.getLongitud(), s.getRol(), cuentasDTO, s.getMonopatinesUsados());
+        return new UsuarioDTO(s.getId(), s.getNombre(), s.getApellido(),s.getUserName(),s.getPassword(), s.getEmail(), s.getNroCelular(), s.getLatitud(), s.getLongitud(), s.getRol(), cuentasDTO, s.getMonopatinesUsados());
     }
 
     public UsuarioSimpleDTO toDTOSimple(Usuario s) {
@@ -60,6 +60,8 @@ public class UsuarioMapper {
         s.setRol(dto.getRol());
         s.setNombre(dto.getNombre());
         s.setApellido(dto.getApellido());
+        s.setUserName(dto.getUserName());
+        s.setPassword(dto.getPassword());
         s.setEmail(dto.getEmail());
         s.setNroCelular(dto.getNroCelular());
         s.setMonopatinesUsados(dto.getMonopatinesUsados());

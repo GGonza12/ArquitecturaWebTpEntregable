@@ -37,4 +37,6 @@ public interface ViajeRepository  extends MongoRepository<Viaje,String> {
     })
     UsoMonopatinDTO calcularUsoPorUsuariosYFechas(List<Long> idsUsuarios, Date fechaInicio, Date fechaFin);
 
+    ;
+
 }

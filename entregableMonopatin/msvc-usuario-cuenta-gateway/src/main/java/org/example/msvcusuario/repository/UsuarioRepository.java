@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
@@ -17,4 +18,10 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     """, nativeQuery = true)
     List<Long> obtenerUsuariosRelacionados(Long idUsuario);
 
+
+    @Query("""
+        FROM Usuario u JOIN FETCH u.rol
+        WHERE lower(u.nombre) =  ?1
+    """)
+    Optional<Usuario> findOneWithAuthoritiesByUsernameIgnoreCase(String username );
 }

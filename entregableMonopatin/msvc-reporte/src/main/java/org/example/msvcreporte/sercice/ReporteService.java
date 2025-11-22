@@ -9,8 +9,12 @@ import org.example.msvcreporte.dto.*;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
-
 import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class ReporteService {
@@ -48,22 +52,23 @@ public class ReporteService {
 
     }
 
+   //4.E
+
     public List<UsuarioRankingDTO> obtenerUsuariosMasActivos(String fechaInicio, String fechaFin) {
-        // Obtener ranking de msvc-viaje
+
+        // Ranking desde msvc-viaje
         List<UsuarioViajeDTO> ranking = viajeClient.obtenerRankingUsuariosPorPeriodo(fechaInicio, fechaFin);
 
-        // Extraer IDs
+        // Obtener IDs y datos de usuarios en batch
         List<Long> ids = ranking.stream().map(UsuarioViajeDTO::getIdUsuario).toList();
+        Map<Long, UsuarioDTO> usuarios = usuarioClient.obtenerUsuariosPorIds(ids).stream()
+            .filter(u -> u != null && u.getId() != null)
+            .collect(Collectors.toMap(UsuarioDTO::getId, u -> u, (a, b) -> a));
 
-        // Obtener datos de usuarios
-        List<UsuarioDTO> usuarios = usuarioClient.obtenerUsuariosPorIds(ids);
-
-        //  Combinar resultados
-        return ranking.stream().map(r -> {
-                    UsuarioDTO u = usuarios.stream()
-                            .filter(x -> x.getId().equals(r.getIdUsuario()))
-                            .findFirst()
-                            .orElse(null);
+        // Combinar y ordenar
+        return ranking.stream()
+                .map(r -> {
+                    UsuarioDTO u = usuarios.get(r.getIdUsuario());
                     return new UsuarioRankingDTO(
                             r.getIdUsuario(),
                             u != null ? u.getNombre() : "Desconocido",
@@ -71,51 +76,79 @@ public class ReporteService {
                             u != null ? u.getRol() : null,
                             r.getCantidadViajes()
                     );
-                }).sorted(
-                Comparator
-                        .comparing((UsuarioRankingDTO u) -> String.valueOf(u.getRol()), Comparator.nullsLast(String::compareTo))
-                        .thenComparing(Comparator.comparingLong(UsuarioRankingDTO::getCantidadViajes).reversed())
-        ).toList();
+                })
+                .sorted(
+                        Comparator.comparingLong(UsuarioRankingDTO::getCantidadViajes).reversed()
+                                .thenComparing(u -> u.getRol() == null ? "" : u.getRol().name())
+                )
+                .toList();
     }
+
     // 4.H
     public ReporteUsoMonopatinTiempo obtenerUsoUsuarios(
             Long idUsuarioPrincipal, String fechaInicio, String fechaFin, boolean incluirRelacionados) {
 
-        // Obtener usuarios a considerar
-        List<Long> idsUsuarios = incluirRelacionados
-                ? usuarioClient.obtenerUsuariosRelacionados(idUsuarioPrincipal)
-                : List.of(idUsuarioPrincipal);
+        // Obtener IDs
+        Set<Long> ids = new HashSet<>();
+        ids.add(idUsuarioPrincipal);
 
-        // Para cada usuario obtener su uso en msvc-viaje
-        List<UsoUsuarioDTO> usos = idsUsuarios.stream()
+        if (incluirRelacionados) {
+            UsuarioDTO principal = usuarioClient.obtenerUsuarioPorId(idUsuarioPrincipal);
+
+            if (principal != null && principal.getCuentas() != null) {
+                principal.getCuentas().forEach(c ->
+                        c.getUsuarios().forEach(u -> ids.add(u.getId()))
+                );
+            }
+        }
+
+        List<Long> idList = ids.stream().toList();
+
+        // Obtener usuarios batch
+        Map<Long, UsuarioDTO> usuarios =
+                usuarioClient.obtenerUsuariosPorIds(idList).stream()
+                        .collect(Collectors.toMap(UsuarioDTO::getId, u -> u));
+
+        // Obtener uso por usuario (batch paralelo)
+        Map<Long, ReporteUsoMonopatinDTO> usos =
+                idList.parallelStream().collect(Collectors.toMap(
+                        id -> id,
+                        id -> {
+                            try {
+                                return viajeClient.calcularUso(List.of(id), fechaInicio, fechaFin);
+                            } catch (Exception e) {
+                                return null;
+                            }
+                        }
+                ));
+
+        // Combinar
+        List<UsoUsuarioDTO> listaUsos = idList.stream()
                 .map(id -> {
-                    ReporteUsoMonopatinDTO uso = viajeClient.calcularUso(List.of(id), fechaInicio, fechaFin);
-                    UsuarioDTO user = usuarioClient.obtenerUsuarioPorId(id);
+                    UsuarioDTO u = usuarios.get(id);
+                    ReporteUsoMonopatinDTO uso = usos.get(id);
 
                     return new UsoUsuarioDTO(
-                            user.getId(),
-                            user.getNombre(),
-                            user.getApellido(),
-                            user.getRol(),
+                            id,
+                            u != null ? u.getNombre() : "Desconocido",
+                            u != null ? u.getApellido() : "",
+                            u != null ? u.getRol() : null,
                             uso != null ? uso.getTotalKm() : 0.0,
                             uso != null ? uso.getTotalTiempoMinutos() : 0L
                     );
                 })
                 .toList();
 
-        // Totales globales
-        double totalKm = usos.stream().mapToDouble(UsoUsuarioDTO::getKmRecorridos).sum();
-        long totalMin = usos.stream().mapToLong(UsoUsuarioDTO::getTiempoMinutos).sum();
+        // Totales
+        double totalKm = listaUsos.stream().mapToDouble(UsoUsuarioDTO::getKmRecorridos).sum();
+        long totalMin = listaUsos.stream().mapToLong(UsoUsuarioDTO::getTiempoMinutos).sum();
 
         return new ReporteUsoMonopatinTiempo(
-                idUsuarioPrincipal,
-                fechaInicio,
-                fechaFin,
-                totalKm,
-                totalMin,
-                usos
+                idUsuarioPrincipal, fechaInicio, fechaFin, totalKm, totalMin, listaUsos
         );
     }
+
+
 
 
 

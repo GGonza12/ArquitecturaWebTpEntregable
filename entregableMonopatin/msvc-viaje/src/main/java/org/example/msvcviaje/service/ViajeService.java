@@ -1,5 +1,6 @@
 package org.example.msvcviaje.service;
 
+import org.example.msvcviaje.client.MonopatinClient;
 import org.example.msvcviaje.dto.*;
 import org.example.msvcviaje.model.Pausa;
 import org.example.msvcviaje.model.Viaje;
@@ -9,15 +10,15 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 
 import org.springframework.stereotype.Service;
+import feign.FeignException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.Date;
+import java.time.YearMonth;
+import java.util.*;
 
 import java.sql.Timestamp;
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -28,11 +29,14 @@ public class ViajeService {
     private final ViajeRepository viajeRepository;
     private final ViajeMapper viajeMapper;
     private final MongoTemplate mongoTemplate;
+    private final MonopatinClient monopatinClient;
+    private static final Logger log = LoggerFactory.getLogger(ViajeService.class);
 
-    public ViajeService(ViajeRepository viajeRepository, ViajeMapper viajeMapper, MongoTemplate mongoTemplate) {
+    public ViajeService(ViajeRepository viajeRepository, ViajeMapper viajeMapper, MongoTemplate mongoTemplate, MonopatinClient monopatinClient) {
         this.viajeRepository = viajeRepository;
         this.viajeMapper = viajeMapper;
         this.mongoTemplate = mongoTemplate;
+        this.monopatinClient = monopatinClient;
     }
 
     public void crearViajeConDTO(ViajeDTO viajeDTO) {
@@ -45,6 +49,39 @@ public class ViajeService {
         viaje.setCostoViaje(precio*viaje.getKmRecorridos());
         viajeRepository.save(viaje);
 
+    }
+
+    public void finalizarViajeCompleto(String idViaje,Double precio,double latitud,double longitud){
+        Viaje viaje = viajeRepository.findById(idViaje).orElseThrow();
+        viaje.setCostoViaje(precio*viaje.getKmRecorridos());
+        // Si no hay idMonopatin, no intentar llamar al servicio remoto
+        if (viaje.getIdMonopatin() == null) {
+            log.warn("Viaje {} no tiene idMonopatin, solo se actualiza el costo", idViaje);
+            viajeRepository.save(viaje);
+            return;
+        }
+
+        try {
+            MonopatinDTO monoDTO = monopatinClient.getMonopatinById(viaje.getIdMonopatin());
+            if (monoDTO == null) {
+                log.warn("No se encontró monopatín {} al finalizar viaje {}", viaje.getIdMonopatin(), idViaje);
+            } else {
+                monoDTO.setLatitud(latitud);
+                monoDTO.setLongitud(longitud);
+                try {
+                    monopatinClient.modificarMonopatin(monoDTO,viaje.getIdMonopatin());
+                } catch (FeignException e) {
+                    log.error("Error al modificar monopatín {}: {}", viaje.getIdMonopatin(), e.getMessage());
+                }
+            }
+        } catch (FeignException e) {
+            // Si la llamada al servicio de monopatín falla (404/500/etc.), lo registramos y seguimos
+            log.error("Fallo al obtener monopatín {} desde msvc-monopatin: {}", viaje.getIdMonopatin(), e.getMessage());
+        } catch (Exception e) {
+            log.error("Error inesperado llamando a msvc-monopatin para id {}: {}", viaje.getIdMonopatin(), e.getMessage());
+        }
+
+        viajeRepository.save(viaje);
     }
 
     public void iniciarViaje(Long idUsuario,Long idMonopatin){
@@ -116,6 +153,25 @@ public class ViajeService {
         }
 
         return tiempoTotal;
+    }
+    public double calcularTotalFacturado(int year, int mesInicio, int mesFin) {
+
+        YearMonth ymStart = YearMonth.of(year, mesInicio);
+        YearMonth ymEnd = YearMonth.of(year, mesFin);
+
+        Timestamp desde = Timestamp.valueOf(ymStart.atDay(1).atStartOfDay());
+        Timestamp hasta = Timestamp.valueOf(
+                ymEnd.atEndOfMonth().atTime(23, 59, 59, 999_000_000)
+        );
+
+        List<Viaje> viajes = viajeRepository
+                .findByFechaInicioBetween(desde, hasta);
+
+        return viajes.stream()
+                .map(Viaje::getCostoViaje)
+                .filter(Objects::nonNull)
+                .mapToDouble(Double::doubleValue)
+                .sum();
     }
 
 

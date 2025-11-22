@@ -31,15 +31,16 @@ class FacturacionController {
         return ResponseEntity.ok("Precio actualizado");
     }
 
-    @GetMapping("/totalFacturado")
-    public ResponseEntity<Double> obtenerTotalFacturado(@RequestParam int anio, @RequestParam int mesInicio, @RequestParam int mesFin){
-        Double total = precioService.calcularTotalFacturado(anio, mesInicio, mesFin);
-        return ResponseEntity.ok(total);
-    }
 
     @PutMapping("/finalizarViaje/{id}")
     public ResponseEntity<String> finalizarViaje(@PathVariable String id){
         this.precioService.finalizarViaje(id);
+        return ResponseEntity.ok("Viaje finalizado");
+    }
+
+    @PutMapping("/finalizarViaje/{id}/{latitud}/{longitud}")
+    public ResponseEntity<String> finalizarViaje(@PathVariable String id,@PathVariable double latitud,@PathVariable double longitud){
+        this.precioService.finalizarViajeCompleto(id,latitud,longitud);
         return ResponseEntity.ok("Viaje finalizado");
     }
 

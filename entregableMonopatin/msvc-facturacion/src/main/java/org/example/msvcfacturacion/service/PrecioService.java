@@ -55,53 +55,19 @@ public class PrecioService {
             }
         }
 
-        public double calcularTotalFacturado(int year, int mesInicio, int mesFin) {
-            // validar meses
-            if (mesInicio < 1 || mesInicio > 12 || mesFin < 1 || mesFin > 12) {
-                throw new IllegalArgumentException("mesInicio/mesFin deben estar entre 1 y 12");
-            }
-
-            // construir rango usando YearMonth
-            YearMonth ymStart = YearMonth.of(year, mesInicio);
-            YearMonth ymEnd = YearMonth.of(year, mesFin);
-            // inicio
-            var startLdt = ymStart.atDay(1).atStartOfDay();
-            // fin
-            var endLdt = ymEnd.atEndOfMonth().atTime(23, 59, 59, 999_000_000);
-
-            Timestamp desde = Timestamp.valueOf(startLdt);
-            Timestamp hasta = Timestamp.valueOf(endLdt);
-
-            List<ViajeDTO> viajes = viajeClient.obtenerViajesEntreFechas(desde, hasta);
-
-            double total = 0.0;
-            for (ViajeDTO v : viajes) {
-                Date fechaInicioDate = v.getFechaInicio();
-                if (fechaInicioDate == null) continue;
-
-                Timestamp inicioTs = new Timestamp(fechaInicioDate.getTime());
-
-
-                Timestamp finTs;
-                if (v.getFechaFin() != null) {
-                    finTs = new Timestamp(v.getFechaFin().getTime());
-                } else {
-                    finTs = new Timestamp(System.currentTimeMillis());
-                }
-
-                // obtener precio aplicable en la fecha de inicio
-                Optional<Precio> precioOpt = precioRepository.findLatestPrecio(inicioTs);
-
-                Precio price = precioOpt.get();
-
-                long minutos = calcularDuracion(inicioTs, finTs);
-                if (minutos <= 0) continue;
-
-                total += price.getPrecio() * minutos;
-            }
-
-            return total;
+    public void finalizarViajeCompleto(String id,double latitud, double longitud){
+        ViajeDTO dto = this.viajeClient.obtenerViaje(id);
+        long minutosViaje = dto.getMinutosPausa();
+        Precio p = this.precioRepository.findActualPrice(Timestamp.valueOf(LocalDateTime.now()));
+        if(minutosViaje>=15){
+            this.viajeClient.finalizarViajeCompleto(id,p.getPrecioPenalizacion(), latitud, longitud);
         }
+        else {
+            this.viajeClient.finalizarViajeCompleto(id,p.getPrecio(),latitud, longitud);
+        }
+    }
+
+
 
         private long calcularDuracion(Timestamp inicio, Timestamp fin) {
             if (inicio == null || fin == null) return 0;

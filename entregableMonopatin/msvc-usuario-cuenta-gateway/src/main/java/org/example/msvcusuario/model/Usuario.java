@@ -22,6 +22,10 @@ public class Usuario {
     @Column(nullable = false)
     private String apellido;
     @Column(nullable = false)
+    private String userName;
+    @Column(nullable = false)
+    private String password;
+    @Column(nullable = false)
     private String email;
     @Column(nullable = false)
     private long nroCelular;

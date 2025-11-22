@@ -1,27 +1,23 @@
-package org.example.msvcreporte.dto;
+package org.example.msvcusuario.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.msvcusuario.model.Rol;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UsuarioDTO {
-    private Long id;
+public class UserDTO {
     private String nombre;
     private String apellido;
-    private String email;
-    private String username;
+    private String userName;
     private String password;
+    private String email;
     private long nroCelular;
     private double latitud;
     private double longitud;
     private Rol rol;
-    private List<CuentaDTO> cuentas = new ArrayList<>();
-    private List<Long> monopatinesUsados = new ArrayList<>();
-
 }
