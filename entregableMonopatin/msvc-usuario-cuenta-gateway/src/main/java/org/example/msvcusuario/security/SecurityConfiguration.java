@@ -38,7 +38,27 @@ public class SecurityConfiguration {
                 .securityMatcher("/api/**" )
                 .authorizeHttpRequests( authz -> authz
                         .requestMatchers(HttpMethod.POST, "/api/authenticate").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/usuario").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/facuturacion").hasAuthority(Rol.ROL_ADMINISTRADOR.name())
+                        .requestMatchers(HttpMethod.PUT, "/api/facuturacion/*").hasAuthority(Rol.ROL_ADMINISTRADOR.name())
+                        .requestMatchers(HttpMethod.POST, "/api/monopatin").hasAuthority(Rol.ROL_ADMINISTRADOR.name())
+                        .requestMatchers(HttpMethod.DELETE, "/api/monopatin/*").hasAuthority(Rol.ROL_ADMINISTRADOR.name())
+                        .requestMatchers(HttpMethod.PUT, "/api/monopatin/*").hasAuthority(Rol.ROL_ADMINISTRADOR.name())
+                        .requestMatchers(HttpMethod.PUT, "/api/monopatin/mantenimiento/*").hasAuthority(Rol.ROL_MANTENIMIENTO.name())
+                        .requestMatchers(HttpMethod.GET, "/api/monopatin/cerca").hasAuthority(Rol.ROL_USUARIO.name())
+                        .requestMatchers(HttpMethod.POST, "/api/parada").hasAuthority(Rol.ROL_ADMINISTRADOR.name())
+                        .requestMatchers(HttpMethod.PUT, "/api/parada/*").hasAuthority(Rol.ROL_ADMINISTRADOR.name())
+                        .requestMatchers(HttpMethod.DELETE, "/api/parada/*").hasAuthority(Rol.ROL_ADMINISTRADOR.name())
+                        .requestMatchers(HttpMethod.GET, "/api/reporte/uso-usuario").hasAuthority(Rol.ROL_USUARIO.name())
+                        .requestMatchers(HttpMethod.GET, "/api/reporte/**").hasAuthority(Rol.ROL_ADMINISTRADOR.name())
+                        .requestMatchers(HttpMethod.GET, "/api/usuario/relacionados/*").hasAuthority(Rol.ROL_USUARIO.name())
+                        .requestMatchers(HttpMethod.GET, "/api/usuario/relacionados/").hasAuthority(Rol.ROL_USUARIO.name())
+                        .requestMatchers(HttpMethod.PUT, "/api/cuenta/desactivarCuenta/*").hasAuthority(Rol.ROL_ADMINISTRADOR.name())
+                        .requestMatchers(HttpMethod.GET, "/api/viaje/reporte/km").hasAuthority(Rol.ROL_ADMINISTRADOR.name())
+                        .requestMatchers(HttpMethod.GET, "/api/viaje/reporte/km/pausa").hasAuthority(Rol.ROL_ADMINISTRADOR.name())
+                        .requestMatchers(HttpMethod.GET, "/api/viaje/monopatin-cantidad-viajes").hasAuthority(Rol.ROL_ADMINISTRADOR.name())
+                        .requestMatchers(HttpMethod.GET, "/api/viaje/total-facturado").hasAuthority(Rol.ROL_ADMINISTRADOR.name())
+                        .requestMatchers(HttpMethod.GET, "/api/viaje/ranking-usuarios").hasAuthority(Rol.ROL_ADMINISTRADOR.name())
+                        .requestMatchers(HttpMethod.GET, "/api/viaje/uso").hasAuthority(Rol.ROL_ADMINISTRADOR.name())
                         .requestMatchers("/api/cuenta/**").permitAll()
                         .requestMatchers( "/api/usuario/**").permitAll()
                         .requestMatchers( "/api/monopatin/**").permitAll()
@@ -52,3 +72,49 @@ public class SecurityConfiguration {
         return http.build();
     }
 }
+/*
+Facturacion Controller
+-api/facturacion (Post) Admin (agrega precio vigencia por fecha) +
+-api/facturacion/{id} (Put) Admin (actualiza precio) +
+-api/facturacion/** permitAll() +
+Monopatin Controller
+-api/monopatin (Post) Admin (agregar monopatin) +
+-api/monopatin/{id} (Delete) Admin (eliminar monopatin) +
+-api/monopatin/{id} (Put) Mantenimiento,Admin (modificar monopatin) +
+-api/monopatin/mantenimiento/{id} (Put) Mantenimiento (estado monopatin a mantenimiento) +
+-api/monopatin/cerca (Get) Usuario (obtener una lista de monopatines cerca) +
+-api/monopatin/** permitAll() +
+
+Parada Controller
+-api/parada (Post) Admin (agregar parada) +
+-api/parada/{id} (Put) Admin (modificar parada) +
+-api/parada/{id} (Delete) Admin (eliminar parada)+
+-api/parada/** permitAll()+
+Reporte Controller
+-api/reporte/km (Get) Admin (4.A) +
+-api/reporte/km-pausa (Get) Admin (4.A) +
+-api/reporte/facturacion (Get) Admin (4.D) +
+-api/reporte/monopatin-cantidad-viajes (Get) Admin (4.C) +
+-api/reporte/monopatin-cerca (Get) Admin (4.G) +
+-api/reporte/usuarios-mas-activos (Get) Admin (4.E) +
+-api/reporte/uso-usuario (Get) Usuario (4.H) +
+Usuario Controller
+-api/usuario/relacionados/{idUsuario} (Get) Usuario (4.H) +
+-api/usuario/** ADMIN, USUARIO +
+Cuenta Controller
+-api/cuenta/desactivarCuenta/{id} (Put) Admin (4.B) +
+-api/cuenta/** permitAll()
+Viaje Controller
+-api/viaje/reporte/km (Get) Admin (4.A)
+-api/viaje/reporte/km/pausa (Get) Admin (4.A)
+-api/viaje/monopatin-cantidad-viajes (Get) Admin (4.C)
+-api/viaje/total-facturado (Get) Admin (4.D)
+-api/viaje/ranking-usuarios (Get) Admin (4.E)
+-api/viaje/uso (Get) Admin (4.H)
+-api/viaje/** permitAll()
+
+ */
+
+
+
+

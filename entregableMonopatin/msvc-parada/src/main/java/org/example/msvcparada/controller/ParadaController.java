@@ -15,7 +15,7 @@ class ParadaController {
     public ParadaController(ParadaService paradaService) {
         this.paradaService = paradaService;
     }
-    //Admin
+    //Todos
     @GetMapping
     public ResponseEntity<List<ParadaDTO>> getParadas(){
         return ResponseEntity.ok(this.paradaService.getParadas());

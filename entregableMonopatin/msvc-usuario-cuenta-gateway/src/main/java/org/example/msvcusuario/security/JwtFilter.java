@@ -36,6 +36,7 @@ public class JwtFilter extends OncePerRequestFilter {
             if ( StringUtils.hasText(jwt) && this.tokenProvider.validateToken( jwt ) ) {
                 Authentication authentication = this.tokenProvider.getAuthentication( jwt );
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+                log.debug("JWT auth set, principal={}, authorities={}", authentication.getName(), authentication.getAuthorities());
             }
         } catch ( ExpiredJwtException e ) {
             log.info( "REST request UNAUTHORIZED - La sesión ha expirado." );
