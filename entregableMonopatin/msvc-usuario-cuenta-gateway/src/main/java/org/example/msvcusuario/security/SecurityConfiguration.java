@@ -44,12 +44,21 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.DELETE, "/api/monopatin/*").hasAuthority(Rol.ROL_ADMINISTRADOR.name())
                         .requestMatchers(HttpMethod.PUT, "/api/monopatin/*").hasAuthority(Rol.ROL_ADMINISTRADOR.name())
                         .requestMatchers(HttpMethod.PUT, "/api/monopatin/mantenimiento/*").hasAuthority(Rol.ROL_MANTENIMIENTO.name())
-                        .requestMatchers(HttpMethod.GET, "/api/monopatin/cerca").hasAuthority(Rol.ROL_USUARIO.name())
+                        .requestMatchers(HttpMethod.GET, "/api/monopatin/cerca").hasAnyAuthority(Rol.ROL_USUARIO.name(),Rol.ROL_ADMINISTRADOR.name())
                         .requestMatchers(HttpMethod.POST, "/api/parada").hasAuthority(Rol.ROL_ADMINISTRADOR.name())
                         .requestMatchers(HttpMethod.PUT, "/api/parada/*").hasAuthority(Rol.ROL_ADMINISTRADOR.name())
                         .requestMatchers(HttpMethod.DELETE, "/api/parada/*").hasAuthority(Rol.ROL_ADMINISTRADOR.name())
                         .requestMatchers(HttpMethod.GET, "/api/reporte/uso-usuario").hasAuthority(Rol.ROL_USUARIO.name())
                         .requestMatchers(HttpMethod.GET, "/api/reporte/**").hasAuthority(Rol.ROL_ADMINISTRADOR.name())
+                        /*
+                                                .requestMatchers(HttpMethod.GET, "/api/reporte/km").hasAuthority(Rol.ROL_ADMINISTRADOR.name())
+                        .requestMatchers(HttpMethod.GET, "/api/reporte/km-pausa").hasAuthority(Rol.ROL_ADMINISTRADOR.name())
+                        .requestMatchers(HttpMethod.GET, "/api/reporte/facturacion").hasAuthority(Rol.ROL_ADMINISTRADOR.name())
+                        .requestMatchers(HttpMethod.GET, "/api/reporte/monopatin-cantidad-viajes").hasAuthority(Rol.ROL_ADMINISTRADOR.name())
+                        .requestMatchers(HttpMethod.GET, "/api/reporte/monopatin-cerca").hasAuthority(Rol.ROL_ADMINISTRADOR.name())
+                        .requestMatchers(HttpMethod.GET, "/api/reporte/usuarios-mas-activos").hasAuthority(Rol.ROL_ADMINISTRADOR.name())
+                         */
+
                         .requestMatchers(HttpMethod.GET, "/api/usuario/relacionados/*").hasAuthority(Rol.ROL_USUARIO.name())
                         .requestMatchers(HttpMethod.GET, "/api/usuario/relacionados/").hasAuthority(Rol.ROL_USUARIO.name())
                         .requestMatchers(HttpMethod.PUT, "/api/cuenta/desactivarCuenta/*").hasAuthority(Rol.ROL_ADMINISTRADOR.name())
@@ -103,15 +112,15 @@ Usuario Controller
 -api/usuario/** ADMIN, USUARIO +
 Cuenta Controller
 -api/cuenta/desactivarCuenta/{id} (Put) Admin (4.B) +
--api/cuenta/** permitAll()
+-api/cuenta/** permitAll() +
 Viaje Controller
--api/viaje/reporte/km (Get) Admin (4.A)
--api/viaje/reporte/km/pausa (Get) Admin (4.A)
--api/viaje/monopatin-cantidad-viajes (Get) Admin (4.C)
--api/viaje/total-facturado (Get) Admin (4.D)
--api/viaje/ranking-usuarios (Get) Admin (4.E)
--api/viaje/uso (Get) Admin (4.H)
--api/viaje/** permitAll()
+-api/viaje/reporte/km (Get) Admin (4.A) +
+-api/viaje/reporte/km/pausa (Get) Admin (4.A) +
+-api/viaje/monopatin-cantidad-viajes (Get) Admin (4.C) +
+-api/viaje/total-facturado (Get) Admin (4.D) +
+-api/viaje/ranking-usuarios (Get) Admin (4.E) +
+-api/viaje/uso (Get) Admin (4.H) +
+-api/viaje/** permitAll() +
 
  */
 
