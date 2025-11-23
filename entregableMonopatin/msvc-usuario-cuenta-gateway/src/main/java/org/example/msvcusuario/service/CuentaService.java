@@ -1,6 +1,9 @@
 package org.example.msvcusuario.service;
 
+import org.example.msvcusuario.client.MercadoPagoClient;
 import org.example.msvcusuario.dto.CuentaDTO;
+import org.example.msvcusuario.dto.PagoRequest;
+import org.example.msvcusuario.dto.PagoResponse;
 import org.example.msvcusuario.model.Cuenta;
 import org.example.msvcusuario.model.Plan;
 import org.example.msvcusuario.model.Usuario;
@@ -21,12 +24,14 @@ public class CuentaService {
     private final UsuarioRepository usuarioRepository;
     private final CuentaMapper cuentaMapper;
     private final UsuarioMapper usuarioMapper;
+    private final MercadoPagoClient mercadoPagoClient;
 
-    public CuentaService(CuentaRepository cuentaRepository, CuentaMapper cuentaMapper, UsuarioRepository usuarioRepository, UsuarioMapper usuarioMapper) {
+    public CuentaService(CuentaRepository cuentaRepository, CuentaMapper cuentaMapper, UsuarioRepository usuarioRepository, UsuarioMapper usuarioMapper,MercadoPagoClient mercadoPagoClient) {
         this.cuentaRepository = cuentaRepository;
         this.cuentaMapper = cuentaMapper;
         this.usuarioRepository = usuarioRepository;
         this.usuarioMapper = usuarioMapper;
+        this.mercadoPagoClient = mercadoPagoClient;
     }
 
     public void createConDTO(CuentaDTO dto){
@@ -98,12 +103,24 @@ public class CuentaService {
         this.cuentaRepository.save(cuenta);
     }
 
-    public void agregarFondos(Long id,double fondos){
-        Cuenta c = this.cuentaRepository.findById(id).orElseThrow();
-        float total = (float) (c.getFondos() + fondos);
-        c.setFondos(total);
-        this.cuentaRepository.save(c);
+    public void agregarFondos(Long id, double fondos) {
+
+        Cuenta cuenta = cuentaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Cuenta no encontrada"));
+
+        // 1. Simular pago externo
+        PagoRequest request = new PagoRequest(id, fondos);
+        PagoResponse respuesta = mercadoPagoClient.procesarPago(request);
+
+        if (!"APROBADO".equalsIgnoreCase(respuesta.getEstado())) {
+            throw new RuntimeException("El pago fue rechazado por MercadoPago Mock");
+        }
+
+        // 2. Acreditar dinero
+        cuenta.setFondos(cuenta.getFondos() + fondos);
+        cuentaRepository.save(cuenta);
     }
+
 
 
 

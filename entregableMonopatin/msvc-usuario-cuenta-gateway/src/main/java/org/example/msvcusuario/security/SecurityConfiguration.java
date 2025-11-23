@@ -74,6 +74,8 @@ public class SecurityConfiguration {
                         .requestMatchers( "/api/viaje/**").permitAll()
                         .requestMatchers( "/api/reporte/**").permitAll()
                         .requestMatchers( "/api/facturacion/**").permitAll()
+                        //Permite el acceso a la documentacion de swagger
+                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                         .anyRequest().authenticated()
                 )
                 .httpBasic( Customizer.withDefaults() )
