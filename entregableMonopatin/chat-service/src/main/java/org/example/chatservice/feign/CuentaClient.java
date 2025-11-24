@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Map;
+import java.util.List;
 
 @FeignClient(name = "cuentaClient", url = "${services.cuenta.url}")
 public interface CuentaClient {
@@ -14,4 +15,7 @@ public interface CuentaClient {
 
     @GetMapping("/api/cuenta/{id}")
     CuentaDTO obtenerCuenta(@PathVariable("id") Long id);
+
+    @GetMapping("/api/cuenta")
+    List<CuentaDTO> obtenerTodasCuentas();
 }

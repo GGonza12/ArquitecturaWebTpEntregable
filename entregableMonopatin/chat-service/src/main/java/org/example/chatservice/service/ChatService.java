@@ -1,8 +1,8 @@
 package org.example.chatservice.service;
 
 import org.example.chatservice.client.GroqClient;
+import org.example.chatservice.dto.ChatResponse;
 import org.example.chatservice.feign.CuentaClient;
-import org.example.chatservice.feign.UsuarioClient;
 import org.example.chatservice.tool.Tool;
 import org.example.chatservice.tool.ToolRegistry;
 import org.example.chatservice.tool.ToolResult;
@@ -26,41 +26,55 @@ public class ChatService {
         this.toolRegistry = toolRegistry;
     }
 
-    public String chat(Long cuentaId, String message) {
+    public ChatResponse chat(Long cuentaId, String message) {
 
         // ==== 1) Validar cuenta PREMIUM ====
         Map<String, Object> cuenta = cuentaClient.getCuentaById(cuentaId);
 
         if (cuenta == null || !cuenta.containsKey("plan")) {
-            return "No se encontró la cuenta solicitada.";
+            return new ChatResponse(
+                    message,
+                    null,
+                    null,
+                    "No se encontró la cuenta solicitada."
+            );
         }
 
-        String plan = cuenta.get("plan").toString();
-        boolean isPremium = plan.equals("PLAN_PREMIUM");
+        boolean isPremium = "PLAN_PREMIUM".equals(cuenta.get("plan").toString());
 
         if (!isPremium) {
-            return "Funcionalidad disponible solo para cuentas PREMIUM.";
+            return new ChatResponse(
+                    message,
+                    null,
+                    null,
+                    "Funcionalidad disponible solo para cuentas PREMIUM."
+            );
         }
 
-        // ==== 2) Construir prompt con tools ====
+        // ==== 2) Construir prompt ====
         StringBuilder prompt = new StringBuilder();
-        prompt.append("Eres un asistente para monopatines. Dispones de estas herramientas:\n");
+        prompt.append("Eres un asistente para monopatines. Dispones de las siguientes herramientas:\n");
 
         toolRegistry.getAll().forEach((name, tool) -> {
             prompt.append("- ").append(name).append(": ").append(tool.getDescription()).append("\n");
         });
 
-        prompt.append("El usuario pregunta: ").append(message).append("\n");
-        prompt.append("Si la respuesta requiere llamar a una tool, devolvé JSON EXACTO:\n");
-        prompt.append("{\"tool\":\"<name>\",\"args\":{...}}\n");
-        prompt.append("Si no, respondé en texto plano.");
+        prompt.append("El usuario pregunta: ").append(message).append("\n\n");
+        prompt.append("""
+                Si la respuesta requiere llamar a una tool, devolvé JSON EXACTO:
+                {"tool":"<name>","args":{...}}
+                Si no, respondé solo en texto plano.
+                """);
 
-        // ==== 3) Enviar a Groq ====
-        String resp = groqClient.preguntar(prompt.toString());
+        String promptFinal = prompt.toString();
 
-        // ==== 4) Si Groq devolvió JSON con tool → ejecutarla ====
+        // ==== 3) Enviar prompt a Groq ====
+        String rawReply = groqClient.preguntar(promptFinal);
+
+        // ==== 4) Intentar parsear JSON de tools ====
         try {
-            JsonNode node = mapper.readTree(resp);
+            JsonNode node = mapper.readTree(rawReply);
+
             if (node.has("tool")) {
                 String toolName = node.get("tool").asText();
                 JsonNode argsNode = node.get("args");
@@ -69,12 +83,20 @@ public class ChatService {
                 Tool tool = toolRegistry.getTool(toolName);
 
                 if (tool == null) {
-                    return "La tool solicitada no existe: " + toolName;
+                    return new ChatResponse(
+                            message,
+                            promptFinal,
+                            rawReply,
+                            "La tool solicitada no existe: " + toolName
+                    );
                 }
 
                 ToolResult result = tool.execute(args);
 
-                return mapper.writeValueAsString(
+                return new ChatResponse(
+                        message,
+                        promptFinal,
+                        rawReply,
                         Map.of(
                                 "ok", result.isOk(),
                                 "message", result.getMessage(),
@@ -82,10 +104,14 @@ public class ChatService {
                         )
                 );
             }
-        } catch (Exception ignore) {
-            // No es JSON → devolver texto plano
-        }
+        } catch (Exception ignore) {}
 
-        return resp;
+        // ==== 5) Devolver respuesta normal ====
+        return new ChatResponse(
+                message,
+                promptFinal,
+                rawReply,
+                rawReply
+        );
     }
 }

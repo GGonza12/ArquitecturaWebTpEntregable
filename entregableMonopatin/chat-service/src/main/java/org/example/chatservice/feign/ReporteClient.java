@@ -1,7 +1,7 @@
 package org.example.chatservice.feign;
 
 
-import org.example.chatservice.dto.ReporteUsoMonopatinTiempo;
+import org.example.chatservice.dto.*;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,4 +20,22 @@ public interface ReporteClient {
     Map<String, Object> getUso(@RequestParam List<Long> idsUsuarios,
                                @RequestParam("fechaInicio") String fechaInicio,
                                @RequestParam("fechaFin") String fechaFin);
+
+    @GetMapping("/api/reporte/km")
+    List<ReporteKmMonopatinDTO> getKmPorMonopatin();
+
+    @GetMapping("/api/reporte/km-pausa")
+    List<ReporteKmMonopatinPausaDTO> getKmPausaPorMonopatin();
+
+    @GetMapping("/api/reporte/facturacion")
+    Double getTotalFacturado(@RequestParam int anio, @RequestParam int mesInicio, @RequestParam int mesFin);
+
+    @GetMapping("/api/reporte/monopatin-cantidad-viajes")
+    List<ReporteCantidadViajesMonopatinDTO> getMonopatinesConMasViajes(@RequestParam int year, @RequestParam long cantidadMinima);
+
+    @GetMapping("/api/reporte/monopatin-cerca")
+    List<ReporteMonopatinDTO> getMonopatinesCerca(@RequestParam double lat, @RequestParam double lon, @RequestParam double radioKm, @RequestParam int cant);
+
+    @GetMapping("/api/reporte/usuarios-mas-activos")
+    List<UsuarioRankingDTO> getUsuariosMasActivos(@RequestParam String fechaInicio, @RequestParam String fechaFin);
 }

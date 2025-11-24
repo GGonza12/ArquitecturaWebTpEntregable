@@ -57,10 +57,20 @@
 				{
 					"name": "monopatinMantenimiento",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TokenMant}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"url": {
-							"raw": "{{BASE_URL}}/api/monopatin/mantenimiento/2",
+							"raw": "{{BASE_URL}}/api/monopatin/mantenimiento/1",
 							"host": [
 								"{{BASE_URL}}"
 							],
@@ -68,7 +78,7 @@
 								"api",
 								"monopatin",
 								"mantenimiento",
-								"2"
+								"1"
 							]
 						}
 					},
@@ -220,7 +230,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"idUsuario\": 1,\r\n  \"idMonopatin\": 1,\r\n  \"kmRecorridos\": 3.5,\r\n  \"fechaInicio\": \"2025-11-09T10:00:00.000Z\",\r\n  \"fechaFin\": \"2025-11-10T10:20:00.000Z\",\r\n  \"pausas\": []\r\n}",
+							"raw": "{\r\n  \"idUsuario\": 2,\r\n  \"idMonopatin\": 1,\r\n  \"kmRecorridos\": 3.5,\r\n  \"fechaInicio\": \"2025-11-08T10:00:00.000Z\",\r\n  \"fechaFin\": \"2025-11-10T10:20:00.000Z\",\r\n  \"pausas\": []\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -352,6 +362,16 @@
 				{
 					"name": "uso",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -379,6 +399,57 @@
 								}
 							]
 						}
+					},
+					"response": []
+				},
+				{
+					"name": "totalFacturado",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pblVzZXIiLCJhdXRoIjoiUk9MX0FETUlOSVNUUkFET1IiLCJleHAiOjE3NjM5NTE3NjUsImlhdCI6MTc2Mzg2NTM2NX0.Zqi2m8sEKRHYsjmeumy9LbXPFghRM-Hmi_OGElyxhhkcTLV2ogAaR9dW_3Iq6qclwtQinKyBTGl4euBEaq3Amg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/viaje/total-facturado?anio=2025&mesInicio=01&mesFin=12",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"viaje",
+								"total-facturado"
+							],
+							"query": [
+								{
+									"key": "anio",
+									"value": "2025"
+								},
+								{
+									"key": "mesInicio",
+									"value": "01"
+								},
+								{
+									"key": "mesFin",
+									"value": "12"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "finalizarViaje",
+					"request": {
+						"method": "GET",
+						"header": []
 					},
 					"response": []
 				}
@@ -412,7 +483,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nombre\": \"test5\",\r\n    \"apellido\": \"ramirez\",\r\n    \"email\": \"pabloRamirez@gmail.com\",\r\n    \"nroCelular\": 42871289030,\r\n    \"latitud\": 43.323,\r\n    \"longitud\": 57.1992,\r\n    \"rol\": \"ROL_USUARIO\",\r\n    \"monopatinesUsados\": [1, 2,3,4,5],\r\n    \"cuentas\": [1,2, 3,4]\r\n}",
+							"raw": "{\r\n    \"nombre\": \"test5\",\r\n    \"apellido\": \"ramirez\",\r\n    \"email\": \"pabloRamirez@gmail.com\",\r\n    \"nroCelular\": 42871289030,\r\n    \"latitud\": 43.323,\r\n    \"longitud\": 57.1992,\r\n    \"rol\": \"ROL_USUARIO\",\r\n    \"monopatinesUsados\": [1, 2,3,4,5]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -438,14 +509,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{BASE_URL}}/api/usuario/1",
+							"raw": "{{BASE_URL}}/api/usuario/2",
 							"host": [
 								"{{BASE_URL}}"
 							],
 							"path": [
 								"api",
 								"usuario",
-								"1"
+								"2"
 							]
 						}
 					},
@@ -458,7 +529,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"nombre\": \"Ignacio\",\r\n  \"apellido\": \"CALVO\",\r\n  \"email\": \"igna23@gmail.com\",\r\n  \"nroCelular\": 3232134,\r\n  \"rol\": \"ROL_USUARIO\",\r\n  \"monopatinesUsados\": [4,5,6,7],\r\n   \"cuentas\": [4,6,9]\r\n}",
+							"raw": "{\"id\": 2,\r\n        \"nombre\": \"Ignacio\",\r\n        \"apellido\": \"CALVO\",\r\n        \"userName\": \"testUser1\",\r\n        \"password\": \"usuario1234\",\r\n        \"email\": \"igna23@gmail.com\",\r\n        \"nroCelular\": 3232134,\r\n        \"latitud\": 23.23,\r\n        \"longitud\": 34.1,\r\n        \"rol\": \"ROL_USUARIO\",\r\n        \"cuentas\": [],\r\n        \"monopatinesUsados\": [\r\n            1,\r\n            2,\r\n            3,\r\n            4,\r\n            5\r\n        ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -466,14 +537,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{BASE_URL}}/api/usuario/1",
+							"raw": "{{BASE_URL}}/api/usuario/2",
 							"host": [
 								"{{BASE_URL}}"
 							],
 							"path": [
 								"api",
 								"usuario",
-								"1"
+								"2"
 							]
 						}
 					},
@@ -484,18 +555,15 @@
 					"request": {
 						"method": "DELETE",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"nombre\": \"juan\",\r\n  \"apellido\": \"perez\",\r\n  \"email\": \"janPerez@gmail.com\",\r\n  \"nroCelular\": 33232221,\r\n  \"Rol\": 0,\r\n  \"monopatinesUsados\": [],\r\n   \"cuentas\": []\r\n}"
-						},
 						"url": {
-							"raw": "{{BASE_URL}}api/usuario/1",
+							"raw": "{{BASE_URL}}/api/usuario/11",
 							"host": [
-								"{{BASE_URL}}api"
+								"{{BASE_URL}}"
 							],
 							"path": [
+								"api",
 								"usuario",
-								"1"
+								"11"
 							]
 						}
 					},
@@ -536,7 +604,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "\"ROL_USUARIO\"",
+							"raw": "\"ROL_ADMINISTRADOR\"",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -557,6 +625,27 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "agregar-cuenta",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/usuario/10/agregar-cuenta/2",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"usuario",
+								"10",
+								"agregar-cuenta",
+								"2"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -569,14 +658,14 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "{{BASE_URL}}/api/cuenta/05",
+							"raw": "{{BASE_URL}}/api/cuenta/2",
 							"host": [
 								"{{BASE_URL}}"
 							],
 							"path": [
 								"api",
 								"cuenta",
-								"05"
+								"2"
 							]
 						}
 					},
@@ -626,7 +715,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"fondos\": 1001,\r\n  \"deshabilitada\": false,\r\n  \"plan\": 1,\r\n  \"fechaRegistro\": \"2024-11-09T10:00:00.000Z\",\r\n  \"usuarios\": [\r\n    2,3\r\n  ]\r\n}",
+							"raw": "{\r\n  \"fondos\": 1001,\r\n  \"deshabilitada\": false,\r\n  \"plan\": 1,\r\n  \"fechaRegistro\": \"2024-11-09T10:00:00.000Z\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -634,14 +723,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{BASE_URL}}/api/cuenta/2",
+							"raw": "{{BASE_URL}}/api/cuenta/5",
 							"host": [
 								"{{BASE_URL}}"
 							],
 							"path": [
 								"api",
 								"cuenta",
-								"2"
+								"5"
 							]
 						}
 					},
@@ -653,14 +742,14 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{BASE_URL}}/api/cuenta/1",
+							"raw": "{{BASE_URL}}/api/cuenta/7",
 							"host": [
 								"{{BASE_URL}}"
 							],
 							"path": [
 								"api",
 								"cuenta",
-								"1"
+								"7"
 							]
 						}
 					},
@@ -672,7 +761,7 @@
 						"method": "PUT",
 						"header": [],
 						"url": {
-							"raw": "{{BASE_URL}}/api/cuenta/desactivarCuenta/4",
+							"raw": "{{BASE_URL}}/api/cuenta/desactivarCuenta/6",
 							"host": [
 								"{{BASE_URL}}"
 							],
@@ -680,35 +769,7 @@
 								"api",
 								"cuenta",
 								"desactivarCuenta",
-								"4"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "crearCuentaConDatos",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"fondos\": 100,\r\n    \"plan\": \"PLAN_PREMIUM\",\r\n    \"usuarios\" :[3,4,5]\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{BASE_URL}}/api/cuenta/crearCuentaDTO",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"cuenta",
-								"crearCuentaDTO"
+								"6"
 							]
 						}
 					},
@@ -729,7 +790,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{BASE_URL}}/api/cuenta/agregarFondos/4",
+							"raw": "{{BASE_URL}}/api/cuenta/agregarFondos/5",
 							"host": [
 								"{{BASE_URL}}"
 							],
@@ -737,7 +798,7 @@
 								"api",
 								"cuenta",
 								"agregarFondos",
-								"4"
+								"5"
 							]
 						}
 					},
@@ -960,7 +1021,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "123.2",
+							"raw": "410",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -976,6 +1037,48 @@
 								"api",
 								"facturacion",
 								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "finalizarViaje",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/facturacion/finalizarViaje/6914e2e8dddd29165663ded0",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"facturacion",
+								"finalizarViaje",
+								"6914e2e8dddd29165663ded0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "finalizarVIajeCompleto",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/facturacion/finalizarViaje/6920e875e42b5bf74447ab13/0.0/0.0",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"facturacion",
+								"finalizarViaje",
+								"6920e875e42b5bf74447ab13",
+								"0.0",
+								"0.0"
 							]
 						}
 					},
@@ -1046,6 +1149,16 @@
 				{
 					"name": "kmPausa",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -1117,6 +1230,16 @@
 				{
 					"name": "getMonopatinesCerca",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TokenAdmin}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -1183,10 +1306,20 @@
 				{
 					"name": "4-H_opcional",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TokenUser}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{BASE_URL}}/api/reporte/uso-usuario?idUsuario=4&fechaInicio=2025-01-01&fechaFin=2025-12-31&incluirRelacionados=true",
+							"raw": "{{BASE_URL}}/api/reporte/uso-usuario?idUsuario=2&fechaInicio=2025-01-01&fechaFin=2025-12-31&incluirRelacionados=true",
 							"host": [
 								"{{BASE_URL}}"
 							],
@@ -1198,7 +1331,7 @@
 							"query": [
 								{
 									"key": "idUsuario",
-									"value": "4"
+									"value": "2"
 								},
 								{
 									"key": "fechaInicio",
@@ -1218,6 +1351,156 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "JWT",
+			"item": [
+				{
+					"name": "authenticateMANT",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"mantenimiento\",\r\n    \"password\":\"mantener34\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/authenticate",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"authenticate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "authenticateADMIN",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"adminUser\",\r\n    \"password\":\"12admin34\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/authenticate",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"authenticate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "authenticateUsuario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"testUser1\",\r\n    \"password\":\"usuario1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/authenticate",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"authenticate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "preguntaMonopatines",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"cuentaId\": 5,\r\n  \"message\": \"¿Cuántos monopatines hay cerca de -34.6,-58.4 en 3km?\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/api/ia/chat",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"ia",
+						"chat"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "preguntas",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"cuentaId\": 5,\r\n  \"message\": \"podrias darme todos los usuarios?\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/api/ia/chat",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"api",
+						"ia",
+						"chat"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"event": [
@@ -1247,6 +1530,18 @@
 	"variable": [
 		{
 			"key": "BASE_URL",
+			"value": ""
+		},
+		{
+			"key": "TokenMant",
+			"value": ""
+		},
+		{
+			"key": "TokenAdmin",
+			"value": ""
+		},
+		{
+			"key": "TokenUser",
 			"value": ""
 		}
 	]
