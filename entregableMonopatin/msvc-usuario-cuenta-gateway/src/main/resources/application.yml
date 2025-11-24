@@ -44,13 +44,13 @@ spring:
               predicates:
                 - Path=/api/reporte/**
             - id: msvc-mockMercadoPago
-              uri: http://localhost:8089
+              uri: http://localhost:8099
               predicates:
                 - Path=/api/mp/**
-            - id: msvc-chat
-              uri: http://localhost:8090
+            - id: chat-service
+              uri: http://localhost:8091
               predicates:
-                - Path=/api/ia/**
+                - Path=/api/ia?**
 
 server:
   port: 8080

@@ -1,0 +1,26 @@
+server:
+  port: 8091
+
+groq:
+  api-key: ${GROQ_API_KEY}
+  base-url: https://api.groq.com/openai
+  model: llama-3.3-70b-versatile
+  temperature: 0.3
+
+services:
+  usuario:
+    url: http://localhost:8080
+  cuenta:
+    url: http://localhost:8080
+  viaje:
+    url: http://localhost:8080
+  monopatin:
+    url: http://localhost:8080
+  parada:
+    url: http://localhost:8080
+  facturacion:
+    url: http://localhost:8080
+  reporte:
+    url: http://localhost:8080
+  mp:
+    url: http://localhost:8080

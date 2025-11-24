@@ -21,7 +21,13 @@
         <option value="$PROJECT_DIR$/entregableMonopatin/msvc-usuario-cuenta-gateway/pom.xml" />
         <option value="$PROJECT_DIR$/entregableMonopatin/msvc-mockMercadoPago/pom.xml" />
         <option value="$PROJECT_DIR$/entregableMonopatin/msvc-chat/pom.xml" />
+        <option value="$PROJECT_DIR$/entregableMonopatin/chat-service/pom.xml" />
       </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/entregableMonopatin/msvc-chat/pom.xml" />
+      </set>
     </option>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_24" default="true" project-jdk-name="openjdk-24" project-jdk-type="JavaSDK">
