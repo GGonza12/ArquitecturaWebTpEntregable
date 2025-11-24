@@ -20,6 +20,7 @@
         <option value="$PROJECT_DIR$/entregableMonopatin/gateway-msvc/pom.xml" />
         <option value="$PROJECT_DIR$/entregableMonopatin/msvc-usuario-cuenta-gateway/pom.xml" />
         <option value="$PROJECT_DIR$/entregableMonopatin/msvc-mockMercadoPago/pom.xml" />
+        <option value="$PROJECT_DIR$/entregableMonopatin/msvc-chat/pom.xml" />
       </list>
     </option>
   </component>

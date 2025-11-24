@@ -1,5 +1,6 @@
 package org.example.msvcusuario.service;
 
+import org.example.msvcusuario.client.ChatFeignClient;
 import org.example.msvcusuario.dto.UsuarioDTO;
 import org.example.msvcusuario.dto.UsuarioSimpleDTO;
 import org.example.msvcusuario.model.Cuenta;
@@ -21,12 +22,14 @@ public class UsuarioService {
         private final UsuarioMapper usuarioMapper;
         private final CuentaRepository cuentaRepository;
         private final PasswordEncoder passwordEncoder;
+        private final ChatFeignClient chatFeignClient;
 
-        public UsuarioService(UsuarioRepository user, UsuarioMapper usuarioMapper, CuentaRepository cuentaRepository, PasswordEncoder passwordEncoder) {
+        public UsuarioService(UsuarioRepository user, UsuarioMapper usuarioMapper, CuentaRepository cuentaRepository, PasswordEncoder passwordEncoder, ChatFeignClient chatFeignClient) {
             this.usuarioRepository = user;
             this.usuarioMapper = usuarioMapper;
             this.cuentaRepository = cuentaRepository;
             this.passwordEncoder = passwordEncoder;
+            this.chatFeignClient = chatFeignClient;
         }
 
         public List<UsuarioSimpleDTO> obtenerUsuariosPorIds(List<Long> ids) {
@@ -106,6 +109,15 @@ public class UsuarioService {
             return usuarioRepository.findById(id)
                     .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
         }
+
+    public String consultarChat(Long idCuenta, String pregunta) {
+        String prompt = """
+                El usuario con cuenta ID %d pregunta:
+                %s
+                """.formatted(idCuenta, pregunta);
+
+        return chatFeignClient.enviarPrompt(prompt);
+    }
 
 
 

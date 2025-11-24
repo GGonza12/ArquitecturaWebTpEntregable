@@ -1,5 +1,6 @@
 package org.example.msvcusuario.service;
 
+import org.example.msvcusuario.client.ChatFeignClient;
 import org.example.msvcusuario.client.MercadoPagoClient;
 import org.example.msvcusuario.dto.CuentaDTO;
 import org.example.msvcusuario.dto.PagoRequest;
@@ -25,13 +26,15 @@ public class CuentaService {
     private final CuentaMapper cuentaMapper;
     private final UsuarioMapper usuarioMapper;
     private final MercadoPagoClient mercadoPagoClient;
+    private final ChatFeignClient chatFeignClient;
 
-    public CuentaService(CuentaRepository cuentaRepository, CuentaMapper cuentaMapper, UsuarioRepository usuarioRepository, UsuarioMapper usuarioMapper,MercadoPagoClient mercadoPagoClient) {
+    public CuentaService(CuentaRepository cuentaRepository, CuentaMapper cuentaMapper, UsuarioRepository usuarioRepository, UsuarioMapper usuarioMapper,MercadoPagoClient mercadoPagoClient,ChatFeignClient chatFeignClient) {
         this.cuentaRepository = cuentaRepository;
         this.cuentaMapper = cuentaMapper;
         this.usuarioRepository = usuarioRepository;
         this.usuarioMapper = usuarioMapper;
         this.mercadoPagoClient = mercadoPagoClient;
+        this.chatFeignClient= chatFeignClient;
     }
 
     public void createConDTO(CuentaDTO dto){
@@ -119,6 +122,15 @@ public class CuentaService {
         // 2. Acreditar dinero
         cuenta.setFondos(cuenta.getFondos() + fondos);
         cuentaRepository.save(cuenta);
+    }
+
+    public String consultarChat(Long idCuenta, String pregunta) {
+        String prompt = """
+                El usuario con cuenta ID %d pregunta:
+                %s
+                """.formatted(idCuenta, pregunta);
+
+        return chatFeignClient.enviarPrompt(prompt);
     }
 
 

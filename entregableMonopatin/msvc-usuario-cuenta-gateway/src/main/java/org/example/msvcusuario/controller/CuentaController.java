@@ -76,6 +76,15 @@ class CuentaController {
         return ResponseEntity.ok("usuario agregado a cuenta.");
     }
 
+    @PutMapping("/{id}/preguntar")
+    public ResponseEntity<String> preguntarALaIA(
+            @PathVariable Long id,
+            @RequestBody String pregunta
+    ) {
+        String resp = cuentaService.consultarChat(id, pregunta);
+        return ResponseEntity.ok(resp);
+    }
+
 
 
 

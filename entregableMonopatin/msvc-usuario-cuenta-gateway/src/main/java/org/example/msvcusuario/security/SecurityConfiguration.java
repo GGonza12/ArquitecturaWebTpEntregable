@@ -76,6 +76,7 @@ public class SecurityConfiguration {
                         .requestMatchers( "/api/facturacion/**").permitAll()
                         //Permite el acceso a la documentacion de swagger
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+                        .requestMatchers("/api/ia/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .httpBasic( Customizer.withDefaults() )
