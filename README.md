@@ -72,27 +72,5 @@ Cada uno probablemente contiene su propio `pom.xml` y código fuente Java.
 
 - Revisa los `pom.xml` de cada módulo para ver dependencias de testing (JUnit, Mockito, etc.).
 
-## Documentación y mejoras sugeridas
-
-Para dejar el repo listo para mostrar en un CV, considera:
-
-- Añadir este README detallado (lo que acabo de crear)
-- Incluir un archivo LICENSE (MIT/Apache) si deseas compartirlo públicamente
-- Añadir ejemplos concretos de cómo ejecutar un flujo completo (scripts/docker-compose) o un enlace a un demo
-- Capturas, diagrama de arquitectura (puede ser una imagen en `docs/` o un diagrama ASCII en el README)
-- Tests de integración y CI (GitHub Actions) para build y pruebas automatizadas
-- Incluir un apartado “Qué implementé yo” si el repo es de equipo
-
-## Cómo describirlo en tu CV (ejemplo corto en español)
-
-ArquitecturaWebTpEntregable — Java (GitHub)
-- Diseño e implementación de una plataforma de gestión de monopatines compartidos con arquitectura por microservicios. Desarrollé X módulos (autenticación, gestión de viajes, facturación, chat) usando Java y Maven; incluí tests unitarios y documentación para despliegue. Repo: https://github.com/GGonza12/ArquitecturaWebTpEntregable
 
 
-## Contribuciones
-
-Si querés que haga cambios adicionales al README (por ejemplo: agregar diagramas, pasos de ejecución detallados para cada microservicio, o un badge de CI), indicame qué prefieres y lo hago.
-
----
-
-_Archivo generado/actualizado automáticamente por GitHub Copilot en respuesta a una solicitud del propietario del repositorio._
